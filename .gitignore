@@ -4,12 +4,5 @@
 __pycache__/*
 __pycache__*
 __pycache__
-woocontacts/.idea
+lims/.idea
 workspace.xml
-
-# database stuffs
-db.sqlite3
-db.sqlite3/
-*.sqlite3
-woocontacts/db.sqlite3
-.env
