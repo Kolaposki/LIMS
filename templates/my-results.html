@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}All uploaded results{% endblock title %}
+
+{% block content %}
+
+    <div class="container-fluid">
+        <div id="card-view">
+            <div class="row">
+
+                {% for result in results %}
+                    <div class="col-md-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <div class="media">
+                                        <div class="avatar avatar-image rounded">
+                                            <i class="anticon anticon-file-excel text-success"></i>
+                                        </div>
+                                        <div class="m-l-10">
+                                            <a href="{{ result.get_absolute_url }}">
+                                                <h5 class="m-b-0">{{ result.department }}</h5>
+                                            </a>
+                                            <span class="text-muted font-size-13">65 Students</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="m-t-25">{{ result.meta_details }}. Uploaded by Me</p>
+                                <div class="m-t-30">
+
+                                </div>
+                                <div class="m-t-20">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <span class="badge badge-pill badge-cyan">Reviewed</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+                <div class="col-md-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div class="media">
+                                    <div class="avatar avatar-image rounded">
+                                        <i class="anticon anticon-file-excel text-success"></i>
+                                    </div>
+                                    <div class="m-l-10">
+                                        <h5 class="m-b-0">Computer Science</h5>
+                                        <span class="text-muted font-size-13">65 Students</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <p class="m-t-25">This is the 300 result for 2020/2021 session.</p>
+                            <div class="m-t-30">
+
+                            </div>
+                            <div class="m-t-20">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="badge badge-pill badge-cyan">Reviewed</span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

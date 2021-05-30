@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ result.meta_details }}{% endblock title %}
+{% block styles %}
+    <link href="{% static 'vendors/datatables/dataTables.bootstrap.min.css' %}" rel="stylesheet"/>
+{% endblock styles %}
+
+{% block content %}
+        {% include 'partials/_result_view' %}
+
+    <div class="card">
+        <div class="card-body">
+            <div class="m-t-30">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab"
+                           href="#project-details-comments">Comments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab"
+                           href="#project-details-attachment">Attachment</a>
+                    </li>
+                </ul>
+                <div class="tab-content m-t-15 p-25">
+                    {% include 'partials/_comments-tab.html' %}
+                    {% include 'partials/_attachments-tab.html' %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+
+{% block scripts %}
+    <script src="{% static 'vendors/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'vendors/datatables/dataTables.bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/pages/datatables.js' %}"></script>
+    <script></script>
+
+{% endblock scripts %}

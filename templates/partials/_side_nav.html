@@ -1,0 +1,55 @@
+{% load result_extras %}
+{#{% if request.user.pk|check_permission == 'officer' %}#}
+
+
+<div class="side-nav">
+    <div class="side-nav-inner">
+        <ul class="side-nav-menu scrollable">
+
+            {% if request.user.pk|check_permission == 'officer' %}
+                <li class="nav-item dropdown">
+                    <a href="{% url 'dashboard' %}">
+                                <span class="icon-holder">
+                                    <i class="anticon anticon-dashboard"></i>
+                                </span>
+                        <span class="title">Upload Result</span>
+                    </a>
+                </li>
+            {% endif %}
+
+
+            {% if request.user.pk|check_permission == 'senator' %}
+                <li class="nav-item dropdown">
+                    <a href="{% url 'all-results' %}">
+                                <span class="icon-holder">
+                                    <i class="anticon anticon-dashboard"></i>
+                                </span>
+                        <span class="title">All Results</span>
+                    </a>
+                </li>
+            {% endif %}
+
+            {% if request.user.pk|check_permission == 'officer' %}
+                <li class="nav-item dropdown">
+                    <a href="{% url 'my-results' %}">
+
+                                <span class="icon-holder">
+                                    <i class="anticon anticon-dashboard"></i>
+                                </span>
+                        <span class="title">All Results</span>
+                    </a>
+                </li>
+            {% endif %}
+
+            <li class="nav-item dropdown">
+                <a href="#">
+
+                                <span class="icon-holder">
+                                    <i class="anticon anticon-dashboard"></i>
+                                </span>
+                    <span class="title">Profile</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

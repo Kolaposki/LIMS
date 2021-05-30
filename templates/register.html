@@ -1,0 +1,92 @@
+{% extends "auth_base.html" %}
+{% block title %}Register{% endblock title %}
+{% load static %}
+
+{% block content %}
+    <div class="card-body">
+        <div class="d-block text-center align-items-center justify-content-center m-b-30">
+            <a href="{% url 'upload' %}"></a>
+            <img class="img-fluid" alt="" src="{% static 'images/logo/logo.png' %}">
+            <h3 class="m-b-0">Register as {{ reg_type }}</h3>
+
+        </div>
+
+        <form method="post">
+
+            <div class="text-center auth-errors" style="margin-top: 5px;margin-bottom: 15px;">
+                {% for error in form.non_field_errors %}
+                    <span class="form__forget" style="color: red !important;"> {{ error }} </span>
+                {% endfor %}
+                {% for error in form.passwords.errors %}
+                    <span class="form__forget" style="color: red !important;"> {{ error }} </span>
+                {% endfor %}
+                {% for error in form.password1.errors %}
+                    <span class="form__forget" style="color: red !important;"> {{ error }} </span>
+                {% endfor %}
+                {% for error in form.password2.errors %}
+                    <span class="form__forget" style="color: red !important;"> {{ error }} </span>
+                {% endfor %}
+                {% for error in form.username.errors %}
+                    <span class="form__forget" style="color: red !important;"> {{ error }} </span>
+                {% endfor %}
+                {% for error in form.email.errors %}
+                    <span class="form__forget" style="color: red !important;"> {{ error }} </span>
+                {% endfor %}
+            </div>
+
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label class="font-weight-semibold" for="userName">Username:</label>
+                <div class="input-affix">
+                    <i class="prefix-icon anticon anticon-user"></i>
+                    <input type="text" class="form-control"
+                           placeholder="Username" name="username" maxlength="150"
+                           autocapitalize="none" autocomplete="username" autofocus=""
+                           required=""
+                           id="id_username"
+                           value="{{ form.username.value|default_if_none:'' }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="font-weight-semibold" for="email">Email:</label>
+                <div class="input-affix">
+                    <i class="prefix-icon fa fa-at"></i>
+                    <input type="email" class="form-control"
+                           placeholder="Email" name="email"
+                           autocapitalize="none" autocomplete="username" autofocus=""
+                           required=""
+                           id="id_email"
+                           value="{{ form.username.value|default_if_none:'' }}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="font-weight-semibold" for="password1">Password:</label>
+                <div class="input-affix m-b-10">
+                    <i class="prefix-icon anticon anticon-lock"></i>
+                    <input type="password" class="form-control"
+                           placeholder="Password" name="password1"
+                           autocomplete="new-password1" required="" id="id_password1">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="font-weight-semibold" for="password2">Confirm Password:</label>
+                <div class="input-affix m-b-10">
+                    <i class="prefix-icon anticon anticon-lock"></i>
+                    <input type="password" class="form-control"
+                           placeholder="Confirm Password" name="password2"
+                           autocomplete="new-password2" required="" id="id_password2">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="d-flex align-items-center justify-content-between">
+                                                <span class="font-size-13 text-muted">
+                                                    Already have an account?
+                                                    <a class="small" href="{% url 'login' %}"> Sign In</a>
+                                                </span>
+                    <button type="submit" id="registerNowBtn" class="btn btn-primary">Register</button>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock content %}

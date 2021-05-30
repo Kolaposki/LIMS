@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Result Officer Dashboard{% endblock title %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Upload Result </h5>
+                        <div class="dropdown dropdown-animated scale-left">
+                            <a class="text-gray font-size-18" href="javascript:void(0);"
+                               data-toggle="dropdown">
+                                <i class="anticon anticon-ellipsis"></i>
+                            </a>
+                            <div class="dropdown-menu">
+                                <button class="dropdown-item" type="button">
+                                    <i class="anticon anticon-printer"></i>
+                                    <span class="m-l-10">Print</span>
+                                </button>
+                                <button class="dropdown-item" type="button">
+                                    <i class="anticon anticon-download"></i>
+                                    <span class="m-l-10">Download</span>
+                                </button>
+                                <button class="dropdown-item" type="button">
+                                    <i class="anticon anticon-file-excel"></i>
+                                    <span class="m-l-10">Export</span>
+                                </button>
+                                <button class="dropdown-item" type="button">
+                                    <i class="anticon anticon-reload"></i>
+                                    <span class="m-l-10">Refresh</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="justify-content-space m-t-50">
+                        {% if messages %}
+                            {% for message in messages %}
+                                {% if message.tags == 'success' %}
+                                    <div class="alert alert-success" role="alert">
+                                        {{ message }}
+                                    </div>
+                                {% elif message.tags == 'error' %}
+                                    <div class="alert alert-danger" role="alert">
+                                        {{ message }}
+                                    </div>
+                                {% else %}
+                                    <div class="alert alert-info" role="alert">
+                                        {{ message }}
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+
+                        {% include 'partials/_upload_form.html' %}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            {% include 'partials/_upload_rightbar.html' %}
+        </div>
+    </div>
+
+{% endblock content %}
+
+{% block scripts %}
+
+    <script>
+
+    </script>
+
+{% endblock scripts %}
