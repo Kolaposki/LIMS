@@ -5,6 +5,7 @@ from django.urls import reverse
 from taggit.managers import TaggableManager
 from shortuuidfield import ShortUUIDField
 from patient.models import Patient
+from django_resized import ResizedImageField
 
 TEST_UNITS = (
     ("Grams (g)", "Grams (g)"),
@@ -49,8 +50,6 @@ TEST_UNITS = (
 HELP_TEXT = {
     'queries': "Information about the person and blood sample. Any pertinent information regarding the patient’s test preparation or the condition of specimen may be noted here.",
 }
-
-
 
 TEST_STATUS = (
     ("Routine", "Routine"),
@@ -104,6 +103,10 @@ SAMPLE_TYPES = (
     ("Virology swab", "Virology swab"),
     ("Plasma", "Plasma"),
 )
+
+
+def sample_image_directory_path(instance, filename):
+    return f'sample_images/{instance.type}_{instance.collected_on}'
 
 
 class LabTechnician(models.Model):
@@ -167,6 +170,8 @@ class Sample(models.Model):
     quantity = models.FloatField(blank=True, null=True)
     collected_on = models.DateTimeField(null=True, auto_now_add=True)
     uuid = ShortUUIDField(max_length=5, editable=False, null=True, blank=True)
+    image1 = ResizedImageField(size=[500, 300], quality=100, upload_to=sample_image_directory_path, null=True, blank=True)
+    image2 = ResizedImageField(size=[500, 300], quality=100, upload_to=sample_image_directory_path, null=True, blank=True)
 
     def __str__(self):
         return f"{self.type} sample"

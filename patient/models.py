@@ -30,8 +30,10 @@ class Genotype(models.TextChoices):
 
 class Patient(BaseModel):
     """
-    docstring
+        Patient should be gotten through api. Should be added through admin portal
     """
+
+    manager = models.ForeignKey(User, on_delete=models.CASCADE)
     patient_avi = models.ImageField(upload_to=None, height_field=None, width_field=None, max_length=None, blank=True,
                                     null=True)
     patient_no = models.CharField(max_length=50, blank=True, null=True)
