@@ -1,49 +1,86 @@
-{% load result_extras %}
-{#{% if request.user.pk|check_permission == 'officer' %}#}
+{#{% load result_extras %}#}
 
 
 <div class="side-nav">
     <div class="side-nav-inner">
         <ul class="side-nav-menu scrollable">
-
-            {% if request.user.pk|check_permission == 'officer' %}
-                <li class="nav-item dropdown">
-                    <a href="{% url 'dashboard' %}">
+            <li class="nav-item dropdown">
+                <a class="dropdown-toggle" href="javascript:void(0);">
                                 <span class="icon-holder">
-                                    <i class="anticon anticon-dashboard"></i>
+                                    <i class="anticon anticon-table"></i>
                                 </span>
-                        <span class="title">Upload Result</span>
-                    </a>
-                </li>
-            {% endif %}
-
-
-            {% if request.user.pk|check_permission == 'senator' %}
-                <li class="nav-item dropdown">
-                    <a href="{% url 'all-results' %}">
-                                <span class="icon-holder">
-                                    <i class="anticon anticon-dashboard"></i>
+                    <span class="title">Tests</span>
+                    <span class="arrow">
+                                    <i class="arrow-icon"></i>
                                 </span>
-                        <span class="title">All Results</span>
-                    </a>
-                </li>
-            {% endif %}
-
-            {% if request.user.pk|check_permission == 'officer' %}
-                <li class="nav-item dropdown">
-                    <a href="{% url 'my-results' %}">
-
-                                <span class="icon-holder">
-                                    <i class="anticon anticon-dashboard"></i>
-                                </span>
-                        <span class="title">All Results</span>
-                    </a>
-                </li>
-            {% endif %}
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="#">All Tests</a>
+                    </li>
+                    <li>
+                        <a href="#">Create Test</a>
+                    </li>
+                    <li>
+                        <a href="#">Test Requests</a>
+                    </li>
+                    <li>
+                        <a href="#">Test Results</a>
+                    </li>
+                </ul>
+            </li>
 
             <li class="nav-item dropdown">
                 <a href="#">
 
+                                <span class="icon-holder">
+                                    <i class="anticon anticon-dashboard"></i>
+                                </span>
+                    <span class="title">Laboratories</span>
+                </a>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a href="#">
+
+                                <span class="icon-holder">
+                                    <i class="anticon anticon-dashboard"></i>
+                                </span>
+                    <span class="title">Reports</span>
+                </a>
+            </li>
+            <li class="nav-item dropdown">
+                <a href="#">
+
+                                <span class="icon-holder">
+                                    <i class="anticon anticon-dashboard"></i>
+                                </span>
+                    <span class="title">Patients</span>
+                </a>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="dropdown-toggle" href="javascript:void(0);">
+                                <span class="icon-holder">
+                                    <i class="anticon anticon-table"></i>
+                                </span>
+                    <span class="title">Samples</span>
+                    <span class="arrow">
+                                    <i class="arrow-icon"></i>
+                                </span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="#">All Samples</a>
+                    </li>
+                    <li>
+                        <a href="#">Create Sample</a>
+                    </li>
+
+                </ul>
+            </li>
+            <li class="nav-item dropdown">
+                <a href="#">
                                 <span class="icon-holder">
                                     <i class="anticon anticon-dashboard"></i>
                                 </span>

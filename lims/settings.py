@@ -29,6 +29,7 @@ ALLOWED_HOSTS = ['*', ]
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,6 +40,8 @@ INSTALLED_APPS = [
     'patient.apps.PatientConfig',
     'users.apps.UsersConfig',
     'crispy_forms',
+    'taggit',
+
 
 ]
 
@@ -132,3 +135,35 @@ LOGIN_REDIRECT_URL = '/dashboard/'
 SENATOR_LOGIN_REDIRECT_URL = '/senator_profile/'
 OFFICER_LOGIN_REDIRECT_URL = '/result_officer_profile/'
 LOGIN_URL = '/users/login'
+TAGGIT_CASE_INSENSITIVE = True
+
+
+JAZZMIN_SETTINGS = {
+    # title of the window
+    'site_title': 'AU LIMS',
+
+    # Title on the brand, and the login screen (19 chars max)
+    'site_header': 'AU LIMS',
+
+    # square logo to use for your site, must be present in static files, used for favicon and brand on top left
+    'site_logo': 'images/logo/logo.png',
+
+    # Welcome text on the login screen
+    'welcome_sign': 'Welcome to Adeleke University LIMS. ',
+
+    # Copyright on the footer
+    'copyright': 'Adeleke University',
+
+    # The model admin to search from the search bar, search bar omitted if excluded
+    'search_model': 'auth.User',
+
+    # Field name on user model that contains avatar image
+    'user_avatar': 'UserProfile.image',
+
+    # Whether to display the side menu
+    'show_sidebar': True,
+
+    # Whether to aut expand the menu
+    'navigation_expanded': True,
+
+}

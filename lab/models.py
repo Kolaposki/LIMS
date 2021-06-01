@@ -138,11 +138,10 @@ class Doctor(models.Model):
     uuid = ShortUUIDField(max_length=5, editable=False, null=True, blank=True)
 
     def __str__(self):
-        return f"Technician {self.manager.full_name}"
+        return f"Doctor {self.manager.full_name}"
 
     class Meta:
         ordering = ['-created_at']
-        verbose_name_plural = "Lab Technicians"  # A human-readable name for the object, plural
 
 
 class Laboratory(models.Model):
@@ -156,6 +155,9 @@ class Laboratory(models.Model):
 
     def __str__(self):
         return f"{self.departments} Lab"
+
+    class Meta:
+        verbose_name_plural = "Laboratories"  # A human-readable name for the object, plural
 
 
 class Sample(models.Model):
