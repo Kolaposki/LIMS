@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ result.meta_details }}{% endblock title %}
+{% block styles %}
+    <link href="{% static 'vendors/datatables/dataTables.bootstrap.min.css' %}" rel="stylesheet"/>
+    <link href="{% static 'vendors/bootstrap-datepicker/bootstrap-datepicker.min.css' %}" rel="stylesheet"/>
+
+{% endblock styles %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">All tests</h5>
+                        <div>
+                            {#                            <a href="" class="btn btn-default btn-sm">View All</a>#}
+                        </div>
+                    </div>
+                    <div class="table-responsive m-t-30" style="min-height: 345px;">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Patient</th>
+                                <th>ID</th>
+                                <th>Test Name</th>
+                                <th>Code</th>
+                                <th>Doctor</th>
+                                <th>Status</th>
+                                <th>Laboratory</th>
+                                <th>Date</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            <tr>
+                                <td>1</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar avatar-image" style="min-width: 40px">
+                                            <img src="#" alt="">
+                                        </div>
+                                        <span class="m-l-10">Erin Gonzales</span>
+                                    </div>
+                                </td>
+                                <td>5AKJ2</td>
+                                <td><b>Complete Blood Count</b></td>
+                                <td>CBC</td>
+                                <td>Gonzalez James</td>
+                                <td>
+                                    <span class="badge badge-pill badge-gold font-size-12">Pending</span>
+                                </td>
+                                <td>Transfusion Services</td>
+                                <td>24 Mar, 2019</td>
+                                <td>
+                                    {% include 'partials/_tests_dropdown_options.html' %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar avatar-image" style="min-width: 40px">
+                                            <img src="#" alt="">
+                                        </div>
+                                        <span class="m-l-10">John Marker</span>
+                                    </div>
+                                </td>
+                                <td>FD3K2</td>
+                                <td><b>Urinalysis</b></td>
+                                <td>URN</td>
+                                <td>Gonzalez James</td>
+                                <td>
+                                    <span class="badge badge-pill badge-blue font-size-12">In Progress</span>
+                                </td>
+                                <td>Urinalysis</td>
+                                <td>22 April, 2021</td>
+
+                                <td>
+                                    {% include 'partials/_tests_dropdown_options.html' %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar avatar-image" style="min-width: 40px">
+                                            <img src="#" alt="">
+                                        </div>
+                                        <span class="m-l-10">Shola Giwa</span>
+                                    </div>
+                                </td>
+                                <td>R23OV</td>
+                                <td><b>Comprehensive Metabolic Panel</b></td>
+                                <td>CMP</td>
+                                <td>Ayinde Bashir</td>
+                                <td>
+                                    <span class="badge badge-pill badge-green font-size-12">Completed</span>
+                                </td>
+                                <td>Surgical Pathology</td>
+                                <td>25 April, 2021</td>
+
+                                <td>
+                                    {% include 'partials/_tests_dropdown_options.html' %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar avatar-image" style="min-width: 40px">
+                                            <img src="#" alt="">
+                                        </div>
+                                        <span class="m-l-10">Dare Johnson</span>
+                                    </div>
+                                </td>
+                                <td>4J3OP</td>
+                                <td><b>Thyroid Profile III</b></td>
+                                <td>TP3</td>
+                                <td>Ayinde Bashir</td>
+                                <td>
+                                    <span class="badge badge-pill badge-red font-size-12">Cancelled</span>
+                                </td>
+                                <td>Surgical Pathology</td>
+                                <td>21 May, 2021</td>
+
+                                <td>
+                                    {% include 'partials/_tests_dropdown_options.html' %}
+                                </td>
+                            </tr>
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+
+{% block scripts %}
+    <script src="{% static 'vendors/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'vendors/datatables/dataTables.bootstrap.min.js' %}"></script>
+    <script src="{% static 'vendors/chartjs/Chart.min.js' %}"></script>
+    <script src="{% static 'vendors/bootstrap-datepicker/bootstrap-datepicker.min.js' %}"></script>
+    <script src="{% static 'js/pages/datatables.js' %}"></script>
+    <script src="{% static 'js/pages/dashboard-project.js' %}"></script>
+    <script></script>
+
+{% endblock scripts %}
