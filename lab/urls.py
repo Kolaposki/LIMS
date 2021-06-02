@@ -8,6 +8,10 @@ urlpatterns = [
     path('tests/', all_tests, name='all_tests'),
     path('new-test/', new_test, name='new_test'),
     path('test-requests/', test_requests, name='test_requests'),
+    path('reports/', all_reports, name='all_reports'),
+    path('laboratories/', laboratories, name='laboratories'),
+    path('samples/', all_samples, name='all_samples'),
+    path('new-sample/', new_sample, name='new_sample'),
 ]
 
 if settings.DEBUG:

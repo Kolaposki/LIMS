@@ -37,3 +37,34 @@ def test_requests(request):
     # all_test = TestRequests.objects.filter(technician=request.user.pk).order_by('-updated_at')
     print("all_test ", all_test)
     return render(request, 'test-requests.html', {'all_test': all_test})
+
+
+@login_required
+def all_reports(request):
+    all_test = None
+    # all_test = Report.objects.filter(technician=request.user.pk).order_by('-updated_at')
+    print("all_test ", all_test)
+    return render(request, 'reports.html', {'all_test': all_test})
+
+
+@login_required
+def laboratories(request):
+    all_test = None
+    # all_test = Laboratory.objects.filter(technician=request.user.pk).order_by('-updated_at')
+    print("all_test ", all_test)
+    return render(request, 'laboratories.html', {'all_test': all_test})
+
+
+@login_required
+def all_samples(request):
+    all_test = None
+    # all_sample = Sample.objects.all().order_by('-updated_at')
+    print("all_test ", all_test)
+    return render(request, 'all-samples.html', {'all_test': all_test})
+
+
+@login_required
+def new_sample(request):
+    all_test = None
+    print("all_test ", all_test)
+    return render(request, 'new-sample.html', {'all_test': all_test})
