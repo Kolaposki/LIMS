@@ -13,6 +13,7 @@ urlpatterns = [
     path('samples/', all_samples, name='all_samples'),
     path('new-sample/', new_sample, name='new_sample'),
     path('blood-sample/', sample_list, name='sample_list'),
+    path('settings/', user_settings, name='user_settings'),
 ]
 
 if settings.DEBUG:

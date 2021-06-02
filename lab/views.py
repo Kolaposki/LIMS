@@ -75,3 +75,9 @@ def sample_list(request):
     all_test = None
     print("all_test ", all_test)
     return render(request, 'sample-lists.html', {'all_test': all_test})
+
+@login_required
+def user_settings(request):
+    all_test = None
+    print("all_test ", all_test)
+    return render(request, 'settings.html', {'all_test': all_test})
