@@ -6,6 +6,7 @@ from django.urls import path
 urlpatterns = [
     path('dashboard/', dashboard, name='dashboard'),  # dashboard
     path('tests/', all_tests, name='all_tests'),
+    path('new-test/', new_test, name='new_test'),
 ]
 
 if settings.DEBUG:

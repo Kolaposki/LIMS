@@ -200,12 +200,14 @@ class Test(models.Model):
     created_at = models.DateTimeField(null=True, auto_now_add=True)
     updated_at = models.DateTimeField(null=True, auto_now=True)
     tags = TaggableManager(blank=True)
+
     rate = models.IntegerField(blank=True, null=True)
     upper_bound = models.IntegerField(blank=True, null=True)
     lower_bound = models.IntegerField(blank=True, null=True)
     charges = models.IntegerField(help_text="in dollars", blank=True, null=True)
     duration = models.FloatField(help_text="in minutes", blank=True, null=True)  # in minutes
     unit = models.CharField(choices=TEST_UNITS, max_length=100, null=True, blank=True)
+
     slug = models.UUIDField(default=uuid.uuid4, editable=False, blank=True, null=True)
     uuid = ShortUUIDField(max_length=5, editable=False, null=True, blank=True)
 
