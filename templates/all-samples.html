@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Samples{% endblock title %}
+{% block styles %}
+{% endblock styles %}
+
+
+{% block page_title %}Uploaded Samples{% endblock page_title %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-11 mx-auto">
+            <div class="row">
+
+                <div classsid="col-md-4">
+                    <div class="card mr-4" style="max-width: 342px;">
+                        <img class="card-img-top" width="342px" height="188px"
+                             src="{% static 'images/others/blood-sample.jpg' %}" alt="Lab">
+                        <div class="card-body">
+                            <a href="{% url 'sample_list' %}"><h4 class="m-t-10">Blood Samples</h4></a>
+                            <p class="m-b-20">This samples include tests related to Blood, Serum, Plasma and Tissue biopsy</p>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <p class="m-b-0 text-dark font-weight-semibold font-size-15">15 Related Tests</p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div classsid="col-md-4">
+                    <div class="card mr-4" style="max-width: 342px;">
+                        <img class="card-img-top" width="342px" height="188px"
+                             src="{% static 'images/others/urine-sample.jpg' %}" alt="Lab">
+                        <div class="card-body">
+                            <h4 class="m-t-10">Urine Samples</h4>
+                            <p class="m-b-20">This samples include tests related to Urine only</p>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <p class="m-b-0 text-dark font-weight-semibold font-size-15">5 Related Tests</p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div classsid="col-md-4">
+                    <div class="card mr-4" style="max-width: 342px;">
+                        <img class="card-img-top" width="342px" height="188px"
+                             src="{% static 'images/others/fluid-sample.jpg' %}" alt="Lab">
+                        <div class="card-body">
+                            <h4 class="m-t-10">Fluid Samples</h4>
+                            <p class="m-b-20">This samples include tests related to Oral fluid, Saliva, Amniotic fluid, Cerebrospinal fluid (CSF), Sputum and Virology swab </p>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <p class="m-b-0 text-dark font-weight-semibold font-size-15">4 Related Tests</p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div classsid="col-md-4">
+                    <div class="card mr-4" style="max-width: 342px;">
+                        <img class="card-img-top" width="342px" height="188px"
+                             src="{% static 'images/others/test-tubes.jpg' %}" alt="Lab">
+                        <div class="card-body">
+                            <h4 class="m-t-10">Other Samples</h4>
+                            <p class="m-b-20">This samples include tests related to Bone marrow, Stool, Semen and Sweat</p>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <p class="m-b-0 text-dark font-weight-semibold font-size-15">8 Related Tests</p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block scripts %}
+{% endblock scripts %}
