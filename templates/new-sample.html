@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}New Sample{% endblock title %}
+{% block styles %}
+    <link href="{% static 'vendors/bootstrap-datepicker/bootstrap-datepicker.min.css' %}" rel="stylesheet"/>
+
+{% endblock styles %}
+
+
+{% block page_title %}Create New Sample{% endblock page_title %}
+
+{% block content %}
+    <div class="container">
+        <div class="tab-content m-t-15">
+            <div class="tab-pane fade show active" id="tab-account">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Sample Details</h4>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="form-row">
+
+                                <div class="form-group col-md-12">
+                                    <label class="font-weight-semibold" for="sampleName">Name: </label>
+                                    <input type="text" class="form-control" id="sampleName"
+                                           placeholder="Name of sample">
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label class="font-weight-semibold" for="fullAddress">Select Patient:</label>
+                                    <select id="language" class="form-control">
+                                        <option>John Doe</option>
+                                        <option>Mark Andrew</option>
+                                        <option>James Rodri</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="font-weight-semibold" for="fullAddress">Select Sample Type:</label>
+                                    <select id="language" class="form-control">
+                                        <option>Blood</option>
+                                        <option>Serum</option>
+                                        <option>Sweat</option>
+                                        <option>Urine</option>
+                                        <option>Cerebrospinal fluid (CSF)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label class="font-weight-semibold" for="">Lab Technician:</label>
+                                    <input type="text" class="form-control" id="Technician"
+                                           placeholder="Mark John" disabled="disabled">
+                                </div>
+
+
+                                <div class="form-group col-md-12">
+                                    <label class="font-weight-semibold" for="notes">Notes: </label>
+                                    <textarea name="notes" placeholder="Extra notes" class="form-control"
+                                              id="notes"></textarea>
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    <label class="font-weight-semibold" for="Quantity">Quantity: </label>
+                                    <input type="number" class="form-control" id="Quantity"
+                                           placeholder="3 mg/L">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <div class="custom-file" style="margin-top: 27px;">
+                                        <input type="file" class="custom-file-input" id="customFile">
+                                        <label class="custom-file-label" for="customFile">Upload first picture of
+                                            sample</label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <div class="custom-file" style="margin-top: 27px;">
+                                        <input type="file" class="custom-file-input" id="customFile">
+                                        <label class="custom-file-label" for="customFile">Upload second picture of
+                                            sample</label>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+
+{% block scripts %}
+
+{% endblock scripts %}
