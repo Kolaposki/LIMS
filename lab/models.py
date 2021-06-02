@@ -57,6 +57,12 @@ TEST_STATUS = (
     # Status of the test request, such as Routine or STAT (perform test as rapidly as possible).
 )
 
+TEST_REQUEST_STATE = (
+    ("Ordered", "Ordered"),
+    ("Draft", "Draft"),
+    # Status of the test request, such as Routine or STAT (perform test as rapidly as possible).
+)
+
 LAB_DEPARTMENTS = (
     ("Chemistry", "Chemistry"),
     ("Hematology", "Hematology"),
@@ -172,8 +178,10 @@ class Sample(models.Model):
     quantity = models.FloatField(blank=True, null=True)
     collected_on = models.DateTimeField(null=True, auto_now_add=True)
     uuid = ShortUUIDField(max_length=5, editable=False, null=True, blank=True)
-    image1 = ResizedImageField(size=[500, 300], quality=100, upload_to=sample_image_directory_path, null=True, blank=True)
-    image2 = ResizedImageField(size=[500, 300], quality=100, upload_to=sample_image_directory_path, null=True, blank=True)
+    image1 = ResizedImageField(size=[500, 300], quality=100, upload_to=sample_image_directory_path, null=True,
+                               blank=True)
+    image2 = ResizedImageField(size=[500, 300], quality=100, upload_to=sample_image_directory_path, null=True,
+                               blank=True)
 
     def __str__(self):
         return f"{self.type} sample"
@@ -181,7 +189,7 @@ class Sample(models.Model):
 
 class Test(models.Model):
     """
-        Test that would be/was carried out. Might need a doctor later on
+        Test that would be/was carried out.
     """
     technician = models.ForeignKey(LabTechnician, on_delete=models.CASCADE)
     lab = models.ForeignKey(Laboratory, on_delete=models.CASCADE)
@@ -213,6 +221,29 @@ class Test(models.Model):
 
     def __str__(self):
         return f"Test-{self.code}"
+
+
+class TestRequests(models.Model):
+    """
+        Test that was requested by a doctor.
+    """
+    technician = models.ForeignKey(LabTechnician, on_delete=models.CASCADE) # technician whom the test was assigned to
+    sample = models.ForeignKey(Sample, on_delete=models.CASCADE)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)  # patient whom the test was requested for
+    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)  # doc who gave out the test
+
+    category = models.CharField(choices=TEST_CATEGORY, max_length=100, null=True, blank=True)
+    state = models.CharField(choices=TEST_REQUEST_STATE, max_length=50, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+
+    created_at = models.DateTimeField(null=True, auto_now_add=True)
+    updated_at = models.DateTimeField(null=True, auto_now=True)
+
+    slug = models.UUIDField(default=uuid.uuid4, editable=False, blank=True, null=True)
+    uuid = ShortUUIDField(max_length=5, editable=False, null=True, blank=True)
+
+    def __str__(self):
+        return f"TestRequest-{self.category}"
 
 
 # TODO : should generate a pdf

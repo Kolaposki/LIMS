@@ -43,6 +43,7 @@ admin.site.register(LabTechnician)
 admin.site.register(Doctor)
 admin.site.register(Sample)
 admin.site.register(Test)
+admin.site.register(TestRequests)
 admin.site.register(Report)
 # admin.site.register(Activity, ActivityAdmin)
 admin.site.unregister(Group)  # remove Group objects from admin page:  under[Authentication and Authorization]
