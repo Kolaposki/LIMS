@@ -7,6 +7,7 @@ urlpatterns = [
     path('dashboard/', dashboard, name='dashboard'),  # dashboard
     path('tests/', all_tests, name='all_tests'),
     path('new-test/', new_test, name='new_test'),
+    path('test-requests/', test_requests, name='test_requests'),
 ]
 
 if settings.DEBUG:

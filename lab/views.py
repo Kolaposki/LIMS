@@ -18,13 +18,22 @@ def dashboard(request):
 
 @login_required
 def all_tests(request):
-    all_test = Test.objects.all().order_by('-updated_at')
+    all_test = None
+    # all_test = Test.objects.all().order_by('-updated_at')
     print("all_test ", all_test)
     return render(request, 'all-tests.html', {'all_test': all_test})
 
 
 @login_required
 def new_test(request):
-    all_test = Test.objects.all().order_by('-updated_at')
+    all_test = None
     print("all_test ", all_test)
     return render(request, 'new-test.html', {'all_test': all_test})
+
+
+@login_required
+def test_requests(request):
+    all_test = None
+    # all_test = TestRequests.objects.filter(technician=request.user.pk).order_by('-updated_at')
+    print("all_test ", all_test)
+    return render(request, 'test-requests.html', {'all_test': all_test})
