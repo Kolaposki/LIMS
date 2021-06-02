@@ -235,6 +235,7 @@ class TestRequests(models.Model):
     category = models.CharField(choices=TEST_CATEGORY, max_length=100, null=True, blank=True)
     state = models.CharField(choices=TEST_REQUEST_STATE, max_length=50, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
+    is_urgent = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(null=True, auto_now_add=True)
     updated_at = models.DateTimeField(null=True, auto_now=True)
