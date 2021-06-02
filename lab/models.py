@@ -170,6 +170,7 @@ class Sample(models.Model):
     """
         Physical samples that were collected to be examined in the lab
     """
+
     type = models.CharField(choices=SAMPLE_TYPES, max_length=100, null=True, blank=True)
     name = models.CharField(max_length=200)
     source = models.CharField(max_length=200)

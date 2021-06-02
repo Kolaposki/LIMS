@@ -69,6 +69,7 @@ def new_sample(request):
     print("all_test ", all_test)
     return render(request, 'new-sample.html', {'all_test': all_test})
 
+
 @login_required
 def sample_list(request):
     all_test = None
