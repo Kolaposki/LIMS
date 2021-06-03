@@ -41,8 +41,6 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'crispy_forms',
     'taggit',
-
-
 ]
 
 MIDDLEWARE = [
@@ -132,8 +130,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # ]
 
 LOGIN_REDIRECT_URL = '/dashboard/'
-SENATOR_LOGIN_REDIRECT_URL = '/senator_profile/'
-OFFICER_LOGIN_REDIRECT_URL = '/result_officer_profile/'
 LOGIN_URL = '/users/login'
 TAGGIT_CASE_INSENSITIVE = True
 
