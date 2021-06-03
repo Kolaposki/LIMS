@@ -44,7 +44,7 @@
 
                 <div class="page-header no-gutters">
                     <h2 class="font-weight-normal">{% block page_title %}Welcome back,
-                        Martin!{% endblock page_title %}</h2>
+                        {{ user_details.first_name|upper }}!{% endblock page_title %}</h2>
                     {#                    <div class="d-md-flex align-items-md-center justify-content-between">#}
                     {##}
                     {#                        <div class="media m-v-10 align-items-center">#}

@@ -4,11 +4,11 @@
 
 {% block content %}
     <div class="card-body">
-        <div class="d-block text-center align-items-center justify-content-center m-b-30">
-            <a href="{% url 'upload' %}"></a>
-            <img class="img-fluid" alt="" src="{% static 'images/logo/logo.png' %}">
-            <h3 class="m-b-0">Register as {{ reg_type }}</h3>
-
+        <div class="d-flex align-items-center justify-content-between m-b-30">
+            <a href="#"></a>
+            <img class="img-fluid" alt="" src="{% static 'images/logo/logo.png' %}"
+                 style="width: 130px; margin-left: -180px;">
+            <h2 class="m-b-0">Sign Up</h2>
         </div>
 
         <form method="post">
@@ -48,6 +48,31 @@
                            value="{{ form.username.value|default_if_none:'' }}">
                 </div>
             </div>
+
+            <div class="form-group">
+                <label class="font-weight-semibold" for="firstName">First Name:</label>
+                <div class="input-affix">
+                    <i class="prefix-icon anticon anticon-user"></i>
+                    <input type="text" class="form-control"
+                           placeholder="First name" name="first_name" maxlength="20"
+                           autocapitalize="none" autocomplete="firstname" autofocus=""
+                           required=""
+                           value="{{ form.firstname.value|default_if_none:'' }}">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="font-weight-semibold" for="lastname">Last Name:</label>
+                <div class="input-affix">
+                    <i class="prefix-icon anticon anticon-user"></i>
+                    <input type="text" class="form-control"
+                           placeholder="Last name" name="last_name" maxlength="20"
+                           autocapitalize="none" autocomplete="lastname" autofocus=""
+                           required=""
+                           value="{{ form.lastname.value|default_if_none:'' }}">
+                </div>
+            </div>
+
             <div class="form-group">
                 <label class="font-weight-semibold" for="email">Email:</label>
                 <div class="input-affix">
