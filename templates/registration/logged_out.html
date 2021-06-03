@@ -1,28 +1,51 @@
-{% extends "base.html" %}
-{% block title %}Log Out | WooContacts{% endblock title %}
+<!DOCTYPE html>
 {% load static %}
-{% block content %}
 
-    <!--============= Sign In Section Starts Here =============-->
-    <div class="account-section bg_img" data-background="{% static 'alpha/images/account-bg.jpg' %}">
-        <div class="container">
-            <div class="account-title text-center mb-120">
-                <a href="{% url 'landing' %}" class="back-home"><i class="fas fa-angle-left"></i><span>Back <span
-                        class="d-none d-sm-inline-block">To Woocontacts</span></span></a>
-                <a href="{% url 'landing' %}" class="logo">
-                    <img src="{% static 'alpha/images/logo/logo.png' %}" alt="logo">
-                </a>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Logged Out Successful</title>
+
+    <link rel="shortcut icon" href="{% static 'images/logo/favicon.png' %}">
+
+    <!-- page css -->
+    <link href="{% static 'css/app.min.css' %}" rel="stylesheet"/>
+
+</head>
+
+<body>
+<div class="app">
+    <div class="container-fluid">
+        <div class="d-flex full-height p-v-20 flex-column justify-content-between">
+            <div class="d-none d-md-flex p-h-40">
+                <img src="{% static 'images/logo/logo.png' %}" style="width:130px; height:60px;" alt="">
             </div>
-            <div class="account-wrapper top-gap">
-                <div class="account-body">
-                    <div class="form-head">
-                        <h4 class="title mb-20">You've logged out successfully</h4><br><br>
-                        <p>Mistake, Log back in <a href="{% url 'login' %}">here</a></p>
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <div class="p-v-30">
+{#                            <h1 class="font-weight-semibold display-1 text-primary lh-1-2">AU-LIMS</h1>#}
+                            <h2 class="font-weight-light font-size-30">Logged Out Successfully</h2>
+                            <p class="lead m-b-30">You can login back</p>
+                            <a href="{% url 'login' %}" class="btn btn-primary btn-tone">Login</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!--============= Sign In Section Ends Here =============-->
+</div>
 
-{% endblock content %}
+
+<!-- Core Vendors JS -->
+<script src="{% static 'js/vendors.min.js' %}"></script>
+
+<!-- page js -->
+
+<!-- Core JS -->
+<script src="{% static 'js/app.min.js' %}"></script>
+</body>
+
+</html>
