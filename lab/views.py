@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def dashboard(request):
     print("NOW IN DASHBOARD")
-    print("FILES: ", request.FILES)
+    # print("FILES: ", request.FILES)
 
     return render(request, 'dashboard.html', {'hi': 'hi'})
 
@@ -75,6 +75,7 @@ def sample_list(request):
     all_test = None
     print("all_test ", all_test)
     return render(request, 'sample-lists.html', {'all_test': all_test})
+
 
 @login_required
 def user_settings(request):

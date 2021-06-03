@@ -1,9 +1,10 @@
+from django.contrib.auth import authenticate, get_user_model, login
 from django.shortcuts import render, redirect
 from django_registration.backends.one_step.views import RegistrationView
 from django.urls import reverse_lazy
 from django.contrib import messages
 from .forms import UserRegistrationForm
-
+from lab.models import LabTechnician
 from .forms import *
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
@@ -48,6 +49,17 @@ class UserRegistrationView(RegistrationView):
     template_name = "register.html"
     success_url = settings.LOGIN_REDIRECT_URL
     form_class = UserRegistrationForm
+
+    def register(self, form):
+        print("In register form ==> ", form)
+
+        latest_user = super(UserRegistrationView, self).register(form)
+        print("latest_user registered: ", latest_user)
+        first_name = form.cleaned_data['first_name']
+        last_name = form.cleaned_data['last_name']
+        print("first_name: ", first_name)
+        UserProfile.objects.create(user=latest_user, is_technician=True, first_name=first_name, last_name=last_name)
+        LabTechnician.objects.create(manager=latest_user)
 
 
 @login_required

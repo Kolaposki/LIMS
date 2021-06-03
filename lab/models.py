@@ -126,7 +126,7 @@ class LabTechnician(models.Model):
     uuid = ShortUUIDField(max_length=5, editable=False, null=True, blank=True)
 
     def __str__(self):
-        return f"Technician {self.manager.full_name}"
+        return f"Technician {self.manager.first_name} {self.manager.last_name} "
 
     class Meta:
         ordering = ['-created_at']

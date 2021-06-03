@@ -1,6 +1,8 @@
 from django.db import models
 from django_resized import ResizedImageField
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 def user_directory_path(instance, filename):
@@ -24,13 +26,13 @@ class UserProfile(models.Model):
 
     def __str__(self):
         if self.is_technician:
-            return f"Technician {self.first_name}"
+            return f"Technician' {self.first_name} {self.last_name} Profile"
         elif self.is_patient:
             return f"Patient {self.first_name}"
         elif self.is_doctor:
             return f"Doctor {self.first_name}"
         else:
-            return f"{self.first_name}'s profile"
+            return f"{self.user.username}'s profile"
 
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
@@ -43,7 +45,15 @@ class UserProfile(models.Model):
         elif self.is_doctor:
             return "doctor"
 
-
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        UserProfile.objects.create(user=instance)
+#
+# @receiver(post_save, sender=User)
+# def create_user_profile(sender, instance, created, **kwargs):
+#     if created:
+#         print("new_user_instance: ", instance)
+#         new_user = UserProfile.objects.create(user=instance, is_technician=True)
+#         print("User profile created: ", new_user)
+#
+#     # try:
+#     #     instance.profile.save()
+#     # except AttributeError:
+#     #     pass
