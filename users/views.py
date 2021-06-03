@@ -40,7 +40,7 @@ from django.core.mail import EmailMessage
 def logout_user(request):
     print("logging out ", request.user)
     logout(request)
-    return render(request, 'registration/logged_out.html')
+    return redirect(to='login', permanent=True)
 
 
 # Registration View
