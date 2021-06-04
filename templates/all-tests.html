@@ -63,7 +63,7 @@
 
                                         </td>
                                         <td>{{ test.lab.departments }}</td>
-                                        <td>{{ test.date_completed }}</td>
+                                        <td>{{ test.date_completed|date:"M d, Y" }}</td>
 
                                     </tr>
                             {% endfor %}

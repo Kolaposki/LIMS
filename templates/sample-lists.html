@@ -56,7 +56,7 @@
                                     <td>{{ sample.patient.full_name }}</td>
                                     <td>{{ sample.measurement }}</td>
                                     <td><i>{{ sample.notes|truncatechars:45 }}</i></td>
-                                    <td>{{ sample.collected_on }}</td>
+                                    <td>{{ sample.collected_on|date:"M d, Y" }}</td>
                                 </tr>
                             {% endfor %}
 

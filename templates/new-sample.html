@@ -18,61 +18,213 @@
                         <h4 class="card-title">Sample Details</h4>
                     </div>
                     <div class="card-body">
-                        <form>
+
+                        <form method="POST">
+                        {% csrf_token %}
                             <div class="form-row">
 
                                 <div class="form-group col-md-12">
                                     <label class="font-weight-semibold" for="sampleName">Name: </label>
-                                    <input type="text" class="form-control" id="sampleName"
-                                           placeholder="Name of sample">
+                                    <input type="text" required="" name="name" class="form-control" id="sampleName"
+                                           placeholder="Name of sample"
+                                           value="{{ form.name.value|default_if_none:'' }}">
                                 </div>
 
                                 <div class="form-group col-md-6">
                                     <label class="font-weight-semibold" for="fullAddress">Select Patient:</label>
-                                    <select id="language" class="form-control">
-                                        <option>John Doe</option>
-                                        <option>Mark Andrew</option>
-                                        <option>James Rodri</option>
+                                    <select name="patient" required=""
+                                            value="{{ form.patient.value|default_if_none:'' }}" class="form-control"
+                                            id="id_patient">
+                                        <option value="" selected="">---------</option>
+
+                                        {% for patient in all_patients %}
+                                            <option value="{{ patient.pk }}">{{ patient.full_name }}</option>
+                                        {% endfor %}
                                     </select>
                                 </div>
+
                                 <div class="form-group col-md-6">
                                     <label class="font-weight-semibold" for="fullAddress">Select Sample Type:</label>
-                                    <select id="language" class="form-control">
-                                        <option>Blood</option>
-                                        <option>Serum</option>
-                                        <option>Sweat</option>
-                                        <option>Urine</option>
-                                        <option>Cerebrospinal fluid (CSF)</option>
+                                    <select name="type" required="" value="{{ form.type.value|default_if_none:'' }}"
+                                            class="form-control" id="id_type">
+                                        <option value="" selected="">---------</option>
+
+                                        <option value="Blood">Blood</option>
+
+                                        <option value="Serum">Serum</option>
+
+                                        <option value="Sweat">Sweat</option>
+
+                                        <option value="Oral fluid">Oral fluid</option>
+
+                                        <option value="Saliva">Saliva</option>
+
+                                        <option value="Urine">Urine</option>
+
+                                        <option value="Amniotic fluid">Amniotic fluid</option>
+
+                                        <option value="Bone marrow">Bone marrow</option>
+
+                                        <option value="Cerebrospinal fluid (CSF)">Cerebrospinal fluid (CSF)</option>
+
+                                        <option value="Tissue biopsy">Tissue biopsy</option>
+
+                                        <option value="Stool">Stool</option>
+
+                                        <option value="Sputum">Sputum</option>
+
+                                        <option value="Semen">Semen</option>
+
+                                        <option value="Virology swab">Virology swab</option>
+
+                                        <option value="Plasma">Plasma</option>
+
                                     </select>
                                 </div>
+
                                 <div class="form-group col-md-12">
                                     <label class="font-weight-semibold" for="">Lab Technician:</label>
-                                    <input type="text" class="form-control" id="Technician"
-                                           placeholder="Marshall Nichols" disabled="disabled">
+                                    <input type="text" name="technician" class="form-control text-center"
+                                           id="Technician"
+                                           placeholder="{{ technician }}" disabled="disabled">
                                 </div>
 
 
                                 <div class="form-group col-md-12">
                                     <label class="font-weight-semibold" for="notes">Notes: </label>
                                     <textarea name="notes" placeholder="Extra notes" class="form-control"
-                                              id="notes"></textarea>
+                                              id="notes">{{ form.notes.value|default_if_none:'' }}</textarea>
                                 </div>
 
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-6">
                                     <label class="font-weight-semibold" for="Quantity">Quantity: </label>
-                                    <input type="number" class="form-control" id="Quantity"
+                                    <input type="number" value="{{ form.quantity.value|default_if_none:'' }}"
+                                           required="" class="form-control" name="quantity" id="Quantity"
                                            placeholder="3 mg/L">
                                 </div>
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-6">
+                                    <label class="font-weight-semibold" for="Units">Unit:</label>
+                                    <select name="unit" required="" value="{{ form.unit.value|default_if_none:'' }}"
+                                            class="form-control" id="id_unit">
+                                        <option value="Grams (g)">Grams (g)</option>
+
+                                        <option value="Grams per deciliter (g/dL)" selected="">Grams per deciliter
+                                            (g/dL)
+                                        </option>
+
+                                        <option value="Grams per liter (g/L)">Grams per liter (g/L)</option>
+
+                                        <option value="International units per liter (IU/L)">International units per
+                                            liter (IU/L)
+                                        </option>
+
+                                        <option value="International units per milliliter (IU/mL)">International units
+                                            per milliliter (IU/mL)
+                                        </option>
+
+                                        <option value="Micrograms (mcg)">Micrograms (mcg)</option>
+
+                                        <option value="Micrograms per deciliter (mcg/dL)">Micrograms per deciliter
+                                            (mcg/dL)
+                                        </option>
+
+                                        <option value="Micrograms per liter (mcg/L)">Micrograms per liter (mcg/L)
+                                        </option>
+
+                                        <option value="Microkatals per liter (mckat/L)">Microkatals per liter
+                                            (mckat/L)
+                                        </option>
+
+                                        <option value="Microliters (mcL)">Microliters (mcL)</option>
+
+                                        <option value="Micromoles per liter (mcmol/L)">Micromoles per liter (mcmol/L)
+                                        </option>
+
+                                        <option value="Milliequivalents (mEq)">Milliequivalents (mEq)</option>
+
+                                        <option value="Milliequivalents per liter (mEq/L)">Milliequivalents per liter
+                                            (mEq/L)
+                                        </option>
+
+                                        <option value="Milligrams (mg)">Milligrams (mg)</option>
+
+                                        <option value="Milligrams per deciliter (mg/dL)">Milligrams per deciliter
+                                            (mg/dL)
+                                        </option>
+
+                                        <option value="Milligrams per liter (mg/L)">Milligrams per liter (mg/L)</option>
+
+                                        <option value="Milli-international units per liter (mIU/L)">Milli-international
+                                            units per liter (mIU/L)
+                                        </option>
+
+                                        <option value="Milliliters (mL)">Milliliters (mL)</option>
+
+                                        <option value="Millimeters (mm)">Millimeters (mm)</option>
+
+                                        <option value="Millimeters of mercury (mm Hg)">Millimeters of mercury (mm Hg)
+                                        </option>
+
+                                        <option value="Millimoles (mmol)">Millimoles (mmol)</option>
+
+                                        <option value="Millimoles per liter (mmol/L)">Millimoles per liter (mmol/L)
+                                        </option>
+
+                                        <option value="Milliosmoles per kilogram of water (mOsm/kg water)">Milliosmoles
+                                            per kilogram of water (mOsm/kg water)
+                                        </option>
+
+                                        <option value="Milliunits per gram (mU/g)">Milliunits per gram (mU/g)</option>
+
+                                        <option value="Milliunits per liter (mU/L)">Milliunits per liter (mU/L)</option>
+
+                                        <option value="Nanograms per deciliter (ng/dL)">Nanograms per deciliter
+                                            (ng/dL)
+                                        </option>
+
+                                        <option value="Nanograms per liter (ng/L)">Nanograms per liter (ng/L)</option>
+
+                                        <option value="Nanograms per milliliter (ng/mL)">Nanograms per milliliter
+                                            (ng/mL)
+                                        </option>
+
+                                        <option value="Nanograms per milliliter per hour (ng/mL/hr)">Nanograms per
+                                            milliliter per hour (ng/mL/hr)
+                                        </option>
+
+                                        <option value="Nanomoles (nmol)">Nanomoles (nmol)</option>
+
+                                        <option value="Nanomoles per liter (nmol/L)">Nanomoles per liter (nmol/L)
+                                        </option>
+
+                                        <option value="Picograms (pg)">Picograms (pg)</option>
+
+                                        <option value="Picograms per milliliter (pg/mL)">Picograms per milliliter
+                                            (pg/mL)
+                                        </option>
+
+                                        <option value="Picomoles per liter (pmol/L)">Picomoles per liter (pmol/L)
+                                        </option>
+
+                                        <option value="Units per liter (U/L)">Units per liter (U/L)</option>
+
+                                        <option value="Units per milliliter (U/mL)">Units per milliliter (U/mL)</option>
+
+                                        <option value="Titers">Titers</option>
+
+                                    </select>
+                                </div>
+
+                                <div class="form-group col-md-6">
                                     <div class="custom-file" style="margin-top: 27px;">
-                                        <input type="file" class="custom-file-input" id="customFile">
+                                        <input type="file" name="image1" class="custom-file-input" id="customFile">
                                         <label class="custom-file-label" for="customFile">Upload first picture of
                                             sample</label>
                                     </div>
                                 </div>
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-6">
                                     <div class="custom-file" style="margin-top: 27px;">
-                                        <input type="file" class="custom-file-input" id="customFile">
+                                        <input type="file" name="image2" class="custom-file-input" id="customFile">
                                         <label class="custom-file-label" for="customFile">Upload second picture of
                                             sample</label>
                                     </div>
@@ -80,6 +232,10 @@
 
                             </div>
 
+                            <div class="d-flex" style="margin-right: 390px;margin-left: 390px;">
+                                <button class="btn btn-primary btn-tone m-t-30" type="submit">Create Sample
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>
