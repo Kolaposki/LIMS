@@ -17,11 +17,12 @@
                         <img class="card-img-top" width="342px" height="188px"
                              src="{% static 'images/others/lab-pic.webp' %}" alt="Lab">
                         <div class="card-body">
-                            <h4 class="m-t-10">Microbiology Lab</h4>
+                            <a href="{% url 'lab_tests' 'Microbiology' %}"><h4 class="m-t-10">Microbiology Lab</h4></a>
                             <p class="m-b-20">The laboratory is devoted to the culturing,
                                 examination, and identification of microorganisms...</p>
                             <div class="d-flex align-items-center justify-content-between">
-                                <p class="m-b-0 text-dark font-weight-semibold font-size-15">25 Tests</p>
+                                <p class="m-b-0 text-dark font-weight-semibold font-size-15">{{ microbiology_tests }}
+                                    Tests</p>
 
                             </div>
                         </div>
@@ -33,11 +34,12 @@
                         <img class="card-img-top" width="342px" height="188px"
                              src="{% static 'images/others/lab-pic.webp' %}" alt="Lab">
                         <div class="card-body">
-                            <h4 class="m-t-10">Hematology Lab</h4>
+                            <a href="{% url 'lab_tests' 'Hematology' %}"><h4 class="m-t-10">Hematology Lab</h4></a>
                             <p class="m-b-20">This laboratory is devoted to the study of blood, blood morphology and
                                 blood diseases...</p>
                             <div class="d-flex align-items-center justify-content-between">
-                                <p class="m-b-0 text-dark font-weight-semibold font-size-15">5 Tests</p>
+                                <p class="m-b-0 text-dark font-weight-semibold font-size-15">{{ hematology_tests }}
+                                    Tests</p>
 
                             </div>
                         </div>
@@ -49,11 +51,13 @@
                         <img class="card-img-top" width="342px" height="188px"
                              src="{% static 'images/others/lab-pic.webp' %}" alt="Lab">
                         <div class="card-body">
-                            <h4 class="m-t-10">Chemistry Lab</h4>
+                            <a href="{% url 'lab_tests' 'Chemistry' %}"><h4 class="m-t-10">Chemistry Lab</h4></a>
+
                             <p class="m-b-20">Common tests analyzed in this
                                 laboratory are glucose, cholesterol, BUN, creatinine, potassium, liver...</p>
                             <div class="d-flex align-items-center justify-content-between">
-                                <p class="m-b-0 text-dark font-weight-semibold font-size-15">25 Tests</p>
+                                <p class="m-b-0 text-dark font-weight-semibold font-size-15">{{ chemistry_tests }}
+                                    Tests</p>
 
                             </div>
                         </div>
@@ -65,11 +69,14 @@
                         <img class="card-img-top" width="342px" height="188px"
                              src="{% static 'images/others/lab-pic.webp' %}" alt="Lab">
                         <div class="card-body">
-                            <h4 class="m-t-10">Transfusion Services Lab</h4>
+                            <a href="{% url 'lab_tests' 'Transfusion Services' %}"><h4 class="m-t-10">Transfusion
+                                Services Lab</h4></a>
+
                             <p class="m-b-20">This laboratory provides blood transfusion support by providing the
                                 patient with red cells, plasma...</p>
                             <div class="d-flex align-items-center justify-content-between">
-                                <p class="m-b-0 text-dark font-weight-semibold font-size-15">70 Tests</p>
+                                <p class="m-b-0 text-dark font-weight-semibold font-size-15">{{ trans_services_tests }}
+                                    Tests</p>
 
                             </div>
                         </div>
@@ -81,11 +88,13 @@
                         <img class="card-img-top" width="342px" height="188px"
                              src="{% static 'images/others/lab-pic.webp' %}" alt="Lab">
                         <div class="card-body">
-                            <h4 class="m-t-10">Immunology Lab</h4>
+                            <a href="{% url 'lab_tests' 'Immunology' %}"><h4 class="m-t-10">Immunology Lab</h4></a>
+
                             <p class="m-b-20">This laboratory study immune products such as antibodies produced by the
                                 body in response to foreign material...</p>
                             <div class="d-flex align-items-center justify-content-between">
-                                <p class="m-b-0 text-dark font-weight-semibold font-size-15">0 Tests</p>
+                                <p class="m-b-0 text-dark font-weight-semibold font-size-15">{{ immunology_tests }}
+                                    Tests</p>
 
                             </div>
                         </div>
@@ -97,11 +106,14 @@
                         <img class="card-img-top" width="342px" height="188px"
                              src="{% static 'images/others/lab-pic.webp' %}" alt="Lab">
                         <div class="card-body">
-                            <h4 class="m-t-10">Surgical Pathology Lab</h4>
+                            <a href="{% url 'lab_tests' 'Surgical Pathology' %}"><h4 class="m-t-10">Surgical Pathology
+                                Lab</h4></a>
+
                             <p class="m-b-20">This laboratory treats the essential nature of disease, especially the
                                 structural and functional changes in tissues...</p>
                             <div class="d-flex align-items-center justify-content-between">
-                                <p class="m-b-0 text-dark font-weight-semibold font-size-15">10 Tests</p>
+                                <p class="m-b-0 text-dark font-weight-semibold font-size-15">{{ surgical_tests }}
+                                    Tests</p>
 
                             </div>
                         </div>
@@ -113,11 +125,50 @@
                         <img class="card-img-top" width="342px" height="188px"
                              src="{% static 'images/others/lab-pic.webp' %}" alt="Lab">
                         <div class="card-body">
-                            <h4 class="m-t-10">Cytology Lab</h4>
+                            <a href="{% url 'lab_tests' 'Cytology' %}"><h4 class="m-t-10">Cytology Lab</h4></a>
+
                             <p class="m-b-20">In this laboratory, a skilled cytotechnologist examines human cells under
                                 the microscope, looking for...</p>
                             <div class="d-flex align-items-center justify-content-between">
-                                <p class="m-b-0 text-dark font-weight-semibold font-size-15">2 Tests</p>
+                                <p class="m-b-0 text-dark font-weight-semibold font-size-15">{{ cytology_tests }}
+                                    Tests</p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div classsid="col-md-4">
+                    <div class="card mr-4" style="max-width: 342px;">
+                        <img class="card-img-top" width="342px" height="188px"
+                             src="{% static 'images/others/lab-pic.webp' %}" alt="Lab">
+                        <div class="card-body">
+                            <a href="{% url 'lab_tests' 'Urinalysis' %}"><h4 class="m-t-10">Urinalysis Lab</h4></a>
+
+                            <p class="m-b-20">Wide range of disorders are detected In this lab, such as urinary
+                                tract infections, kidney disease and diabetes...</p>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <p class="m-b-0 text-dark font-weight-semibold font-size-15">{{ urinalysis_tests }}
+                                    Tests</p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div classsid="col-md-4">
+                    <div class="card mr-4" style="max-width: 342px;">
+                        <img class="card-img-top" width="342px" height="188px"
+                             src="{% static 'images/others/lab-pic.webp' %}" alt="Lab">
+                        <div class="card-body">
+                            <a href="{% url 'lab_tests' 'Coagulation' %}"><h4 class="m-t-10">Coagulation Lab</h4></a>
+
+                            <p class="m-b-20">In this laboratory, blood clotting tests are performed for hemostasis
+                                system and predicting thrombosis...</p>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <p class="m-b-0 text-dark font-weight-semibold font-size-15">{{ coagulation_tests }}
+                                    Tests</p>
 
                             </div>
                         </div>
