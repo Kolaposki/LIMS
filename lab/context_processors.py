@@ -2,11 +2,16 @@ from users.models import *
 
 
 def user_details_processor(request):
-    details = UserProfile.objects.get(user=request.user)
-    print("details: ", details)
+    if request.user.is_anonymous:
+        print("No user_details ANONYMOUSUSER")
+        return {'user_details': None}
 
-    if not details:
+    try:
+        details = UserProfile.objects.get(user=request.user)
+    except UserProfile.DoesNotExist:
         print("No user_details")
         return {'user_details': None}
+
+    print("details: ", details)
 
     return {'user_details': details}

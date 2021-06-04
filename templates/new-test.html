@@ -13,117 +13,177 @@
     <div class="container">
         <div class="tab-content m-t-15">
             <div class="tab-pane fade show active" id="tab-account">
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Patient and Doctor Details</h4>
-                    </div>
-                    <div class="card-body">
-                        <form>
+                <form method="POST">
+                    {% csrf_token %}
+
+
+                    {% if form_err or form.errors %}
+                        <!-- Err -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">An error occurred</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-row">
+                                    <div class="form-group col-md-12 mb-3">
+                                        <div class="text-center auth-errors"
+                                             style="margin-top: 5px;margin-bottom: 15px;">
+
+                                        <span class="form__forget"
+                                              style="color: red !important;"> {{ form_err }} </span>
+
+                                            {% for field in form %}
+                                                {% for error in field_errors %}
+                                                    <span class="form__forget"
+                                                          style="color: red !important;"> {{ error|escape }} </span>
+                                                {% endfor %}
+                                            {% endfor %}
+
+                                            {% for error in form.non_field_errors %}
+                                                <span class="form__forget"
+                                                      style="color: red !important;"> {{ error|escape }} </span>
+                                            {% endfor %}
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    {% endif %}
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Patient and Doctor Details</h4>
+                        </div>
+                        <div class="card-body">
                             <div class="form-row">
 
                                 <div class="form-group col-md-6">
                                     <label class="font-weight-semibold" for="fullAddress">Select Patient:</label>
-                                    <select id="language" class="form-control">
-                                        <option>John Doe</option>
-                                        <option>Mark Andrew</option>
-                                        <option>James Rodri</option>
+                                    <select name="patient" required="" class="form-control" id="id_patient">
+                                        <option value="" selected="">---------</option>
+
+                                        {% for patient in all_patients %}
+                                            <option value="{{ patient.pk }}">{{ patient.full_name }}</option>
+                                        {% endfor %}
                                     </select>
                                 </div>
+
                                 <div class="form-group col-md-6">
                                     <label class="font-weight-semibold" for="fullAddress">Select Doctor:</label>
-                                    <select id="language" class="form-control">
-                                        <option>Wayne Justice</option>
-                                        <option>Well Brothers</option>
-                                        <option>Jack Jill</option>
+                                    <select name="doctor" required id="language" class="form-control">
+                                        <option value="" selected="">---------</option>
+
+                                        {% for doctor in all_doctors %}
+                                            <option value="{{ doctor.pk }}">{{ doctor.full_name }}  </option>
+                                        {% endfor %}
+
                                     </select>
                                 </div>
                                 <div class="form-group col-md-12">
                                     <label class="font-weight-semibold" for="">Lab Technician:</label>
-                                    <input type="text" class="form-control" id="Technician"
-                                           placeholder="Marshall Nichols" disabled="disabled">
+                                    <input type="text" class="form-control text-center" value="{{ technician }}"
+                                           id="Technician"
+                                           placeholder="{{ technician }}" disabled="disabled">
                                 </div>
 
                             </div>
 
-                        </form>
+                        </div>
                     </div>
-                </div>
 
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Test Details</h4>
-                    </div>
-                    <div class="card-body">
-                        <form>
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Test Details</h4>
+                        </div>
+                        <div class="card-body">
                             <div class="form-row">
 
                                 <div class="form-group col-md-12">
                                     <label class="font-weight-semibold" for="">Name</label>
-                                    <input type="text" class="form-control" id="test-name"
+                                    <input required name="name" type="text" class="form-control" id="test-name"
                                            placeholder="Name of the test">
                                 </div>
 
                                 <div class="form-group col-md-8">
                                     <label class="font-weight-semibold" for="Category">Category:</label>
-                                    <select id="Category" class="form-control">
-                                        <option>Complete Blood Count</option>
-                                        <option>Basic Metabolic Panel</option>
-                                        <option>Thyroid Stimulating Hormone</option>
-                                        <option>Urinalysis</option>
+                                    <select name="category" id="id_category" class="form-control" required>
+                                        <option value="" selected="">---------</option>
+
+                                        <option value="Complete Blood Count">Complete Blood Count</option>
+
+                                        <option value="Prothrombin Time">Prothrombin Time</option>
+
+                                        <option value="Basic Metabolic Panel">Basic Metabolic Panel</option>
+
+                                        <option value="Comprehensive Metabolic Panel">Comprehensive Metabolic Panel
+                                        </option>
+
+                                        <option value="Lipid Panel">Lipid Panel</option>
+
+                                        <option value="Liver Panel">Liver Panel</option>
+
+                                        <option value="Thyroid Stimulating Hormone">Thyroid Stimulating Hormone</option>
+
+                                        <option value="Hemoglobin A1C">Hemoglobin A1C</option>
+
+                                        <option value="Urinalysis">Urinalysis</option>
+
+                                        <option value="Culture">Culture</option>
+
+                                        <option value="Thyroid Profile III">Thyroid Profile III</option>
+
+                                        <option value="Activated Partial Thromboplastin Time">Activated Partial
+                                            Thromboplastin Time
+                                        </option>
+
+                                        <option value="Lipid Profile">Lipid Profile</option>
+
                                     </select>
                                 </div>
+
                                 <div class="form-group col-md-4">
                                     <label class="font-weight-semibold" for="test-code">Code: </label>
-                                    <input type="text" class="form-control" id="confirmPassword"
-                                           placeholder="Example: CBC, BMP, TSH">
+                                    <input type="text" class="form-control" id="Code"
+                                           placeholder="Example: CBC, BMP, TSH" name="code" maxlength="80" required>
                                 </div>
 
 
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-4">
                                     <label class="font-weight-semibold" for="Sample">Sample:</label>
-                                    <select id="language" class="form-control">
-                                        <option>Blood</option>
-                                        <option>Plasma</option>
-                                        <option>Urine</option>
-                                        <option>Saliva</option>
+                                    <select name="sample" id="language" class="form-control" required>
+                                        <option value="" selected="">---------</option>
+
+                                        {% for sample in all_samples %}
+                                            <option value="{{ sample.pk }}">{{ sample.full_details }}</option>
+                                        {% endfor %}
+
                                     </select>
                                 </div>
 
-                                <div class="form-group col-md-6">
-                                    <div class="custom-file" style="margin-top: 27px;">
-                                        <input type="file" class="custom-file-input" id="customFile">
-                                        <label class="custom-file-label" for="customFile">Upload picture of
-                                            sample</label>
-                                    </div>
-                                </div>
-
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-4">
                                     <label class="font-weight-semibold" for="Laboratory">Laboratory:</label>
-                                    <select id="Laboratory" class="form-control">
-                                        <option>Microbiology</option>
-                                        <option>Hematology</option>
-                                        <option>Chemistry</option>
-                                        <option>Cytology</option>
+                                    <select name="lab" id="Laboratory" class="form-control" required>
+                                        <option value="" selected="">---------</option>
+
+                                        {% for laboratory in all_labs %}
+                                            <option value="{{ laboratory.pk }}">{{ laboratory.departments }}</option>
+                                        {% endfor %}
+
                                     </select>
                                 </div>
 
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-4">
                                     <label class="font-weight-semibold" for="Status">Status:</label>
-                                    <select id="Status" class="form-control">
-                                        <option>Routine</option>
-                                        <option>STAT</option>
+                                    <select name="status" class="form-control" id="id_status" required>
+                                        <option value="" selected="">---------</option>
+
+                                        <option value="Routine">Routine</option>
+
+                                        <option value="STAT">STAT</option>
+
                                     </select>
-                                </div>
-
-
-                                <div class="form-group col-md-12 mb-3">
-                                    <label class="font-weight-semibold" for="description">Description: </label>
-
-                                    <div id="editor" class="" style="height: 300px;">
-                                        <p>Hello World!</p>
-                                        <p>Some initial <strong>bold</strong> text</p>
-                                        <p><br></p>
-                                    </div>
                                 </div>
 
                                 <div class="form-group col-md-12">
@@ -133,41 +193,162 @@
                                               class="form-control" id="queries"></textarea>
                                 </div>
                             </div>
-                        </form>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Measurements -->
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Measurements</h4>
+
+                    <!-- Description -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Description</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-row">
+                                <div class="form-group col-md-12 mb-3"
+                                     style="margin-left: 90px !important;margin-right: auto !important;">
+                                    {{ form.description }}
+                                </div>
+
+
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <form>
+
+
+                    <!-- Measurements -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Measurements</h4>
+                        </div>
+                        <div class="card-body">
                             <div class="form-row">
 
                                 <div class="form-group col-md-4">
                                     <label class="font-weight-semibold" for="Rate">Rate: </label>
-                                    <input type="number" class="form-control" id="Rate"
+                                    <input name="rate" step="0.1" type="number" class="form-control" id="Rate"
                                            placeholder="Rate">
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="font-weight-semibold" for="UBound">Upper Bound: </label>
-                                    <input type="number" class="form-control" id="UBound"
+                                    <input type="number" step="0.1" class="form-control" name="upper_bound" id="UBound"
                                            placeholder="Upper Bound">
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="font-weight-semibold" for="LBound">Lower Bound: </label>
-                                    <input type="number" class="form-control" id="LBound"
+                                    <input step="0.1" type="number" class="form-control" name="lower_bound" id="LBound"
                                            placeholder="Lower Bound">
                                 </div>
 
                                 <div class="form-group col-md-4">
                                     <label class="font-weight-semibold" for="Unit">Unit: </label>
-                                    <select id="Unit" class="form-control">
-                                        <option>Grams (g)</option>
-                                        <option>Milliliters (mL)</option>
-                                        <option>Milliunits per gram (mU/g)</option>
+
+                                    <select name="unit" id="id_unit" class="form-control">
+                                        <option value="" selected="">---------</option>
+
+                                        <option value="Grams (g)">Grams (g)</option>
+
+                                        <option value="Grams per deciliter (g/dL)">Grams per deciliter (g/dL)</option>
+
+                                        <option value="Grams per liter (g/L)">Grams per liter (g/L)</option>
+
+                                        <option value="International units per liter (IU/L)">International units per
+                                            liter (IU/L)
+                                        </option>
+
+                                        <option value="International units per milliliter (IU/mL)">International units
+                                            per milliliter (IU/mL)
+                                        </option>
+
+                                        <option value="Micrograms (mcg)">Micrograms (mcg)</option>
+
+                                        <option value="Micrograms per deciliter (mcg/dL)">Micrograms per deciliter
+                                            (mcg/dL)
+                                        </option>
+
+                                        <option value="Micrograms per liter (mcg/L)">Micrograms per liter (mcg/L)
+                                        </option>
+
+                                        <option value="Microkatals per liter (mckat/L)">Microkatals per liter
+                                            (mckat/L)
+                                        </option>
+
+                                        <option value="Microliters (mcL)">Microliters (mcL)</option>
+
+                                        <option value="Micromoles per liter (mcmol/L)">Micromoles per liter (mcmol/L)
+                                        </option>
+
+                                        <option value="Milliequivalents (mEq)">Milliequivalents (mEq)</option>
+
+                                        <option value="Milliequivalents per liter (mEq/L)">Milliequivalents per liter
+                                            (mEq/L)
+                                        </option>
+
+                                        <option value="Milligrams (mg)">Milligrams (mg)</option>
+
+                                        <option value="Milligrams per deciliter (mg/dL)">Milligrams per deciliter
+                                            (mg/dL)
+                                        </option>
+
+                                        <option value="Milligrams per liter (mg/L)">Milligrams per liter (mg/L)</option>
+
+                                        <option value="Milli-international units per liter (mIU/L)">Milli-international
+                                            units per liter (mIU/L)
+                                        </option>
+
+                                        <option value="Milliliters (mL)">Milliliters (mL)</option>
+
+                                        <option value="Millimeters (mm)">Millimeters (mm)</option>
+
+                                        <option value="Millimeters of mercury (mm Hg)">Millimeters of mercury (mm Hg)
+                                        </option>
+
+                                        <option value="Millimoles (mmol)">Millimoles (mmol)</option>
+
+                                        <option value="Millimoles per liter (mmol/L)">Millimoles per liter (mmol/L)
+                                        </option>
+
+                                        <option value="Milliosmoles per kilogram of water (mOsm/kg water)">Milliosmoles
+                                            per kilogram of water (mOsm/kg water)
+                                        </option>
+
+                                        <option value="Milliunits per gram (mU/g)">Milliunits per gram (mU/g)</option>
+
+                                        <option value="Milliunits per liter (mU/L)">Milliunits per liter (mU/L)</option>
+
+                                        <option value="Nanograms per deciliter (ng/dL)">Nanograms per deciliter
+                                            (ng/dL)
+                                        </option>
+
+                                        <option value="Nanograms per liter (ng/L)">Nanograms per liter (ng/L)</option>
+
+                                        <option value="Nanograms per milliliter (ng/mL)">Nanograms per milliliter
+                                            (ng/mL)
+                                        </option>
+
+                                        <option value="Nanograms per milliliter per hour (ng/mL/hr)">Nanograms per
+                                            milliliter per hour (ng/mL/hr)
+                                        </option>
+
+                                        <option value="Nanomoles (nmol)">Nanomoles (nmol)</option>
+
+                                        <option value="Nanomoles per liter (nmol/L)">Nanomoles per liter (nmol/L)
+                                        </option>
+
+                                        <option value="Picograms (pg)">Picograms (pg)</option>
+
+                                        <option value="Picograms per milliliter (pg/mL)">Picograms per milliliter
+                                            (pg/mL)
+                                        </option>
+
+                                        <option value="Picomoles per liter (pmol/L)">Picomoles per liter (pmol/L)
+                                        </option>
+
+                                        <option value="Units per liter (U/L)">Units per liter (U/L)</option>
+
+                                        <option value="Units per milliliter (U/mL)">Units per milliliter (U/mL)</option>
+
+                                        <option value="Titers">Titers</option>
+
                                     </select>
                                 </div>
 
@@ -178,8 +359,9 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" id="basic-addon3">$</span>
                                         </div>
-                                        <input type="number" class="form-control" placeholder="Charges in dollars"
-                                               id="Charges" aria-describedby="basic-addon3">
+                                        <input type="number" step="0.01" class="form-control"
+                                               placeholder="Charges in dollars"
+                                               id="Charges" name="charges" aria-describedby="basic-addon3">
                                     </div>
                                 </div>
 
@@ -188,25 +370,24 @@
 
                                     <div class="input-group">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text" id="basic-addon3">'</span>
+                                            <span class="input-group-text" id="basic-addon3"><i class="fa fa-clock"></i> </span>
                                         </div>
-                                        <input type="number" class="form-control" placeholder="Duration in minutes"
+                                        <input type="number" step="0.1" name="duration" class="form-control"
+                                               placeholder="Duration in minutes"
                                                id="Duration" aria-describedby="basic-addon3">
                                     </div>
                                 </div>
 
                             </div>
-                        </form>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Other Details -->
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Other Details</h4>
-                    </div>
-                    <div class="card-body">
-                        <form>
+                    <!-- Other Details -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Other Details</h4>
+                        </div>
+                        <div class="card-body">
                             <div class="form-row">
 
 
@@ -215,22 +396,24 @@
                                     <label class="font-weight-semibold" for="dateInitiated">Date Initiated:</label>
                                     <div class="input-affix m-b-10">
                                         <i class="prefix-icon anticon anticon-calendar"></i>
-                                        <input type="text" id="dateInitiated" class="form-control datepicker-input"
-                                               placeholder="Pick a date">
+                                        <input type="text" name="date_initiated" id="dateInitiated"
+                                               class="form-control datepicker-input"
+                                               placeholder="Pick a date" required>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="font-weight-semibold" for="dateCompleted">Date Completed:</label>
                                     <div class="input-affix m-b-10">
                                         <i class="prefix-icon anticon anticon-calendar"></i>
-                                        <input type="text" id="dateCompleted" class="form-control datepicker-input"
-                                               placeholder="Pick a date">
+                                        <input type="text" name="date_completed" id="dateCompleted"
+                                               class="form-control datepicker-input"
+                                               placeholder="Pick a date" required>
                                     </div>
                                 </div>
 
                                 <div class="form-group col-md-4">
                                     <label class="font-weight-semibold" for="test-code">Tags: </label>
-                                    <input type="text" class="form-control" id="confirmPassword"
+                                    <input type="text" name="tags" class="form-control" id="confirmPassword"
                                            placeholder="Tag similar tests">
                                 </div>
 
@@ -239,15 +422,15 @@
                                     <textarea name="notes" placeholder="Extra notes" class="form-control"
                                               id="notes"></textarea>
                                 </div>
-
-
                             </div>
-                            <div class="d-inline-block">
-                                <button class="btn btn-primary m-t-30">Save and Generate Report</button>
+
+                            <div class="d-flex" style="margin-right: 390px;margin-left: 390px;">
+                                <button class="btn btn-primary btn-tone m-t-30" type="submit">Save and Generate Report
+                                </button>
                             </div>
-                        </form>
+                        </div>
                     </div>
-                </div>
+                </form>
 
             </div>
         </div>
@@ -256,15 +439,12 @@
 {% endblock content %}
 
 {% block scripts %}
-    <script src="{% static 'vendors/quill/quill.min.js' %}"></script>
     <script src="{% static 'vendors/bootstrap-datepicker/bootstrap-datepicker.min.js' %}"></script>
+
     <script>
-
-        new Quill('#editor', {
-            theme: 'snow'
-        });
-
         $('.datepicker-input').datepicker();
     </script>
 
+    <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+    <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
 {% endblock scripts %}

@@ -17,6 +17,11 @@
     <!-- Core css -->
     <link href="{% static 'css/app.min.css' %}" rel="stylesheet"/>
     <link href="{% static 'css/wfmi-style.css' %}" rel="stylesheet"/>
+  <style>
+        tr.clickrow, tr.clickrow:hover {
+            cursor:pointer;
+        }
+    </style>
     {% block styles %}{% endblock styles %}
 
 </head>
@@ -60,6 +65,30 @@
                     {#                    </div>#}
                 </div>
                 <!-- Content goes Here -->
+
+                {% if messages %}
+                    <script>
+                        {% for message in messages %}
+
+                            $.notify(
+                                {
+                                    icon: "fa fa-idea",
+                                    message: `<span class='ml-3'>{{ message }}</span>`,
+                                },
+                                {
+                                    type: '{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}',
+                                    delay: 500,
+                                    timer: 3500,
+                                    placement: {
+                                        from: 'top',
+                                        align: 'right',
+                                    },
+                                }
+                            );
+                        {% endfor %}
+                    </script>
+                {% endif %}
+
 
                 {% block content %}
 
@@ -125,9 +154,15 @@
 
 <!-- Core JS -->
 <script src="{% static 'js/app.min.js' %}"></script>
+<script src="{% static 'js/bootstrap-notify.js' %}"></script>
 {% block scripts %}{% endblock scripts %}
 
 <script>
+    $('.clickrow').click(function (e) {
+        let row = this
+        window.location = row.getAttribute('data-url')
+        return true
+    })
 
 </script>
 </body>

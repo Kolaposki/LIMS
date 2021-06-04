@@ -39,14 +39,13 @@ class Patient(models.Model):
         Patient should be gotten through api. Should be added through admin portal
     """
 
-    manager = models.ForeignKey(User, on_delete=models.CASCADE)
-    patient_avi = ResizedImageField(size=[500, 300], quality=100, upload_to=patient_image_directory_path, null=True,
-                                    blank=True)
-    patient_no = models.CharField(max_length=50, blank=True, null=True)  # todo : to be removed
-
     first_name = models.CharField(max_length=50, blank=True, null=True)  # todo : to be removed
     last_name = models.CharField(max_length=50, blank=True, null=True)  # todo : to be removed
-    middle_name = models.CharField(max_length=50, blank=True, null=True)  # todo : to be removed
+    other_name = models.CharField(max_length=50, blank=True, null=True)  # todo : to be removed
+
+    # manager = models.ForeignKey(User, on_delete=models.CASCADE)
+    patient_avi = ResizedImageField(size=[500, 300], quality=100, upload_to=patient_image_directory_path, null=True,
+                                    blank=True)
     dob = models.DateField(auto_now=False, auto_now_add=False)
     age = models.CharField(max_length=3, blank=True, null=True)
     gender = models.CharField(choices=GENDER, max_length=50, null=True, blank=True)
@@ -66,7 +65,6 @@ class Patient(models.Model):
     disable = models.CharField(max_length=50, blank=True, null=True)
     notes = models.TextField(blank=True, null=True)
 
-    other_notes = models.TextField(blank=True, null=True)  # todo : to be removed
     created_at = models.DateTimeField(null=True, auto_now_add=True)
     updated_at = models.DateTimeField(null=True, auto_now=True)
     uuid = ShortUUIDField(max_length=5, editable=False, null=True, blank=True)
@@ -75,4 +73,7 @@ class Patient(models.Model):
         ordering = ['-created_at']
 
     def __str__(self):
-        return f"Patient {self.manager.first_name} {self.manager.last_name}"
+        return f"Patient {self.last_name} {self.first_name}"
+
+    def full_name(self):
+        return f'{self.last_name} {self.first_name}'

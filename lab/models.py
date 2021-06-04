@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 import uuid, os, random, string
 from django.contrib.auth.models import User
@@ -6,6 +7,7 @@ from taggit.managers import TaggableManager
 from shortuuidfield import ShortUUIDField
 from patient.models import Patient
 from django_resized import ResizedImageField
+from ckeditor.fields import RichTextField
 
 TEST_UNITS = (
     ("Grams (g)", "Grams (g)"),
@@ -126,7 +128,7 @@ class LabTechnician(models.Model):
     uuid = ShortUUIDField(max_length=5, editable=False, null=True, blank=True)
 
     def __str__(self):
-        return f"Technician {self.manager.first_name} {self.manager.last_name} "
+        return f"Technician {self.manager.first_name} {self.manager.last_name}"
 
     class Meta:
         ordering = ['-created_at']
@@ -137,14 +139,22 @@ class Doctor(models.Model):
     """
         Doc that approved the test
     """
-    manager = models.ForeignKey(User, on_delete=models.CASCADE)
+    # manager = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    first_name = models.CharField(max_length=50, blank=True, null=True)
+    last_name = models.CharField(max_length=50, blank=True, null=True)
+    other_name = models.CharField(max_length=50, blank=True, null=True)
+
     slug = models.UUIDField(default=uuid.uuid4, editable=False, blank=True, null=True)
     created_at = models.DateTimeField(null=True, auto_now_add=True)
     updated_at = models.DateTimeField(null=True, auto_now=True)
     uuid = ShortUUIDField(max_length=5, editable=False, null=True, blank=True)
 
     def __str__(self):
-        return f"Doctor {self.manager.full_name}"
+        return f"Doctor {self.last_name} {self.first_name}"
+
+    def full_name(self):
+        return f'{self.last_name} {self.first_name}'
 
     class Meta:
         ordering = ['-created_at']
@@ -173,7 +183,8 @@ class Sample(models.Model):
 
     type = models.CharField(choices=SAMPLE_TYPES, max_length=100, null=True, blank=True)
     name = models.CharField(max_length=200)
-    source = models.CharField(max_length=200)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)  # patient whom the sample was requested for
+
     slug = models.UUIDField(default=uuid.uuid4, editable=False, blank=True, null=True)
     notes = models.TextField(null=True, blank=True)
     quantity = models.FloatField(blank=True, null=True)
@@ -183,9 +194,19 @@ class Sample(models.Model):
                                blank=True)
     image2 = ResizedImageField(size=[500, 300], quality=100, upload_to=sample_image_directory_path, null=True,
                                blank=True)
+    unit = models.CharField(choices=TEST_UNITS, max_length=100, default='Grams per deciliter (g/dL)')
 
     def __str__(self):
         return f"{self.type} sample"
+
+    def full_details(self):
+        return f'{self.name} - {self.type}'
+
+    def short_slug(self):
+        return f'{self.uuid[0:5]}'
+
+    def measurement(self):
+        return f'{self.quantity}{self.unit}'
 
 
 class Test(models.Model):
@@ -205,30 +226,34 @@ class Test(models.Model):
     status = models.CharField(choices=TEST_STATUS, max_length=50, null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
     queries = models.TextField(help_text=HELP_TEXT.get('queries'), null=True, blank=True)
-    description = models.TextField(null=True, blank=True)  # todo : should use a wysiwyg so to format when reporting
+    description = RichTextField(blank=True)
     created_at = models.DateTimeField(null=True, auto_now_add=True)
     updated_at = models.DateTimeField(null=True, auto_now=True)
     tags = TaggableManager(blank=True)
 
-    rate = models.IntegerField(blank=True, null=True)
-    upper_bound = models.IntegerField(blank=True, null=True)
-    lower_bound = models.IntegerField(blank=True, null=True)
-    charges = models.IntegerField(help_text="in dollars", blank=True, null=True)
+    rate = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=2)
+    upper_bound = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=2)
+    lower_bound = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=2)
+    charges = models.DecimalField(help_text="in dollars", blank=True, null=True, max_digits=5, decimal_places=2)
     duration = models.FloatField(help_text="in minutes", blank=True, null=True)  # in minutes
     unit = models.CharField(choices=TEST_UNITS, max_length=100, null=True, blank=True)
-
+    date_initiated = models.DateField(blank=False, null=False, default=datetime.date.today)
+    date_completed = models.DateField(blank=False, null=False, default=datetime.date.today)
     slug = models.UUIDField(default=uuid.uuid4, editable=False, blank=True, null=True)
     uuid = ShortUUIDField(max_length=5, editable=False, null=True, blank=True)
 
     def __str__(self):
         return f"Test-{self.code}"
 
+    def short_slug(self):
+        return f'{self.uuid[0:5]} '
+
 
 class TestRequests(models.Model):
     """
         Test that was requested by a doctor.
     """
-    technician = models.ForeignKey(LabTechnician, on_delete=models.CASCADE) # technician whom the test was assigned to
+    technician = models.ForeignKey(LabTechnician, on_delete=models.CASCADE)  # technician whom the test was assigned to
     sample = models.ForeignKey(Sample, on_delete=models.CASCADE)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)  # patient whom the test was requested for
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)  # doc who gave out the test
@@ -246,6 +271,9 @@ class TestRequests(models.Model):
 
     def __str__(self):
         return f"TestRequest-{self.category}"
+
+    def short_slug(self):
+        return f'{self.uuid[0:5]} '
 
 
 # TODO : should generate a pdf

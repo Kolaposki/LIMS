@@ -7,7 +7,7 @@
 
 {% endblock styles %}
 
-{% block page_title %}Tests requests for technician{% endblock page_title %}
+{% block page_title %}Tests requests{% endblock page_title %}
 
 {% block content %}
 
@@ -16,9 +16,9 @@
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Tests Requests</h5>
+                        <h5 class="mb-0">Tests Requests for {{ user_details.user.username }}</h5>
                         <div>
-                                                        <a href="#" class="btn btn-default btn-sm">4</a>
+                            <a href="#" class="btn btn-default btn-sm">4</a>
                         </div>
                     </div>
                     <div class="table-responsive m-t-30" style="min-height: 345px;">
@@ -31,123 +31,47 @@
                                 <th>Test Type</th>
                                 <th>Doctor</th>
                                 <th>State</th>
-                                <th>Date</th>
+                                <th>Date Requested</th>
                                 <th>Urgent</th>
                             </tr>
                             </thead>
                             <tbody>
 
-                            <tr>
-                                <td>1</td>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <div class="avatar avatar-image" style="min-width: 40px">
-                                            <img src="#" alt="">
+
+                            {% for test in all_test %}
+                                <tr class="clickrow" data-url="{% url 'dashboard' %}">
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar avatar-image" style="min-width: 40px">
+                                                <img src="#" alt="">
+                                            </div>
+                                            <span class="m-l-10">{{ test.patient.full_name }}</span>
                                         </div>
-                                        <span class="m-l-10">Erin Jose</span>
-                                    </div>
-                                </td>
-                                <td>2AGJ2</td>
-                                <td><b>Complete Blood Count</b></td>
-                                <td>Gonzalez James</td>
-                                <td>
-                                    <span class="badge badge-pill badge-gold font-size-12">Ordered</span>
-                                </td>
-                                <td>24 Mar, 2019</td>
-                                <td>
-                                    <div class="m-l-10">
-                                        <i class="anticon anticon-close-o text-danger"></i>
-                                    </div>
-                                </td>
+                                    </td>
+                                    <td>{{ test.short_slug }}</td>
+                                    <td><b>{{ test.category }}</b></td>
+                                    <td>{{ test.doctor.full_name }}</td>
+                                    <td>
+                                        {% if test.state == 'Draft' %}
+                                            <span class="badge badge-pill badge-blue font-size-12">{{ test.state }}</span>
+                                        {% elif test.state == 'Ordered' %}
+                                            <span class="badge badge-pill badge-gold font-size-12">{{ test.state }}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ test.updated_at }}</td>
+                                    <td>
+                                        <div class="m-l-10">
 
-                                <td>
-                                    {% include 'partials/_tests_dropdown_options.html' %}
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>2</td>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <div class="avatar avatar-image" style="min-width: 40px">
-                                            <img src="#" alt="">
+                                            {% if test.is_urgent %}
+                                                <i class="anticon anticon-close-o text-success"></i>
+                                            {% else %}
+                                                <i class="anticon anticon-close-o text-danger"></i>
+                                            {% endif %}
                                         </div>
-                                        <span class="m-l-10">Mark Olawale</span>
-                                    </div>
-                                </td>
-                                <td>553J2</td>
-                                <td><b>Thyroid Stimulating Hormone</b></td>
-                                <td>Micheal Smith</td>
-                                <td>
-                                    <span class="badge badge-pill badge-blue font-size-12">Draft</span>
-                                </td>
-                                <td>19 May, 2020</td>
-                                <td>
-                                    <div class="m-l-10">
-                                        <i class="anticon anticon-check-o text-success"></i>
-                                    </div>
-                                </td>
-
-                                <td>
-                                    {% include 'partials/_tests_dropdown_options.html' %}
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>3</td>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <div class="avatar avatar-image" style="min-width: 40px">
-                                            <img src="#" alt="">
-                                        </div>
-                                        <span class="m-l-10">John Olawale</span>
-                                    </div>
-                                </td>
-                                <td>FC5V2</td>
-                                <td><b>Comprehensive Metabolic Panel</b></td>
-                                <td>Micheal Smith</td>
-                                <td>
-                                    <span class="badge badge-pill badge-blue font-size-12">Draft</span>
-                                </td>
-                                <td>23 May, 2020</td>
-                                <td>
-                                    <div class="m-l-10">
-                                        <i class="anticon anticon-check-o text-success"></i>
-                                    </div>
-                                </td>
-
-                                <td>
-                                    {% include 'partials/_tests_dropdown_options.html' %}
-                                </td>
-                            </tr>
-
-<tr>
-                                <td>4</td>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <div class="avatar avatar-image" style="min-width: 40px">
-                                            <img src="#" alt="">
-                                        </div>
-                                        <span class="m-l-10">Faruq Mustapha</span>
-                                    </div>
-                                </td>
-                                <td>FV5V2</td>
-                                <td><b>Urinalysis</b></td>
-                                <td>Micheal Smith</td>
-                                <td>
-                                    <span class="badge badge-pill badge-gold font-size-12">Ordered</span>
-                                </td>
-                                <td>21 Dec, 2019</td>
-                                <td>
-                                    <div class="m-l-10">
-                                        <i class="anticon anticon-close-o text-danger"></i>
-                                    </div>
-                                </td>
-
-                                <td>
-                                    {% include 'partials/_tests_dropdown_options.html' %}
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
+                            {% endfor %}
 
 
                             </tbody>

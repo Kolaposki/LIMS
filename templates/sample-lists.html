@@ -7,7 +7,7 @@
 
 {% endblock styles %}
 
-{% block page_title %}Samples related to Blood, Serum, Plasma and Tissue biopsy{% endblock page_title %}
+{% block page_title %}{{ sample_meta }} - ({{ samples.count }}){% endblock page_title %}
 
 
 {% block content %}
@@ -19,7 +19,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">Blood Samples</h5>
                         <div>
-                                                        <a href="#" class="btn btn-default btn-sm">4</a>
+                            <a href="#" class="btn btn-default btn-sm">4</a>
                         </div>
                     </div>
                     <div class="table-responsive m-t-30" style="min-height: 345px;">
@@ -38,95 +38,28 @@
                             </thead>
                             <tbody>
 
-                            <tr>
-                                <td>1</td>
-                                <td>
-                                    <div class="media align-items-center">
-                                        <div class="avatar avatar-image rounded" style="min-width: 40px">
-                                            <img src="#" alt="">
+                            {% for sample in samples %}
+                                <tr class="clickrow" data-url="{% url 'dashboard' %}">
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>
+                                        <div class="media align-items-center">
+                                            <div class="avatar avatar-image rounded" style="min-width: 40px">
+                                                <img src="#" alt="">
+                                            </div>
+                                            <div class="m-l-10">
+                                                <span>{{ sample.name }}</span>
+                                            </div>
                                         </div>
-                                        <div class="m-l-10">
-                                            <span>Alkaline phosphatase (ALP) check</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>5AKJ2</td>
-                                <td><span class="badge badge-pill badge-red font-size-12">Blood</span></td>
-                                <td>John Doe</td>
-                                <td>3g/dL</td>
-                                <td><b>Complete metabolic panel</b></td>
-                                <td>24 Mar, 2019</td>
-                                <td>
-                                    {% include 'partials/_tests_dropdown_options.html' %}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>
-                                    <div class="media align-items-center">
-                                        <div class="avatar avatar-image rounded" style="min-width: 40px">
-                                            <img src="#" alt="">
-                                        </div>
-                                        <div class="m-l-10">
-                                            <span>Iron deficiency check</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>GHKF4</td>
-                                <td><span class="badge badge-pill badge-blue font-size-12">Plasma</span></td>
-                                <td>Sola Giwa</td>
-                                <td>2g/dL</td>
-                                <td><b>Complete blood count</b></td>
-                                <td>14 Apr, 2020</td>
-                                <td>
-                                    {% include 'partials/_tests_dropdown_options.html' %}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>
-                                    <div class="media align-items-center">
-                                        <div class="avatar avatar-image rounded" style="min-width: 40px">
-                                            <img src="#" alt="">
-                                        </div>
-                                        <div class="m-l-10">
-                                            <span>T3 resin uptake</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>CFH42</td>
-                                <td><span class="badge badge-pill badge-gold font-size-12">Serum</span></td>
-                                <td>Martins Rodri</td>
-                                <td> 5.0 μg/dL</td>
-                                <td><b>Thyroid panel</b></td>
-                                <td>1 Jun, 2021</td>
-                                <td>
-                                    {% include 'partials/_tests_dropdown_options.html' %}
-                                </td>
-                            </tr>
+                                    </td>
+                                    <td>{{ sample.short_slug }}</td>
+                                    <td><span class="badge badge-pill badge-red font-size-12">{{ sample.type }}</span></td>
+                                    <td>{{ sample.patient.full_name }}</td>
+                                    <td>{{ sample.measurement }}</td>
+                                    <td><i>{{ sample.notes|truncatechars:45 }}</i></td>
+                                    <td>{{ sample.collected_on }}</td>
+                                </tr>
+                            {% endfor %}
 
-                            <tr>
-                                <td>4</td>
-                                <td>
-                                    <div class="media align-items-center">
-                                        <div class="avatar avatar-image rounded" style="min-width: 40px">
-                                            <img src="#" alt="">
-                                        </div>
-                                        <div class="m-l-10">
-                                            <span>Cancerous check</span>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>VEO44</td>
-                                <td><span class="badge badge-pill badge-dark font-size-12">Tissue biopsy</span></td>
-                                <td>Olawale Wells</td>
-                                <td> 3 mg/L</td>
-                                <td><b>C-reactive protein</b></td>
-                                <td>2 May, 2021</td>
-                                <td>
-                                    {% include 'partials/_tests_dropdown_options.html' %}
-                                </td>
-                            </tr>
 
                             </tbody>
                         </table>
