@@ -87,9 +87,36 @@ def all_reports(request):
 @login_required
 def laboratories(request):
     all_test = None
-    # all_test = Laboratory.objects.filter(technician=request.user.pk).order_by('-updated_at')
-    print("all_test ", all_test)
-    return render(request, 'laboratories.html', {'all_test': all_test})
+    technician = get_object_or_404(LabTechnician, manager=request.user)  # check
+    chemistry_tests = Test.objects.filter(lab__departments="Chemistry").count()
+    hematology_tests = Test.objects.filter(lab__departments="Hematology").count()
+    microbiology_tests = Test.objects.filter(lab__departments="Microbiology").count()
+    trans_services_tests = Test.objects.filter(lab__departments="Transfusion Services").count()
+    immunology_tests = Test.objects.filter(lab__departments="Immunology").count()
+    cytology_tests = Test.objects.filter(lab__departments="Cytology").count()
+    coagulation_tests = Test.objects.filter(lab__departments="Coagulation").count()
+    urinalysis_tests = Test.objects.filter(lab__departments="Urinalysis").count()
+    surgical_tests = Test.objects.filter(lab__departments="Surgical Pathology").count()
+
+    context = {"chemistry_tests": chemistry_tests, "surgical_tests": surgical_tests,
+               "urinalysis_tests": urinalysis_tests, "coagulation_tests": coagulation_tests,
+               "cytology_tests": cytology_tests, "immunology_tests": immunology_tests,
+               "trans_services_tests": trans_services_tests,
+               "microbiology_tests": microbiology_tests, "hematology_tests": hematology_tests, }
+    return render(request, 'laboratories.html', context=context)
+
+
+@login_required
+def lab_tests(request, department):
+    technician = get_object_or_404(LabTechnician, manager=request.user)  # check
+    department = department.title()
+    print("department  ==>", department)
+    lab_obj = get_object_or_404(Laboratory, departments=department)  # check
+    all_lab_tests = Test.objects.filter(lab=lab_obj).order_by('-updated_at')
+
+    print("all_lab_tests ", all_lab_tests)
+    total = all_lab_tests.count()
+    return render(request, 'lab-tests.html', {'all_lab_tests': all_lab_tests, 'total': total, 'department': department})
 
 
 @login_required
