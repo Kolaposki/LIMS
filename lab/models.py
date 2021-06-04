@@ -206,7 +206,7 @@ class Sample(models.Model):
         return f'{self.uuid[0:5]}'
 
     def measurement(self):
-        return f'{self.quantity}{self.unit}'
+        return f'{self.quantity} {self.unit}'
 
 
 class Test(models.Model):

@@ -121,14 +121,45 @@ def all_samples(request):
 
 @login_required
 def new_sample(request):
-    all_test = None
+    technician = get_object_or_404(LabTechnician, manager=request.user)  # check
 
-    return render(request, 'new-sample.html', {'all_test': all_test})
+    form = SampleCreationForm(None)
+    all_patients = Patient.objects.all()
+
+    form_err = None
+    context = {'form': form, 'all_patients': all_patients, 'technician': technician, 'form_err': form_err, }
+
+    if request.method == 'POST':
+        print("POST: ", request.POST)
+
+        form = SampleCreationForm(request.POST or None, request.FILES or None)
+        print("Form: ", form)
+
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.technician = technician
+
+            instance.save()
+            form.save_m2m()
+            messages.success(request, "Sample created successfully")
+
+            return redirect('dashboard')
+            # return redirect(instance.get_absolute_url())
+
+        else:
+            form_err = form.errors
+            print("Form not valid: ", form_err)
+            context = {'form': form, 'all_patients': all_patients, 'technician': technician, 'form_err': form_err, }
+
+            messages.error(request, "Please check the Sample form")
+
+        return render(request, 'new-sample.html', context=context)
+
+    return render(request, 'new-sample.html', context=context)
 
 
 @login_required
 def sample_list(request, sample_type):
-    all_test = None
     samples = None
     sample_meta = ''
     print("sample_type: ", sample_type)
@@ -136,29 +167,29 @@ def sample_list(request, sample_type):
     if sample_type.lower() == 'blood':
         samples = Sample.objects.filter(type='Blood').union(Sample.objects.filter(
             type='Plasma'), Sample.objects.filter(type='Tissue biopsy'), Sample.objects.filter(
-            type='Serum'))
+            type='Serum')).order_by('-collected_on')
         sample_meta = 'Samples related to Blood, Serum, Plasma and Tissue biopsy'
 
     elif sample_type.lower() == 'urine':
-        samples = Sample.objects.filter(type='Urine')
+        samples = Sample.objects.filter(type='Urine').order_by('-collected_on')
         sample_meta = 'Samples related to Urine only'
 
     elif sample_type.lower() == 'fluid':
         samples = Sample.objects.filter(type='Oral fluid').union(Sample.objects.filter(
-                type='Saliva'), Sample.objects.filter(type='Virology swab'), Sample.objects.filter(
-                type='Sputum'), Sample.objects.filter(type='Amniotic fluid'), Sample.objects.filter(
-                type='Cerebrospinal fluid (CSF)'))
+            type='Saliva'), Sample.objects.filter(type='Virology swab'), Sample.objects.filter(
+            type='Sputum'), Sample.objects.filter(type='Amniotic fluid'), Sample.objects.filter(
+            type='Cerebrospinal fluid (CSF)')).order_by('-collected_on')
         sample_meta = 'samples related to Oral fluid, Saliva, Amniotic fluid, Cerebrospinal fluid (CSF), Sputum and Virology swab'
 
     elif sample_type.lower() == 'others':
         samples = Sample.objects.filter(type='Bone marrow').union(Sample.objects.filter(
             type='Semen'), Sample.objects.filter(type='Sweat'), Sample.objects.filter(
-            type='Stool'))
+            type='Stool')).order_by('-collected_on')
         sample_meta = 'Samples to Bone marrow, Stool, Semen and Sweat'
     else:
         raise Http404
 
-    print("samples ", samples, len(samples))
+    print("samples ==> ", samples, samples.count())
 
     context = {'sample_meta': sample_meta, 'sample_type': sample_type, "samples": samples, }
 
