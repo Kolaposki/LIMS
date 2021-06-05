@@ -254,6 +254,9 @@ class Test(models.Model):
     def get_absolute_url(self):
         return reverse("test_details", args=[str(self.uuid)])
 
+    def get_update_url(self):
+        return reverse("update_test", args=[str(self.uuid)])
+
 
 class TestRequests(models.Model):
     """

@@ -35,6 +35,54 @@ def test_details(request, test_uuid):
 
 
 @login_required
+def update_test(request, test_uuid):
+    technician = get_object_or_404(LabTechnician, manager=request.user)  # check
+    test_obj = get_object_or_404(Test, uuid=test_uuid)
+    tags = test_obj.tags.names()
+    print("tags: ", tags)
+
+    all_test = None
+    form = TestCreationForm(request.POST or None, instance=test_obj)
+    print("TestCreationForm: ", form)
+
+    all_patients = Patient.objects.all()
+    all_doctors = Doctor.objects.all()
+    all_labs = Laboratory.objects.all()
+    all_sample = Sample.objects.all()
+    form_err = None
+    context = {'form': form, 'all_patients': all_patients, 'all_doctors': all_doctors, 'all_labs': all_labs,
+               'technician': technician, 'form_err': form_err, 'all_samples': all_sample, 'tags': tags}
+
+    if request.method == 'POST':
+        print("POST: ", request.POST)
+
+        form = TestCreationForm(request.POST or None)
+        print("Form: ", form)
+
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.technician = technician
+
+            instance.save()
+            form.save_m2m()
+            messages.success(request, "Test created successfully")
+
+            return redirect(instance.get_absolute_url())
+
+        else:
+            form_err = form.errors
+            print("Form not valid: ", form_err)
+            context = {'form': form, 'all_patients': all_patients, 'all_doctors': all_doctors, 'all_labs': all_labs,
+                       'technician': technician, 'form_err': form_err, 'all_samples': all_sample, }
+            messages.error(request, "Please check the Test form")
+
+        return render(request, 'new-test.html', context=context)
+
+    else:
+        return render(request, 'new-test.html', context=context)
+
+
+@login_required
 def new_test(request):
     technician = get_object_or_404(LabTechnician, manager=request.user)  # check
 
@@ -62,8 +110,7 @@ def new_test(request):
             form.save_m2m()
             messages.success(request, "Test created successfully")
 
-            return redirect('dashboard')
-            # return redirect(instance.get_absolute_url())
+            return redirect(instance.get_absolute_url())
 
         else:
             form_err = form.errors

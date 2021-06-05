@@ -35,13 +35,13 @@
                                             {% for field in form %}
                                                 {% for error in field_errors %}
                                                     <span class="form__forget"
-                                                          style="color: red !important;"> {{ error|escape }} </span>
+                                                          style="color: red !important;"> {{ error }} </span>
                                                 {% endfor %}
                                             {% endfor %}
 
                                             {% for error in form.non_field_errors %}
                                                 <span class="form__forget"
-                                                      style="color: red !important;"> {{ error|escape }} </span>
+                                                      style="color: red !important;"> {{ error }} </span>
                                             {% endfor %}
 
                                         </div>
@@ -62,10 +62,13 @@
                                 <div class="form-group col-md-6">
                                     <label class="font-weight-semibold" for="fullAddress">Select Patient:</label>
                                     <select name="patient" required="" class="form-control" id="id_patient">
-                                        <option value="" selected="">---------</option>
-
                                         {% for patient in all_patients %}
-                                            <option value="{{ patient.pk }}">{{ patient.full_name }}</option>
+                                            {% if form.patient.value == patient.pk %}
+                                                <option value="{{ patient.pk }}"
+                                                        selected="">{{ patient.full_name }}</option>
+                                            {% else %}
+                                                <option value="{{ patient.pk }}">{{ patient.full_name }}</option>
+                                            {% endif %}
                                         {% endfor %}
                                     </select>
                                 </div>
@@ -73,10 +76,15 @@
                                 <div class="form-group col-md-6">
                                     <label class="font-weight-semibold" for="fullAddress">Select Doctor:</label>
                                     <select name="doctor" required id="language" class="form-control">
-                                        <option value="" selected="">---------</option>
 
                                         {% for doctor in all_doctors %}
-                                            <option value="{{ doctor.pk }}">{{ doctor.full_name }}  </option>
+
+                                            {% if form.doctor.value == doctor.pk %}
+                                                <option value="{{ doctor.pk }}"
+                                                        selected="">{{ doctor.full_name }}</option>
+                                            {% else %}
+                                                <option value="{{ doctor.pk }}">{{ doctor.full_name }}</option>
+                                            {% endif %}
                                         {% endfor %}
 
                                     </select>
@@ -103,60 +111,45 @@
                                 <div class="form-group col-md-12">
                                     <label class="font-weight-semibold" for="">Name</label>
                                     <input required name="name" type="text" class="form-control" id="test-name"
-                                           placeholder="Name of the test">
+                                           placeholder="Name of the test"
+                                           value="{{ form.name.value|default_if_none:'' }}">
                                 </div>
 
                                 <div class="form-group col-md-8">
                                     <label class="font-weight-semibold" for="Category">Category:</label>
+
                                     <select name="category" id="id_category" class="form-control" required>
-                                        <option value="" selected="">---------</option>
-
-                                        <option value="Complete Blood Count">Complete Blood Count</option>
-
-                                        <option value="Prothrombin Time">Prothrombin Time</option>
-
-                                        <option value="Basic Metabolic Panel">Basic Metabolic Panel</option>
-
-                                        <option value="Comprehensive Metabolic Panel">Comprehensive Metabolic Panel
-                                        </option>
-
-                                        <option value="Lipid Panel">Lipid Panel</option>
-
-                                        <option value="Liver Panel">Liver Panel</option>
-
-                                        <option value="Thyroid Stimulating Hormone">Thyroid Stimulating Hormone</option>
-
-                                        <option value="Hemoglobin A1C">Hemoglobin A1C</option>
-
-                                        <option value="Urinalysis">Urinalysis</option>
-
-                                        <option value="Culture">Culture</option>
-
-                                        <option value="Thyroid Profile III">Thyroid Profile III</option>
-
-                                        <option value="Activated Partial Thromboplastin Time">Activated Partial
-                                            Thromboplastin Time
-                                        </option>
-
-                                        <option value="Lipid Profile">Lipid Profile</option>
-
+                                        {% for value, key in form.fields.category.choices %}
+                                            <option value="{{ value }}" {% if form.category.value == value %}
+                                                    selected="" {% endif %}>{{ key }}</option>
+                                        {% endfor %}
                                     </select>
+
                                 </div>
 
                                 <div class="form-group col-md-4">
                                     <label class="font-weight-semibold" for="test-code">Code: </label>
                                     <input type="text" class="form-control" id="Code"
-                                           placeholder="Example: CBC, BMP, TSH" name="code" maxlength="80" required>
+                                           placeholder="Example: CBC, BMP, TSH" name="code" maxlength="80" required
+                                           value="{{ form.code.value|default_if_none:'' }}">
                                 </div>
 
 
                                 <div class="form-group col-md-4">
                                     <label class="font-weight-semibold" for="Sample">Sample:</label>
                                     <select name="sample" id="language" class="form-control" required>
-                                        <option value="" selected="">---------</option>
 
                                         {% for sample in all_samples %}
-                                            <option value="{{ sample.pk }}">{{ sample.full_details }}</option>
+
+                                            {% if form.sample.value == sample.pk %}
+                                                <option value="{{ sample.pk }}"
+                                                        selected="">{{ sample.full_details }}</option>
+                                            {% else %}
+                                                <option value="{{ sample.pk }}">{{ sample.full_details }}</option>
+
+                                            {% endif %}
+
+
                                         {% endfor %}
 
                                     </select>
@@ -165,10 +158,16 @@
                                 <div class="form-group col-md-4">
                                     <label class="font-weight-semibold" for="Laboratory">Laboratory:</label>
                                     <select name="lab" id="Laboratory" class="form-control" required>
-                                        <option value="" selected="">---------</option>
 
                                         {% for laboratory in all_labs %}
-                                            <option value="{{ laboratory.pk }}">{{ laboratory.departments }}</option>
+                                            {% if form.lab.value == laboratory.pk %}
+                                                <option value="{{ laboratory.pk }}"
+                                                        selected="">{{ laboratory.departments }}</option>
+                                            {% else %}
+                                                <option value="{{ laboratory.pk }}">{{ laboratory.departments }}</option>
+
+                                            {% endif %}
+
                                         {% endfor %}
 
                                     </select>
@@ -177,11 +176,14 @@
                                 <div class="form-group col-md-4">
                                     <label class="font-weight-semibold" for="Status">Status:</label>
                                     <select name="status" class="form-control" id="id_status" required>
-                                        <option value="" selected="">---------</option>
 
-                                        <option value="Routine">Routine</option>
-
-                                        <option value="STAT">STAT</option>
+                                        {% if form.status.value == "Routine" %}
+                                            <option value="Routine" selected="">Routine</option>
+                                            <option value="STAT">STAT</option>
+                                        {% else %}
+                                            <option value="Routine">Routine</option>
+                                            <option value="STAT" selected="">STAT</option>
+                                        {% endif %}
 
                                     </select>
                                 </div>
@@ -190,7 +192,8 @@
                                     <label class="font-weight-semibold" for="queries">Queries: </label>
                                     <textarea name="queries"
                                               placeholder="Information about the person and blood sample. Any pertinent information regarding the patient’s test preparation or the condition of specimen may be noted here."
-                                              class="form-control" id="queries"></textarea>
+                                              class="form-control"
+                                              id="queries">{{ form.queries.value|default_if_none:'' }}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -226,128 +229,29 @@
                                 <div class="form-group col-md-4">
                                     <label class="font-weight-semibold" for="Rate">Rate: </label>
                                     <input name="rate" step="0.1" type="number" class="form-control" id="Rate"
-                                           placeholder="Rate">
+                                           placeholder="Rate" value="{{ form.rate.value|default_if_none:'' }}">
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="font-weight-semibold" for="UBound">Upper Bound: </label>
                                     <input type="number" step="0.1" class="form-control" name="upper_bound" id="UBound"
-                                           placeholder="Upper Bound">
+                                           placeholder="Upper Bound"
+                                           value="{{ form.upper_bound.value|default_if_none:'' }}">
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label class="font-weight-semibold" for="LBound">Lower Bound: </label>
                                     <input step="0.1" type="number" class="form-control" name="lower_bound" id="LBound"
-                                           placeholder="Lower Bound">
+                                           placeholder="Lower Bound"
+                                           value="{{ form.lower_bound.value|default_if_none:'' }}">
                                 </div>
 
                                 <div class="form-group col-md-4">
                                     <label class="font-weight-semibold" for="Unit">Unit: </label>
 
                                     <select name="unit" id="id_unit" class="form-control">
-                                        <option value="" selected="">---------</option>
-
-                                        <option value="Grams (g)">Grams (g)</option>
-
-                                        <option value="Grams per deciliter (g/dL)">Grams per deciliter (g/dL)</option>
-
-                                        <option value="Grams per liter (g/L)">Grams per liter (g/L)</option>
-
-                                        <option value="International units per liter (IU/L)">International units per
-                                            liter (IU/L)
-                                        </option>
-
-                                        <option value="International units per milliliter (IU/mL)">International units
-                                            per milliliter (IU/mL)
-                                        </option>
-
-                                        <option value="Micrograms (mcg)">Micrograms (mcg)</option>
-
-                                        <option value="Micrograms per deciliter (mcg/dL)">Micrograms per deciliter
-                                            (mcg/dL)
-                                        </option>
-
-                                        <option value="Micrograms per liter (mcg/L)">Micrograms per liter (mcg/L)
-                                        </option>
-
-                                        <option value="Microkatals per liter (mckat/L)">Microkatals per liter
-                                            (mckat/L)
-                                        </option>
-
-                                        <option value="Microliters (mcL)">Microliters (mcL)</option>
-
-                                        <option value="Micromoles per liter (mcmol/L)">Micromoles per liter (mcmol/L)
-                                        </option>
-
-                                        <option value="Milliequivalents (mEq)">Milliequivalents (mEq)</option>
-
-                                        <option value="Milliequivalents per liter (mEq/L)">Milliequivalents per liter
-                                            (mEq/L)
-                                        </option>
-
-                                        <option value="Milligrams (mg)">Milligrams (mg)</option>
-
-                                        <option value="Milligrams per deciliter (mg/dL)">Milligrams per deciliter
-                                            (mg/dL)
-                                        </option>
-
-                                        <option value="Milligrams per liter (mg/L)">Milligrams per liter (mg/L)</option>
-
-                                        <option value="Milli-international units per liter (mIU/L)">Milli-international
-                                            units per liter (mIU/L)
-                                        </option>
-
-                                        <option value="Milliliters (mL)">Milliliters (mL)</option>
-
-                                        <option value="Millimeters (mm)">Millimeters (mm)</option>
-
-                                        <option value="Millimeters of mercury (mm Hg)">Millimeters of mercury (mm Hg)
-                                        </option>
-
-                                        <option value="Millimoles (mmol)">Millimoles (mmol)</option>
-
-                                        <option value="Millimoles per liter (mmol/L)">Millimoles per liter (mmol/L)
-                                        </option>
-
-                                        <option value="Milliosmoles per kilogram of water (mOsm/kg water)">Milliosmoles
-                                            per kilogram of water (mOsm/kg water)
-                                        </option>
-
-                                        <option value="Milliunits per gram (mU/g)">Milliunits per gram (mU/g)</option>
-
-                                        <option value="Milliunits per liter (mU/L)">Milliunits per liter (mU/L)</option>
-
-                                        <option value="Nanograms per deciliter (ng/dL)">Nanograms per deciliter
-                                            (ng/dL)
-                                        </option>
-
-                                        <option value="Nanograms per liter (ng/L)">Nanograms per liter (ng/L)</option>
-
-                                        <option value="Nanograms per milliliter (ng/mL)">Nanograms per milliliter
-                                            (ng/mL)
-                                        </option>
-
-                                        <option value="Nanograms per milliliter per hour (ng/mL/hr)">Nanograms per
-                                            milliliter per hour (ng/mL/hr)
-                                        </option>
-
-                                        <option value="Nanomoles (nmol)">Nanomoles (nmol)</option>
-
-                                        <option value="Nanomoles per liter (nmol/L)">Nanomoles per liter (nmol/L)
-                                        </option>
-
-                                        <option value="Picograms (pg)">Picograms (pg)</option>
-
-                                        <option value="Picograms per milliliter (pg/mL)">Picograms per milliliter
-                                            (pg/mL)
-                                        </option>
-
-                                        <option value="Picomoles per liter (pmol/L)">Picomoles per liter (pmol/L)
-                                        </option>
-
-                                        <option value="Units per liter (U/L)">Units per liter (U/L)</option>
-
-                                        <option value="Units per milliliter (U/mL)">Units per milliliter (U/mL)</option>
-
-                                        <option value="Titers">Titers</option>
+                                        {% for value, key in form.fields.unit.choices %}
+                                            <option value="{{ value }}" {% if form.unit.value == value %}
+                                                    selected="" {% endif %}>{{ key }}</option>
+                                        {% endfor %}
 
                                     </select>
                                 </div>
@@ -361,6 +265,7 @@
                                         </div>
                                         <input type="number" step="0.01" class="form-control"
                                                placeholder="Charges in dollars"
+                                               value="{{ form.charges.value|default_if_none:'' }}"
                                                id="Charges" name="charges" aria-describedby="basic-addon3">
                                     </div>
                                 </div>
@@ -374,6 +279,7 @@
                                         </div>
                                         <input type="number" step="0.1" name="duration" class="form-control"
                                                placeholder="Duration in minutes"
+                                               value="{{ form.duration.value|default_if_none:'' }}"
                                                id="Duration" aria-describedby="basic-addon3">
                                     </div>
                                 </div>
@@ -390,7 +296,6 @@
                         <div class="card-body">
                             <div class="form-row">
 
-
                                 <!-- Default Datepicker-->
                                 <div class="form-group col-md-4">
                                     <label class="font-weight-semibold" for="dateInitiated">Date Initiated:</label>
@@ -398,6 +303,7 @@
                                         <i class="prefix-icon anticon anticon-calendar"></i>
                                         <input type="text" name="date_initiated" id="dateInitiated"
                                                class="form-control datepicker-input"
+                                               value="{{ form.date_initiated.value|date:'m/d/Y'|default_if_none:'' }}"
                                                placeholder="Pick a date" required>
                                     </div>
                                 </div>
@@ -407,6 +313,7 @@
                                         <i class="prefix-icon anticon anticon-calendar"></i>
                                         <input type="text" name="date_completed" id="dateCompleted"
                                                class="form-control datepicker-input"
+                                               value="{{ form.date_completed.value|date:'m/d/Y'|default_if_none:'' }}"
                                                placeholder="Pick a date" required>
                                     </div>
                                 </div>
@@ -414,13 +321,14 @@
                                 <div class="form-group col-md-4">
                                     <label class="font-weight-semibold" for="test-code">Tags: </label>
                                     <input type="text" name="tags" class="form-control" id="confirmPassword"
-                                           placeholder="Tag similar tests">
+                                           placeholder="Tag similar tests"
+                                           value="{% for tag in tags %}{{ tag }}, {% endfor %}">
                                 </div>
 
                                 <div class="form-group col-md-12">
                                     <label class="font-weight-semibold" for="notes">Notes: </label>
                                     <textarea name="notes" placeholder="Extra notes" class="form-control"
-                                              id="notes"></textarea>
+                                              id="notes">{{ form.notes.value|default_if_none:'' }}</textarea>
                                 </div>
                             </div>
 
