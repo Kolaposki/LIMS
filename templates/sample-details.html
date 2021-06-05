@@ -1,0 +1,221 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>
+        Sample - LIMS
+    </title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{% static 'images/logo/favicon.png' %}">
+
+    <!-- page css -->
+
+    <!-- Core css -->
+    <link href="{% static 'css/app.min.css' %}" rel="stylesheet"/>
+    <link href="{% static 'css/wfmi-style.css' %}" rel="stylesheet"/>
+
+    <style>
+
+    </style>
+
+</head>
+
+<body>
+<div class="app">
+    <div class="layout">
+        <!-- Header START -->
+        {% include 'partials/_header.html' %}
+        <!-- Header END -->
+
+        <!-- Side Nav START -->
+        {% include 'partials/_side_nav.html' %}
+        <!-- Side Nav END -->
+
+        <!-- Page Container START -->
+        <div class="page-container">
+
+            <!-- Content Wrapper START -->
+            <div class="main-content">
+
+                <div class="page-header no-gutters has-tab">
+                    <div class="d-md-flex m-b-15 align-items-center justify-content-between">
+                        <div class="media align-items-center m-b-15">
+                            <div class="avatar avatar-image rounded" style="height: 70px; width: 70px">
+                                <img src="assets/images/others/thumb-16.jpg" alt="">
+                            </div>
+                            <div class="m-l-15">
+                                <h4 class="m-b-0">{{ sample_obj.name }}</h4>
+                                <p class="text-muted m-b-0">ID: {{ sample_obj.short_slug }} </p>
+                            </div>
+                        </div>
+                        <div class="m-b-15 d-inline-block">
+
+                            <button id="btnEditSample" data-url="{{ sample_obj.get_update_url }}"
+                                    class="btn btn-primary btn-tone">
+                                <i class="anticon anticon-edit"></i>
+                                <span>Edit</span>
+                            </button>
+
+                            <button id="btnPerformTest" data-samplepk="{{ sample_obj.pk }}" data-url="{% url 'new_test' %}"
+                                    class="btn btn-secondary btn-tone">
+                                <i class="anticon anticon-edit"></i>
+                                <span>Perform Test</span>
+                            </button>
+
+                        </div>
+                    </div>
+
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#sample_overview">Overview</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Content goes Here -->
+
+                {% if messages %}
+                    <script>
+                        {% for message in messages %}
+
+                            $.notify(
+                                {
+                                    icon: "fa fa-idea",
+                                    message: `<span class='ml-3'>{{ message }}</span>`,
+                                },
+                                {
+                                    type: '{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}',
+                                    delay: 500,
+                                    timer: 3500,
+                                    placement: {
+                                        from: 'top',
+                                        align: 'right',
+                                    },
+                                }
+                            );
+                        {% endfor %}
+                    </script>
+                {% endif %}
+
+                <div class="container-fluid">
+                    <div class="tab-content m-t-15">
+                        <div class="tab-pane fade show active" id="sample_overview">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4 class="card-title">Basic Info</h4>
+                                    <div class="table-responsive">
+                                        <table class="product-info-table m-t-20">
+                                            <tbody>
+                                            <tr>
+                                                <td>Patient:</td>
+                                                <td class="text-dark font-weight-semibold">{{ sample_obj.patient.full_name }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Type:</td>
+                                                <td>
+                                                    <span class="badge badge-pill badge-primary">{{ sample_obj.type|title }}</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Quantity:</td>
+                                                <td>{{ sample_obj.quantity }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Unit:</td>
+                                                <td>{{ sample_obj.unit }}</td>
+                                            </tr>
+
+                                            {% if sample_obj.image1 or sample_obj.image2 %}
+                                                <tr>
+                                                    <td>Pictures:</td>
+                                                    <td>
+                                                        <div class="d-flex align-items-center">
+                                                            {% if sample_obj.image1.src %}
+                                                                <div class="avatar avatar-image rounded mr-3"
+                                                                     style="height: 70px; width: 70px">
+                                                                    <img src="#" alt="">
+                                                                </div>
+                                                            {% endif %}
+                                                            {% if sample_obj.image1.src %}
+
+                                                                <div class="avatar avatar-image rounded"
+                                                                     style="height: 70px; width: 70px">
+                                                                    <img src="#" alt="">
+                                                                </div>
+
+                                                            {% endif %}
+
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                            {% endif %}
+
+                                            <tr>
+                                                <td>Collected On:</td>
+                                                <td>{{ sample_obj.collected_on }}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Notes</h4>
+                                </div>
+                                <div class="card-body">
+                                    <p>{{ sample_obj.notes }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- Content Wrapper END -->
+
+            <!-- Footer START -->
+            <footer class="footer">
+                <div class="footer-content">
+                    <p class="m-b-0">Copyright © 2021 AU LIMS. All rights reserved.</p>
+                </div>
+            </footer>
+            <!-- Footer END -->
+
+        </div>
+        <!-- Page Container END -->
+
+    </div>
+</div>
+
+
+<!-- Core Vendors JS -->
+<script src="{% static 'js/vendors.min.js' %}"></script>
+
+<!-- page js -->
+
+<!-- Core JS -->
+<script src="{% static 'js/app.min.js' %}"></script>
+<script src="{% static 'js/bootstrap-notify.js' %}"></script>
+
+<script>
+
+    $('#btnEditSample').click(function (e) {
+        window.location = this.getAttribute('data-url')
+    })
+
+    $('#btnPerformTest').click(function (e) {
+        window.location = this.getAttribute('data-url') + '?sample_pk=' +this.getAttribute('data-samplepk')
+    })
+
+</script>
+</body>
+
+</html>
