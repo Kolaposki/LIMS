@@ -13,6 +13,8 @@ urlpatterns = [
     path('update-test/<str:test_uuid>/', update_test, name="update_test"),
     path('new-test/', new_test, name='new_test'),
     path('test-requests/', test_requests, name='test_requests'),
+    path('test-request/<str:test_uuid>/', test_requests_details, name='test_requests_details'),
+    path('reject-test-requests/<str:test_uuid>/', reject_test_requests, name='reject_test_requests'),
 
     path('laboratories/', laboratories, name='laboratories'),
     path('laboratory/<str:department>', lab_tests, name='lab_tests'),

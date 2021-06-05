@@ -171,6 +171,26 @@ def test_requests(request):
 
 
 @login_required
+def reject_test_requests(request, test_uuid):
+    technician = get_object_or_404(LabTechnician, manager=request.user)  # check
+    request_obj = get_object_or_404(TestRequests, uuid=test_uuid)
+    request_obj.delete()
+    print("Test rejected successfully")
+    messages.info(request, "Test rejected successfully")
+    return redirect('dashboard', permanent=True)
+
+
+@login_required
+def test_requests_details(request, test_uuid):
+    technician = get_object_or_404(LabTechnician, manager=request.user)  # check
+    request_obj = get_object_or_404(TestRequests, uuid=test_uuid)
+
+    print("request_obj ", request_obj)
+    context = {"request_obj": request_obj}
+    return render(request, 'test-request-details.html', context=context)
+
+
+@login_required
 def all_reports(request):
     all_test = None
     # all_test = Report.objects.filter(technician=request.user.pk).order_by('-updated_at')

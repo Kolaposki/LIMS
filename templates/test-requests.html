@@ -39,7 +39,7 @@
 
 
                             {% for test in all_test %}
-                                <tr class="clickrow" data-url="{% url 'dashboard' %}">
+                                <tr class="clickrow" data-url="{{ test.get_absolute_url }}">
                                     <td>{{ forloop.counter }}</td>
                                     <td>
                                         <div class="d-flex align-items-center">

@@ -266,7 +266,7 @@ class Test(models.Model):
 
 class TestRequests(models.Model):
     """
-        Test that was requested by a doctor.
+        Test that was requested by a doctor to a technician.
     """
     technician = models.ForeignKey(LabTechnician, on_delete=models.CASCADE)  # technician whom the test was assigned to
     sample = models.ForeignKey(Sample, on_delete=models.CASCADE)
@@ -290,6 +290,8 @@ class TestRequests(models.Model):
     def short_slug(self):
         return f'{self.uuid[0:5]} '
 
+    def get_absolute_url(self):
+        return reverse("test_requests_details", args=[str(self.uuid)])
 
 # TODO : should generate a pdf
 class Report(models.Model):
