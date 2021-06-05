@@ -202,6 +202,12 @@ class Sample(models.Model):
     def __str__(self):
         return f"{self.type} sample"
 
+    def get_absolute_url(self):
+        return reverse("sample_details", args=[str(self.uuid)])
+
+    def get_update_url(self):
+        return reverse("update_sample", args=[str(self.uuid)])
+
     def full_details(self):
         return f'{self.name} - {self.type}'
 

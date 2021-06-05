@@ -1,0 +1,42 @@
+<table align="center" border="1" cellpadding="1" cellspacing="1" class="table-hover" style="width:500px">
+	<thead>
+		<tr>
+			<th scope="col">Test</th>
+			<th scope="col">Normal</th>
+			<th scope="col">Units</th>
+			<th scope="col">Reference Range</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Hemoglobin (HB/Hgb))</td>
+			<td>6.5</td>
+			<td>g/dL</td>
+			<td>14.0-18.0</td>
+		</tr>
+		<tr>
+			<td>White Blood Cell</td>
+			<td>6.9</td>
+			<td>K/mcL</td>
+			<td>4.8-10.8</td>
+		</tr>
+		<tr>
+			<td>Mean Cell Hb Conc (MCHC)</td>
+			<td>7.9</td>
+			<td>g/dL</td>
+			<td>32.0-36.0</td>
+		</tr>
+		<tr>
+			<td>Mean Platelet Volume</td>
+			<td>4.9</td>
+			<td>fL</td>
+			<td>7.5-11.0</td>
+		</tr>
+		<tr>
+			<td>Hematocrit (HCT)</td>
+			<td>7.3</td>
+			<td>%</td>
+			<td>42-52</td>
+		</tr>
+	</tbody>
+</table>

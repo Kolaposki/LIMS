@@ -10,6 +10,8 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 def dashboard(request):
+    technician = get_object_or_404(LabTechnician, manager=request.user)  # check
+
     print("NOW IN DASHBOARD")
     # print("FILES: ", request.FILES)
 
@@ -18,9 +20,10 @@ def dashboard(request):
 
 @login_required
 def all_tests(request):
-    all_test = Test.objects.all().order_by('-updated_at')
-    total = all_test.count()
+    technician = get_object_or_404(LabTechnician, manager=request.user)  # check
+    all_test = Test.objects.filter(technician=technician).order_by('-updated_at')
     print("all_test ", all_test)
+    total = all_test.count()
     return render(request, 'all-tests.html', {'all_test': all_test, 'total': total, })
 
 
@@ -85,6 +88,17 @@ def update_test(request, test_uuid):
 @login_required
 def new_test(request):
     technician = get_object_or_404(LabTechnician, manager=request.user)  # check
+    print("request/; ", request.GET)
+    pre_sample = None
+    sample_pk = request.GET.get('sample_pk')
+    print("sample_pk: ", sample_pk)
+    if sample_pk:
+        try:
+            pre_sample = Sample.objects.get(pk=int(sample_pk))
+            print("pre_sample: ", pre_sample)
+
+        except Sample.DoesNotExist:
+            print("No pre_sample")
 
     all_test = None
     form = TestCreationForm(None)
@@ -92,9 +106,10 @@ def new_test(request):
     all_doctors = Doctor.objects.all()
     all_labs = Laboratory.objects.all()
     all_sample = Sample.objects.all()
+
     form_err = None
     context = {'form': form, 'all_patients': all_patients, 'all_doctors': all_doctors, 'all_labs': all_labs,
-               'technician': technician, 'form_err': form_err, 'all_samples': all_sample, }
+               'technician': technician, 'form_err': form_err, 'all_samples': all_sample, 'pre_sample': pre_sample}
 
     if request.method == 'POST':
         print("POST: ", request.POST)
@@ -103,6 +118,28 @@ def new_test(request):
         print("Form: ", form)
 
         if form.is_valid():
+            check_sample = form.cleaned_data.get('sample')
+            print("check_Sample: ", check_sample)
+            check_sample_obj = check_sample.patient_id
+            check_patient_pk = form.cleaned_data.get('patient')
+
+            print("check_sample_obj ::> ", check_sample_obj)
+            print("check_patient_pk ::> ", check_patient_pk.pk)
+
+            if check_patient_pk.pk == check_sample_obj:
+                print("patient_check is valid: ")
+                pass
+
+            else:
+                print("Patient in sample differs from patient selected")
+
+                check_message = f"The patient selected '{check_patient_pk.full_name()}' is different from the sample's patient selected '{check_sample.patient.full_name()}'. "
+
+                context = {'form': form, 'all_patients': all_patients, 'all_doctors': all_doctors, 'all_labs': all_labs,
+                           'technician': technician, 'form_err': form_err, 'all_samples': all_sample,
+                           'patient_check': True, 'check_message': check_message}
+                return render(request, 'new-test.html', context=context)
+
             instance = form.save(commit=False)
             instance.technician = technician
 
@@ -169,7 +206,7 @@ def lab_tests(request, department):
     department = department.title()
     print("department  ==>", department)
     lab_obj = get_object_or_404(Laboratory, departments=department)  # check
-    all_lab_tests = Test.objects.filter(lab=lab_obj).order_by('-updated_at')
+    all_lab_tests = Test.objects.filter(technician=technician).filter(lab=lab_obj).order_by('-updated_at')
 
     print("all_lab_tests ", all_lab_tests)
     total = all_lab_tests.count()
@@ -221,14 +258,54 @@ def new_sample(request):
 
         if form.is_valid():
             instance = form.save(commit=False)
-            instance.technician = technician
-
             instance.save()
-            form.save_m2m()
             messages.success(request, "Sample created successfully")
+            return redirect(instance.get_absolute_url())
 
-            return redirect('dashboard')
-            # return redirect(instance.get_absolute_url())
+        else:
+            form_err = form.errors
+            print("Form not valid: ", form_err)
+            context = {'form': form, 'all_patients': all_patients, 'technician': technician, 'form_err': form_err, }
+
+            messages.error(request, "Please check the Sample form")
+
+        return render(request, 'new-sample.html', context=context)
+
+    return render(request, 'new-sample.html', context=context)
+
+
+@login_required
+def sample_details(request, sample_uuid):
+    technician = get_object_or_404(LabTechnician, manager=request.user)  # check
+    sample_obj = get_object_or_404(Sample, uuid=sample_uuid)
+
+    print("sample_obj ", sample_obj)
+    context = {"sample_obj": sample_obj}
+    return render(request, 'sample-details.html', context=context)
+
+
+@login_required
+def update_sample(request, sample_uuid):
+    technician = get_object_or_404(LabTechnician, manager=request.user)  # check
+    sample_obj = get_object_or_404(Sample, uuid=sample_uuid)
+
+    form = SampleCreationForm(request.POST or None, request.FILES or None, instance=sample_obj)
+    all_patients = Patient.objects.all()
+
+    form_err = None
+    context = {'form': form, 'all_patients': all_patients, 'technician': technician, 'form_err': form_err, }
+
+    if request.method == 'POST':
+        print("POST: ", request.POST)
+
+        form = SampleCreationForm(request.POST or None, request.FILES or None)
+        print("Form: ", form)
+
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.save()
+            messages.success(request, "Sample created successfully")
+            return redirect(instance.get_absolute_url())
 
         else:
             form_err = form.errors

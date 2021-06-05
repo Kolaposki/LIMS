@@ -20,6 +20,8 @@ urlpatterns = [
     path('samples/', all_samples, name='all_samples'),
     path('new-sample/', new_sample, name='new_sample'),
     path('samples/<str:sample_type>', sample_list, name='sample_list'),
+    path('sample/<str:sample_uuid>', sample_details, name='sample_details'),
+    path('update-sample/<str:sample_uuid>', update_sample, name='update_sample'),
 
     path('reports/', all_reports, name='all_reports'),
 

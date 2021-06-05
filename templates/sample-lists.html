@@ -39,7 +39,7 @@
                             <tbody>
 
                             {% for sample in samples %}
-                                <tr class="clickrow" data-url="{% url 'dashboard' %}">
+                                <tr class="clickrow" data-url="{{ sample.get_absolute_url }}">
                                     <td>{{ forloop.counter }}</td>
                                     <td>
                                         <div class="media align-items-center">

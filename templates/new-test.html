@@ -16,6 +16,30 @@
                 <form method="POST">
                     {% csrf_token %}
 
+                    {% if patient_check %}
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">An error occurred</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-row">
+                                    <div class="form-group col-md-12 mb-3">
+                                        <div class="text-center auth-errors"
+                                             style="margin-top: 5px;margin-bottom: 15px;">
+
+                                        <span class="form__forget"
+                                              style="color: red !important;">{{ check_message }}
+                                        <br><br>
+                                            You can't use another patient's sample.
+                                        </span>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    {% endif %}
 
                     {% if form_err or form.errors %}
                         <!-- Err -->
@@ -60,22 +84,40 @@
                             <div class="form-row">
 
                                 <div class="form-group col-md-6">
-                                    <label class="font-weight-semibold" for="fullAddress">Select Patient:</label>
-                                    <select name="patient" required="" class="form-control" id="id_patient">
-                                        {% for patient in all_patients %}
-                                            {% if form.patient.value == patient.pk %}
-                                                <option value="{{ patient.pk }}"
-                                                        selected="">{{ patient.full_name }}</option>
-                                            {% else %}
-                                                <option value="{{ patient.pk }}">{{ patient.full_name }}</option>
-                                            {% endif %}
-                                        {% endfor %}
-                                    </select>
+                                    <label class="font-weight-semibold" for="fullAddress">Select Patient: </label>
+                                    {% if pre_sample %}
+                                        <span>Automtically selected</span>
+
+                                        <select name="patient" required="" class="form-control" id="id_patient"
+                                                disabled="disabled">
+                                            <option value="{{ pre_sample.patient.pk }}"
+                                                    selected="">{{ pre_sample.patient.full_name }}</option>
+                                        </select>
+
+                                    {% else %}
+                                        <select name="patient" required="" class="form-control" id="id_patient">
+                                            <option value="" selected="">------------</option>
+
+                                            {% for patient in all_patients %}
+
+                                                {% if form.patient.value == patient.pk %}
+                                                    <option value="{{ patient.pk }}"
+                                                            selected="">{{ patient.full_name }}</option>
+                                                {% else %}
+                                                    <option value="{{ patient.pk }}">{{ patient.full_name }}</option>
+                                                {% endif %}
+
+                                            {% endfor %}
+                                        </select>
+
+                                    {% endif %}
+
                                 </div>
 
                                 <div class="form-group col-md-6">
                                     <label class="font-weight-semibold" for="fullAddress">Select Doctor:</label>
                                     <select name="doctor" required id="language" class="form-control">
+                                        <option value="" selected="">------------</option>
 
                                         {% for doctor in all_doctors %}
 
@@ -137,27 +179,36 @@
 
                                 <div class="form-group col-md-4">
                                     <label class="font-weight-semibold" for="Sample">Sample:</label>
-                                    <select name="sample" id="language" class="form-control" required>
+                                    {% if pre_sample %}
+                                        <span>Automtically selected</span>
 
-                                        {% for sample in all_samples %}
+                                        <select name="sample" id="language" disabled="disabled" class="form-control"
+                                                required>
+                                            <option value="{{ pre_sample.pk }}"
+                                                    selected="">{{ pre_sample.full_details }}</option>
 
-                                            {% if form.sample.value == sample.pk %}
-                                                <option value="{{ sample.pk }}"
-                                                        selected="">{{ sample.full_details }}</option>
-                                            {% else %}
-                                                <option value="{{ sample.pk }}">{{ sample.full_details }}</option>
+                                        </select>
+                                    {% else %}
 
-                                            {% endif %}
+                                        <select name="sample" id="language" class="form-control" required>
+                                            <option value="" selected="">------------</option>
+                                            {% for sample in all_samples %}
+                                                {% if form.sample.value == sample.pk %}
+                                                    <option value="{{ sample.pk }}"
+                                                            selected="">{{ sample.full_details }}</option>
+                                                {% else %}
+                                                    <option value="{{ sample.pk }}">{{ sample.full_details }}</option>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </select>
+                                    {% endif %}
 
-
-                                        {% endfor %}
-
-                                    </select>
                                 </div>
 
                                 <div class="form-group col-md-4">
                                     <label class="font-weight-semibold" for="Laboratory">Laboratory:</label>
                                     <select name="lab" id="Laboratory" class="form-control" required>
+                                        <option value="" selected="">------------</option>
 
                                         {% for laboratory in all_labs %}
                                             {% if form.lab.value == laboratory.pk %}
@@ -180,9 +231,13 @@
                                         {% if form.status.value == "Routine" %}
                                             <option value="Routine" selected="">Routine</option>
                                             <option value="STAT">STAT</option>
-                                        {% else %}
+                                        {% elif form.status.value == "STAT" %}
                                             <option value="Routine">Routine</option>
                                             <option value="STAT" selected="">STAT</option>
+                                        {% else %}
+                                            <option value="" selected="">------------</option>
+                                            <option value="Routine">Routine</option>
+                                            <option value="STAT">STAT</option>
                                         {% endif %}
 
                                     </select>
@@ -296,24 +351,25 @@
                         <div class="card-body">
                             <div class="form-row">
 
-                                <!-- Default Datepicker-->
+                                <!-- Default Datepicker -->
                                 <div class="form-group col-md-4">
                                     <label class="font-weight-semibold" for="dateInitiated">Date Initiated:</label>
                                     <div class="input-affix m-b-10">
                                         <i class="prefix-icon anticon anticon-calendar"></i>
                                         <input type="text" name="date_initiated" id="dateInitiated"
                                                class="form-control datepicker-input"
-                                               value="{{ form.date_initiated.value|date:'m/d/Y'|default_if_none:'' }}"
+                                               value="{{ form.date_initiated.value|default_if_none:''|date:'m/d/Y' }}"
                                                placeholder="Pick a date" required>
                                     </div>
                                 </div>
+
                                 <div class="form-group col-md-4">
                                     <label class="font-weight-semibold" for="dateCompleted">Date Completed:</label>
                                     <div class="input-affix m-b-10">
                                         <i class="prefix-icon anticon anticon-calendar"></i>
                                         <input type="text" name="date_completed" id="dateCompleted"
                                                class="form-control datepicker-input"
-                                               value="{{ form.date_completed.value|date:'m/d/Y'|default_if_none:'' }}"
+                                               value="{{ form.date_completed.value|default_if_none:''|date:'m/d/Y' }}"
                                                placeholder="Pick a date" required>
                                     </div>
                                 </div>
