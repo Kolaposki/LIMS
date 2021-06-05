@@ -130,6 +130,9 @@ class LabTechnician(models.Model):
     def __str__(self):
         return f"Technician {self.manager.first_name} {self.manager.last_name}"
 
+    def full_name(self):
+        return f'{self.manager.last_name} {self.manager.first_name}'
+
     class Meta:
         ordering = ['-created_at']
         verbose_name_plural = "Lab Technicians"  # A human-readable name for the object, plural
@@ -246,7 +249,10 @@ class Test(models.Model):
         return f"Test-{self.code}"
 
     def short_slug(self):
-        return f'{self.uuid[0:5]} '
+        return f'{self.uuid[0:5]}'
+
+    def get_absolute_url(self):
+        return reverse("test_details", args=[str(self.uuid)])
 
 
 class TestRequests(models.Model):

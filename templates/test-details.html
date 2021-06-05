@@ -1,0 +1,151 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>
+        LIMS
+    </title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{% static 'images/logo/favicon.png' %}">
+
+    <!-- page css -->
+
+    <!-- Core css -->
+    <link href="{% static 'css/app.min.css' %}" rel="stylesheet"/>
+    <link href="{% static 'css/wfmi-style.css' %}" rel="stylesheet"/>
+
+    <style>
+
+    </style>
+
+</head>
+
+<body>
+<div class="app">
+    <div class="layout">
+        <!-- Header START -->
+        {% include 'partials/_header.html' %}
+        <!-- Header END -->
+
+        <!-- Side Nav START -->
+        {% include 'partials/_side_nav.html' %}
+        <!-- Side Nav END -->
+
+        <!-- Page Container START -->
+        <div class="page-container">
+
+            <!-- Content Wrapper START -->
+            <div class="main-content">
+
+                <div class="page-header no-gutters has-tab">
+                    <div class="d-md-flex m-b-15 align-items-center justify-content-between">
+                        <div class="media align-items-center m-b-15">
+                            <div class="avatar avatar-image rounded" style="height: 70px; width: 70px">
+                                <img src="assets/images/others/thumb-16.jpg" alt="">
+                            </div>
+                            <div class="m-l-15">
+                                <h4 class="m-b-0">{{ test_obj.name }}</h4>
+                                <p class="text-muted m-b-0">ID: {{ test_obj.short_slug }} </p>
+                            </div>
+                        </div>
+                        <div class="m-b-15 d-inline-block">
+
+                            <button id="btnEditTest" data-url="{{ test_obj.get_absolute_url }}"
+                                    class="btn btn-primary btn-tone">
+                                <i class="anticon anticon-edit"></i>
+                                <span>Edit</span>
+                            </button>
+
+                            <button id="btnGenerateReport" data-url="{{ test_obj.get_absolute_url }}"
+                                    class="btn btn-secondary btn-tone">
+                                <i class="anticon anticon-edit"></i>
+                                <span>Generate Report</span>
+                            </button>
+
+                        </div>
+                    </div>
+
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#test_overview">Overview</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#test_desc">Description</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Content goes Here -->
+
+                {% if messages %}
+                    <script>
+                        {% for message in messages %}
+
+                            $.notify(
+                                {
+                                    icon: "fa fa-idea",
+                                    message: `<span class='ml-3'>{{ message }}</span>`,
+                                },
+                                {
+                                    type: '{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %}',
+                                    delay: 500,
+                                    timer: 3500,
+                                    placement: {
+                                        from: 'top',
+                                        align: 'right',
+                                    },
+                                }
+                            );
+                        {% endfor %}
+                    </script>
+                {% endif %}
+
+                {% include 'partials/_test_detail_Section.html' %}
+
+            </div>
+            <!-- Content Wrapper END -->
+
+            <!-- Footer START -->
+            <footer class="footer">
+                <div class="footer-content">
+                    <p class="m-b-0">Copyright © 2021 AU LIMS. All rights reserved.</p>
+                </div>
+            </footer>
+            <!-- Footer END -->
+
+        </div>
+        <!-- Page Container END -->
+
+    </div>
+</div>
+
+
+<!-- Core Vendors JS -->
+<script src="{% static 'js/vendors.min.js' %}"></script>
+
+<!-- page js -->
+
+<!-- Core JS -->
+<script src="{% static 'js/app.min.js' %}"></script>
+<script src="{% static 'js/bootstrap-notify.js' %}"></script>
+
+<script>
+
+    $('#btnEditTest').click(function (e) {
+        console.log("Gone to edittest page: ", this)
+        window.location = this.getAttribute('data-url')
+    })
+
+    $('#btnGenerateReport').click(function (e) {
+        //console.log("Gone to edittest page: ", this)
+        //window.location = this.getAttribute('data-url')
+    })
+
+</script>
+</body>
+
+</html>

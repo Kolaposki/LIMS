@@ -25,6 +25,16 @@ def all_tests(request):
 
 
 @login_required
+def test_details(request, test_uuid):
+    technician = get_object_or_404(LabTechnician, manager=request.user)  # check
+    test_obj = get_object_or_404(Test, uuid=test_uuid)
+
+    print("test_obj ", test_obj)
+    context = {"test_obj": test_obj}
+    return render(request, 'test-details.html', context=context)
+
+
+@login_required
 def new_test(request):
     technician = get_object_or_404(LabTechnician, manager=request.user)  # check
 

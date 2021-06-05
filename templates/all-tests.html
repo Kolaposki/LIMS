@@ -40,32 +40,32 @@
                             <tbody>
 
                             {% for test in all_test %}
-                                    <tr class="clickrow" data-url="{% url 'dashboard' %}">
-                                        <td>{{ forloop.counter }}</td>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <div class="avatar avatar-image" style="min-width: 40px">
-                                                    <img src="#" alt="">
-                                                </div>
-                                                <span class="m-l-10">{{ test.patient.full_name }}</span>
+                                <tr class="clickrow" data-url="{{ test.get_absolute_url }}">
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar avatar-image" style="min-width: 40px">
+                                                <img src="#" alt="">
                                             </div>
-                                        </td>
-                                        <td>{{ test.short_slug }}</td>
-                                        <td><b>{{ test.category }}</b></td>
-                                        <td>{{ test.code|upper }}</td>
-                                        <td>{{ test.doctor.full_name }}</td>
-                                        <td>
-                                            {% if test.status == 'Routine' %}
-                                                <span class="badge badge-pill badge-blue font-size-12">{{ test.status }}</span>
-                                            {% elif test.status == 'STAT' %}
-                                                <span class="badge badge-pill badge-green font-size-12">{{ test.status }}</span>
-                                            {% endif %}
+                                            <span class="m-l-10">{{ test.patient.full_name }}</span>
+                                        </div>
+                                    </td>
+                                    <td>{{ test.short_slug }}</td>
+                                    <td><b>{{ test.category }}</b></td>
+                                    <td>{{ test.code|upper }}</td>
+                                    <td>{{ test.doctor.full_name }}</td>
+                                    <td>
+                                        {% if test.status == 'Routine' %}
+                                            <span class="badge badge-pill badge-blue font-size-12">{{ test.status }}</span>
+                                        {% elif test.status == 'STAT' %}
+                                            <span class="badge badge-pill badge-green font-size-12">{{ test.status }}</span>
+                                        {% endif %}
 
-                                        </td>
-                                        <td>{{ test.lab.departments }}</td>
-                                        <td>{{ test.date_completed|date:"M d, Y" }}</td>
+                                    </td>
+                                    <td>{{ test.lab.departments }}</td>
+                                    <td>{{ test.date_completed|date:"M d, Y" }}</td>
 
-                                    </tr>
+                                </tr>
                             {% endfor %}
 
 
