@@ -209,7 +209,7 @@ class Sample(models.Model):
         return reverse("update_sample", args=[str(self.uuid)])
 
     def full_details(self):
-        return f'{self.name} - {self.type}'
+        return f'{self.name} - {self.type} - ({self.patient.full_name()})'
 
     def short_slug(self):
         return f'{self.uuid[0:5]}'
@@ -288,10 +288,17 @@ class TestRequests(models.Model):
         return f"TestRequest-{self.category}"
 
     def short_slug(self):
-        return f'{self.uuid[0:5]} '
+        return f'{self.uuid[0:5]}'
 
     def get_absolute_url(self):
         return reverse("test_requests_details", args=[str(self.uuid)])
+
+    def get_doctor_details(self):
+        return f'{self.doctor.full_name()}'
+
+    def get_patient_details(self):
+        return f'{self.patient.full_name()}'
+
 
 # TODO : should generate a pdf
 class Report(models.Model):

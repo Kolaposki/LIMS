@@ -6,7 +6,6 @@ from django.urls import path
 urlpatterns = [
     path('', dashboard, name='dashboard'),  # dashboard
     path('dashboard/', dashboard, name='dashboard'),  # dashboard
-    path('settings/', user_settings, name='user_settings'),
 
     path('tests/', all_tests, name='all_tests'),
     path('test/<str:test_uuid>/', test_details, name="test_details"),
@@ -25,7 +24,11 @@ urlpatterns = [
     path('sample/<str:sample_uuid>', sample_details, name='sample_details'),
     path('update-sample/<str:sample_uuid>', update_sample, name='update_sample'),
 
-    path('reports/', all_reports, name='all_reports'),
+    path('reports/', all_tests, name='all_reports'),
+    # path('reports/', all_tests, name='reports'),
+
+    path('settings/', user_settings, name='user_settings'),
+    path('updateprofile/', update_profile, name='update_profile'),
 
 ]
 

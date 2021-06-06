@@ -5,6 +5,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
     <title>
         {% block title %}{% endblock title %} | LIMS
     </title>
@@ -17,9 +19,9 @@
     <!-- Core css -->
     <link href="{% static 'css/app.min.css' %}" rel="stylesheet"/>
     <link href="{% static 'css/wfmi-style.css' %}" rel="stylesheet"/>
-  <style>
+    <style>
         tr.clickrow, tr.clickrow:hover {
-            cursor:pointer;
+            cursor: pointer;
         }
     </style>
     {% block styles %}{% endblock styles %}
@@ -50,6 +52,7 @@
                 <div class="page-header no-gutters">
                     <h2 class="font-weight-normal">{% block page_title %}Welcome back,
                         {{ user_details.first_name|upper }}!{% endblock page_title %}</h2>
+                    <p class="text-muted m-b-0">{% block page_subtitle %}{% endblock page_subtitle %}</p>
                     {#                    <div class="d-md-flex align-items-md-center justify-content-between">#}
                     {##}
                     {#                        <div class="media m-v-10 align-items-center">#}

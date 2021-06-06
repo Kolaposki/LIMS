@@ -1,42 +1,79 @@
-<table align="center" border="1" cellpadding="1" cellspacing="1" class="table-hover" style="width:500px">
-	<thead>
-		<tr>
-			<th scope="col">Test</th>
-			<th scope="col">Normal</th>
-			<th scope="col">Units</th>
-			<th scope="col">Reference Range</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>Hemoglobin (HB/Hgb))</td>
-			<td>6.5</td>
-			<td>g/dL</td>
-			<td>14.0-18.0</td>
-		</tr>
-		<tr>
-			<td>White Blood Cell</td>
-			<td>6.9</td>
-			<td>K/mcL</td>
-			<td>4.8-10.8</td>
-		</tr>
-		<tr>
-			<td>Mean Cell Hb Conc (MCHC)</td>
-			<td>7.9</td>
-			<td>g/dL</td>
-			<td>32.0-36.0</td>
-		</tr>
-		<tr>
-			<td>Mean Platelet Volume</td>
-			<td>4.9</td>
-			<td>fL</td>
-			<td>7.5-11.0</td>
-		</tr>
-		<tr>
-			<td>Hematocrit (HCT)</td>
-			<td>7.3</td>
-			<td>%</td>
-			<td>42-52</td>
-		</tr>
-	</tbody>
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+#customers {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#customers td, #customers th {
+  border: 0px solid #ddd;
+  padding: 8px;
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #242894;
+  color: white;
+}
+.bordered{border-right: 1px solid #ddd !important;}
+
+</style>
+</head>
+<body>
+
+<table id="customers">
+  <tr>
+    <th class="bordered">Adeleke University, Medical Center. Laboratory Department</th>
+    <th>		</th>
+    <th>Report Date/Time</th>
+    <th>		</th>
+    
+  </tr>
+  <tr>
+    <td class="bordered">250, Loogun-Ogberin Road, Ede, Osun State.</td>
+    <td></td>
+    <td >02/12/2021</td>
+    <td class="bordered">10:23</td>
+    
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr style="text-align:center; color:#403394; font-weight: 600;"><td></td><td>Patient Details</td><td></td><td></td></tr>
+  
+  <tr>
+    <td>Name: John Doe</td>
+    <td>Patient ID: 23JJG3</td>
+    <td>Attend Dr: Mary Jane</td>
+  </tr>
+  
+  <tr>
+    <td>Age: 33</td>
+    <td>Sex: Female</td>
+    <td>DOB: 11/12/1995</td>
+  </tr>
+  
+  <tr>
+   <td>Queries: </td>
+   
+    <td>Patient’s current antibiotic(s):  UNKNOWN AT THIS TIME Urine source:  CLEAN CATCH Do C&S if indicated:  YES</td>
+        
+
+  </tr>
+  
 </table>
+
+</body>
+</html>

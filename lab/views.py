@@ -1,8 +1,11 @@
+from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseForbidden, Http404
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 
 from .forms import *
+from users.forms import *
 from .models import *
+from users.models import *
 from users.models import *
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -32,7 +35,29 @@ def test_details(request, test_uuid):
     technician = get_object_or_404(LabTechnician, manager=request.user)  # check
     test_obj = get_object_or_404(Test, uuid=test_uuid)
 
-    print("test_obj ", test_obj)
+    instance = Test.objects.filter(pk=3).values_list(flat=True)
+    instance2 = Test.objects.filter(pk=3).values()
+
+    print("test_obj ", test_obj, test_obj.pk)
+    print("instance ", instance)
+    print("instance2 ", instance2)
+    print("instance2[0] ", instance2[0])
+    context = {"test_obj": test_obj}
+    return render(request, 'test-details.html', context=context)
+
+
+@login_required
+def new_report(request, test_uuid):
+    technician = get_object_or_404(LabTechnician, manager=request.user)  # check
+    test_obj = get_object_or_404(Test, uuid=test_uuid)
+
+    instance = Test.objects.filter(pk=3).values_list(flat=True)
+    instance2 = Test.objects.filter(pk=3).values()
+
+    print("test_obj ", test_obj, test_obj.pk)
+    print("instance ", instance)
+    print("instance2 ", instance2)
+    print("instance2[0] ", instance2[0])
     context = {"test_obj": test_obj}
     return render(request, 'test-details.html', context=context)
 
@@ -90,8 +115,13 @@ def new_test(request):
     technician = get_object_or_404(LabTechnician, manager=request.user)  # check
     print("request/; ", request.GET)
     pre_sample = None
+    test_request_obj, initial_dict = None, None
+    test_request_info = ''
     sample_pk = request.GET.get('sample_pk')
+    test_request_pk = request.GET.get('testrequest')
+    print("test_request_pk: ", test_request_pk)
     print("sample_pk: ", sample_pk)
+
     if sample_pk:
         try:
             pre_sample = Sample.objects.get(pk=int(sample_pk))
@@ -99,6 +129,21 @@ def new_test(request):
 
         except Sample.DoesNotExist:
             print("No pre_sample")
+
+    if test_request_pk:
+        try:
+            test_request_obj = TestRequests.objects.get(pk=int(test_request_pk))
+            test_request_info = f'Test requested by Doctor {test_request_obj.doctor.full_name()} - {test_request_obj.category}'
+            print("test_request_obj: ", test_request_obj)
+
+            initial_dict = {
+                'sample': test_request_obj.sample_id,
+                'patient': test_request_obj.patient_id,
+                'doctor': test_request_obj.doctor_id,
+            }
+
+        except TestRequests.DoesNotExist:
+            print("No test_request")
 
     all_test = None
     form = TestCreationForm(None)
@@ -109,12 +154,20 @@ def new_test(request):
 
     form_err = None
     context = {'form': form, 'all_patients': all_patients, 'all_doctors': all_doctors, 'all_labs': all_labs,
-               'technician': technician, 'form_err': form_err, 'all_samples': all_sample, 'pre_sample': pre_sample}
+               'technician': technician, 'form_err': form_err, 'all_samples': all_sample, 'pre_sample': pre_sample,
+               'test_request_obj': test_request_obj, 'test_request_info': test_request_info}
 
     if request.method == 'POST':
         print("POST: ", request.POST)
 
-        form = TestCreationForm(request.POST or None)
+        if test_request_obj:
+            print("populating form with inital ", initial_dict)
+            form = TestCreationForm(request.POST or None, initial=initial_dict)
+        else:
+            print("NOT populating form with inital ", initial_dict)
+
+            form = TestCreationForm(request.POST or None)
+
         print("Form: ", form)
 
         if form.is_valid():
@@ -137,6 +190,8 @@ def new_test(request):
 
                 context = {'form': form, 'all_patients': all_patients, 'all_doctors': all_doctors, 'all_labs': all_labs,
                            'technician': technician, 'form_err': form_err, 'all_samples': all_sample,
+                           'pre_sample': pre_sample,
+                           'test_request_obj': test_request_obj, 'test_request_info': test_request_info,
                            'patient_check': True, 'check_message': check_message}
                 return render(request, 'new-test.html', context=context)
 
@@ -147,13 +202,19 @@ def new_test(request):
             form.save_m2m()
             messages.success(request, "Test created successfully")
 
+            if test_request_obj:
+                print("Deleted test_request_obj ", test_request_obj)
+                test_request_obj.delete()
+
             return redirect(instance.get_absolute_url())
 
         else:
             form_err = form.errors
             print("Form not valid: ", form_err)
             context = {'form': form, 'all_patients': all_patients, 'all_doctors': all_doctors, 'all_labs': all_labs,
-                       'technician': technician, 'form_err': form_err, 'all_samples': all_sample, }
+                       'technician': technician, 'form_err': form_err, 'all_samples': all_sample,
+                       'pre_sample': pre_sample,
+                       'test_request_obj': test_request_obj, 'test_request_info': test_request_info, }
             messages.error(request, "Please check the Test form")
 
         return render(request, 'new-test.html', context=context)
@@ -166,8 +227,9 @@ def new_test(request):
 def test_requests(request):
     technician = get_object_or_404(LabTechnician, manager=request.user)  # check
     all_test = TestRequests.objects.filter(technician=technician).order_by('-updated_at')
+    total = all_test.count()
     print("all_test ", all_test)
-    return render(request, 'test-requests.html', {'all_test': all_test})
+    return render(request, 'test-requests.html', {'all_test': all_test, 'total': total})
 
 
 @login_required
@@ -175,7 +237,7 @@ def reject_test_requests(request, test_uuid):
     technician = get_object_or_404(LabTechnician, manager=request.user)  # check
     request_obj = get_object_or_404(TestRequests, uuid=test_uuid)
     request_obj.delete()
-    print("Test rejected successfully")
+    print("Test deleted & rejected successfully")
     messages.info(request, "Test rejected successfully")
     return redirect('dashboard', permanent=True)
 
@@ -379,6 +441,45 @@ def sample_list(request, sample_type):
 
 @login_required
 def user_settings(request):
-    all_test = None
-    print("all_test ", all_test)
-    return render(request, 'settings.html', {'all_test': all_test})
+    technician = get_object_or_404(LabTechnician, manager=request.user)  # check
+    user_obj = User.objects.filter(pk=request.user.pk)
+    my_email = request.user.email
+    update_profile_form = ProfileUpdateForm(instance=request.user.userprofile)
+    user_update_form = UserUpdateForm(request.POST, instance=request.user)
+
+    context = {
+        'update_profile_form': update_profile_form,'user_update_form':user_update_form,
+        'my_email': my_email,
+    }
+    return render(request, 'settings.html', context=context)
+
+
+@login_required
+def update_profile(request):
+    if request.method == 'POST':
+        user_update_form = UserUpdateForm(request.POST, instance=request.user)
+        update_profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.userprofile)
+
+        if user_update_form.is_valid() and update_profile_form.is_valid():
+            update_profile_form.save()
+            user_update_form.save()
+
+            messages.info(request, "Profile updated successfully")
+            return redirect('dashboard', permanent=True)
+
+        else:
+            form_err = ''
+            if user_update_form.errors:
+                form_err = user_update_form.errors
+                print("user_update_form error")
+            elif update_profile_form.errors:
+                form_err = update_profile_form.errors
+                print("update_profile_form error")
+
+            print(form_err)
+            messages.info(request, "An error occured.Please check the form")
+
+            context = {'error': True, 'message': 'An error occurred while updating profile. Please check the form',
+                       "form_err": form_err}
+
+        return render(request, 'settings.html', context=context)

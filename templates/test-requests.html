@@ -18,7 +18,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">Tests Requests for {{ user_details.user.username }}</h5>
                         <div>
-                            <a href="#" class="btn btn-default btn-sm">4</a>
+                            <a href="#" class="btn btn-default btn-sm">{{ total }}</a>
                         </div>
                     </div>
                     <div class="table-responsive m-t-30" style="min-height: 345px;">
@@ -64,7 +64,7 @@
                                         <div class="m-l-10">
 
                                             {% if test.is_urgent %}
-                                                <i class="anticon anticon-close-o text-success"></i>
+                                                <i class="anticon anticon-check-o text-success"></i>
                                             {% else %}
                                                 <i class="anticon anticon-close-o text-danger"></i>
                                             {% endif %}
