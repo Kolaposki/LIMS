@@ -1,3 +1,4 @@
+{% load lab_extras %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -44,30 +45,64 @@
 
             <!-- Content Wrapper START -->
             <div class="main-content">
+                {% if request.get_full_path|remove_url  == 'dashboard' or request.get_full_path|remove_url  == '/' %}
 
-                {#                {% load lab_extras %}#}
+                    <div class="page-header no-gutters">
+                        <div class="d-md-flex align-items-md-center justify-content-between">
+                            <div class="media m-v-10 align-items-center">
+                                <div class="avatar avatar-image avatar-lg">
+                                    <img src="{% static 'images/others/technician.png' %}" alt="">
+                                </div>
+                                <div class="media-body m-l-15">
+                                    <h4 class="m-b-0">Welcome back,
+                            {{ user_details.first_name|upper }}!</h4>
+                                    <span class="text-gray">Lab Technician</span>
+                                </div>
+                            </div>
+                            <div class="d-md-flex align-items-center d-none">
+                                <div class="media align-items-center m-r-40 m-v-5">
+                                    <div class="font-size-27">
+                                        <i class="text-primary medical-icon-i-immunizations"></i>
+                                    </div>
+                                    <div class="d-flex align-items-center m-l-10">
+                                        <h2 class="m-b-0 m-r-5">{{ all_test_total }}</h2>
+                                        <span class="text-gray">Tests</span>
+                                    </div>
+                                </div>
+                                <div class="media align-items-center m-r-40 m-v-5">
+                                    <div class="font-size-27">
+                                        <i class="text-success medical-icon-i-imaging-root-category"></i>
+                                    </div>
+                                    <div class="d-flex align-items-center m-l-10">
+                                        <h2 class="m-b-0 m-r-5">{{ all_samples_total }}</h2>
+                                        <span class="text-gray">Samples</span>
+                                    </div>
+                                </div>
+                                <div class="media align-items-center m-v-5">
+                                    <div class="font-size-27">
+                                        <i class="text-danger medical-icon-i-hearing-assistance"></i>
+                                    </div>
+                                    <div class="d-flex align-items-center m-l-10">
+                                        <h2 class="m-b-0 m-r-5">{{ all_requests_total }}</h2>
+                                        <span class="text-gray">Test Requests</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="page-header no-gutters">
+                        <h2 class="font-weight-normal">{% block page_title %}Welcome back,
+                            {{ user_details.first_name|upper }}!{% endblock page_title %}</h2>
+                        <p class="text-muted m-b-0">{% block page_subtitle %}{% endblock page_subtitle %}</p>
+                    </div>
 
-                {#                {% if request.get_full_path|remove_url == 'new-test' %}#}
+                {% endif %}
 
-                <div class="page-header no-gutters">
-                    <h2 class="font-weight-normal">{% block page_title %}Welcome back,
-                        {{ user_details.first_name|upper }}!{% endblock page_title %}</h2>
-                    <p class="text-muted m-b-0">{% block page_subtitle %}{% endblock page_subtitle %}</p>
-                    {#                    <div class="d-md-flex align-items-md-center justify-content-between">#}
-                    {##}
-                    {#                        <div class="media m-v-10 align-items-center">#}
-                    {#                            <div class="avatar avatar-image avatar-lg">#}
-                    {#                                <img src="{% static 'images/avatars/thumb-3.jpg' %}" alt="">#}
-                    {#                            </div>#}
-                    {#                            <div class="media-body m-l-15">#}
-                    {#                                <h4 class="m-b-0">{% block page_title %}Welcome back, Martin!{% endblock page_title %}</h4>#}
-                    {#                                <span class="text-gray">{% block page_subtitle %}Lab Technician{% endblock page_subtitle %}</span>#}
-                    {##}
-                    {#                            </div>#}
-                    {#                        </div>#}
-                    {#                    </div>#}
-                </div>
+
                 <!-- Content goes Here -->
+
+
 
                 {% if messages %}
                     <script>
@@ -110,42 +145,6 @@
         </div>
         <!-- Page Container END -->
 
-        <!-- Search Start-->
-        <div class="modal modal-left fade search" id="search-drawer">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header justify-content-between align-items-center">
-                        <h5 class="modal-title">Search</h5>
-                        <button type="button" class="close" data-dismiss="modal">
-                            <i class="anticon anticon-close"></i>
-                        </button>
-                    </div>
-                    <div class="modal-body scrollable">
-                        <div class="input-affix">
-                            <i class="prefix-icon anticon anticon-search"></i>
-                            <input type="text" class="form-control" placeholder="Search">
-                        </div>
-                        <!-- Content goes Here -->
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Search End-->
-
-        <!-- Quick View START -->
-        <div class="modal modal-right fade quick-view" id="quick-view">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header justify-content-between align-items-center">
-                        <h5 class="modal-title">Quick View</h5>
-                    </div>
-                    <div class="modal-body scrollable">
-                        <!-- Content goes Here -->
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Quick View END -->
     </div>
 </div>
 

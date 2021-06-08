@@ -19,7 +19,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">{{ sample_type|title }} Samples</h5>
                         <div>
-                            <a href="#" class="btn btn-default btn-sm">4</a>
+                            <a href="#" class="btn btn-default btn-sm">{{ samples|length }}</a>
                         </div>
                     </div>
                     <div class="table-responsive m-t-30" style="min-height: 345px;">
@@ -44,7 +44,7 @@
                                     <td>
                                         <div class="media align-items-center">
                                             <div class="avatar avatar-image rounded" style="min-width: 40px">
-                                                <img src="#" alt="">
+                                                <img src="{% static 'images/others/single-test.png' %}" alt="">
                                             </div>
                                             <div class="m-l-10">
                                                 <span>{{ sample.name }}</span>

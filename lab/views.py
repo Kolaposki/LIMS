@@ -14,11 +14,24 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def dashboard(request):
     technician = get_object_or_404(LabTechnician, manager=request.user)  # check
-
     print("NOW IN DASHBOARD")
-    # print("FILES: ", request.FILES)
 
-    return render(request, 'dashboard.html', {'hi': 'hi'})
+    all_test = Test.objects.filter(technician=technician).order_by('-updated_at')[0:5]
+    all_test_total = all_test.count()
+
+    print("all_test ", all_test)
+
+    all_test_request = TestRequests.objects.filter(technician=technician).order_by('-updated_at')[0:4]
+    all_requests_total = all_test_request.count()
+
+    samples = Sample.objects.all().order_by('-collected_on')[0:10]
+    all_samples_total = samples.count()
+
+    context = {'all_test': all_test, 'all_test_request': all_test_request, 'samples': samples,
+               'all_test_total': all_test_total, 'all_requests_total': all_requests_total,
+               'all_samples_total': all_samples_total}
+
+    return render(request, 'dashboard.html', context=context)
 
 
 @login_required
@@ -448,7 +461,7 @@ def user_settings(request):
     user_update_form = UserUpdateForm(request.POST, instance=request.user)
 
     context = {
-        'update_profile_form': update_profile_form,'user_update_form':user_update_form,
+        'update_profile_form': update_profile_form, 'user_update_form': user_update_form,
         'my_email': my_email,
     }
     return render(request, 'settings.html', context=context)

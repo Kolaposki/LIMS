@@ -1,15 +1,127 @@
 {% extends "base.html" %}
 {% load static %}
 {% block title %}AU-LIMS Dashboard{% endblock title %}
-
+{% block page_subtitle %}Lab Technician{% endblock page_subtitle %}
 {% block content %}
 
-    <div class="container-fluid">
-        <div id="card-view">
-            <div class="row">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Tests Performed</h5>
+                        <div>
+                            <a href="{% url 'all_tests' %}" class="btn btn-default btn-sm">View All</a>
+                        </div>
+                    </div>
+                    <div class="table-responsive m-t-30">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>Patient</th>
+                                <th>Test Name</th>
+                                <th>Doctor</th>
+                                <th>Status</th>
+                                <th>Laboratory</th>
+                                <th>Date</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for test in all_test %}
+                                <tr class="clickrow" data-url="{{ test.get_absolute_url }}">
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar avatar-image" style="min-width: 40px">
+                                                <img src="{% static 'images/others/doctor.png' %}" alt="">
+                                            </div>
+                                            <span class="m-l-10">{{ test.patient.full_name }}</span>
+                                        </div>
+                                    </td>
+                                    <td><b>{{ test.category }}</b></td>
+                                    <td>{{ test.doctor.full_name }}</td>
+                                    <td>
+                                        {% if test.status == 'Routine' %}
+                                            <span class="badge badge-pill badge-blue font-size-12">{{ test.status }}</span>
+                                        {% elif test.status == 'STAT' %}
+                                            <span class="badge badge-pill badge-green font-size-12">{{ test.status }}</span>
+                                        {% endif %}
+
+                                    </td>
+                                    <td>{{ test.lab.departments }}</td>
+                                    <td>{{ test.date_completed|date:"M d, Y" }}</td>
+                                </tr>
+                            {% endfor %}
 
 
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Assigned Tests</h5>
+                        <div>
+                            <a href="{% url 'test_requests' %}" class="btn btn-default btn-sm">View All</a>
+                        </div>
+                    </div>
+                    <div class="table-responsive m-t-30">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>Patient</th>
+                                <th>Test Type</th>
+                                <th>Doctor</th>
+                                <th>State</th>
+                                <th>Date Assigned</th>
+                                <th>Urgent</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for test in all_test_request %}
+                                <tr class="clickrow" data-url="{{ test.get_absolute_url }}">
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="avatar avatar-image" style="min-width: 40px">
+                                                <img src="{% static 'images/others/doctor.png' %}" alt="">
+                                            </div>
+                                            <span class="m-l-10">{{ test.patient.full_name }}</span>
+                                        </div>
+                                    </td>
+                                    <td><b>{{ test.category }}</b></td>
+                                    <td>{{ test.doctor.full_name }}</td>
+                                    <td>
+                                        {% if test.state == 'Draft' %}
+                                            <span class="badge badge-pill badge-blue font-size-12">{{ test.state }}</span>
+                                        {% elif test.state == 'Ordered' %}
+                                            <span class="badge badge-pill badge-gold font-size-12">{{ test.state }}</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ test.updated_at|date:"M d, Y" }}</td>
+                                    <td>
+                                        <div class="m-l-10">
+
+                                            {% if test.is_urgent %}
+                                                <i class="anticon anticon-check-o text-success"></i>
+                                            {% else %}
+                                                <i class="anticon anticon-close-o text-danger"></i>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+
+            {% include 'partials/_right_dashboard.html' %}
         </div>
     </div>
 

@@ -45,15 +45,11 @@
                     <div class="d-md-flex m-b-15 align-items-center justify-content-between">
                         <div class="media align-items-center m-b-15">
                             <div class="avatar avatar-image rounded" style="height: 70px; width: 70px">
-                                <img src="assets/images/others/thumb-16.jpg" alt="">
+                                <img src="{% static 'images/others/test-tubes.jpg' %}" alt="">
                             </div>
                             <div class="m-l-15">
-                                <h4 class="m-b-0">{{ request_obj.category }} {% if request_obj.is_urgent %}
-                                    <i class="anticon anticon-check-o text-success"></i>
-                                {% else %}
-                                    <i class="anticon anticon-close-o text-danger"></i>
-                                {% endif %}</h4>
-                                <p class="text-muted m-b-0">ID: {{ request_obj.short_slug }} </p>
+                                <h4 class="m-b-0">{{ request_obj.category }}</h4>
+                                <p class="text-muted m-b-0">ID: {{ request_obj.short_slug }} - {% if request_obj.is_urgent %} Urgent {% else %} Not Urgent {% endif %}</p>
                             </div>
                         </div>
 
@@ -61,14 +57,14 @@
 
                             <button id="btnRejectTest" data-url="{% url 'reject_test_requests' request_obj.uuid %}"
                                     class="btn btn-danger btn-tone">
-                                <i class="anticon anticon-edit"></i>
+                                <i class="anticon anticon-close"></i>
                                 <span>Reject Request</span>
                             </button>
 
                             <button id="btnPerformTest" data-testrequest="{{ request_obj.pk }}"
                                     data-url="{% url 'new_test' %}"
-                                    class="btn btn-secondary btn-tone">
-                                <i class="anticon anticon-edit"></i>
+                                    class="btn btn-success btn-tone">
+                                <i class="anticon anticon-check"></i>
                                 <span>Accept and Perform Test</span>
                             </button>
 
