@@ -1,285 +1,365 @@
 {% load static %}
 
-<div class="container-fluid">
-    <div class="tab-content m-t-15">
-        <div class="tab-pane fade show active">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title">Basic Info</h4>
-                    <div class="table-responsive">
-                        <table class="product-info-table m-t-20">
-                            <tbody>
-                            <tr>
-                                <td>Laboratory Technician:</td>
-                                <td class="text-dark font-weight-semibold">{{ test_obj.technician.full_name }}</td>
-                            </tr>
-                            <tr>
-                                <td>Laboratory:</td>
-                                <td class="text-dark font-weight-semibold">{{ test_obj.lab }}</td>
-                            </tr>
-                            <tr>
-                                <td>Category:</td>
-                                <td>
-                                    <span class="badge badge-pill badge-primary">{{ test_obj.category|title }}</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Doctor:</td>
-                                <td class="text-dark font-weight-semibold">{{ test_obj.doctor.full_name }}</td>
-                            </tr>
-                            <tr>
-                                <td>Status:</td>
-                                <td>
-                                    <span class="badge badge-pill badge-cyan">{{ test_obj.status }}</span>
-                                </td>
-                            </tr>
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <div id="invoice" class="p-h-30">
+                <div class="m-t-15 lh-2">
+                    <div class="inline-block">
+                        <img class="img-fluid" src="{% static 'images/logo/logo.png' %}"
+                             style="width:135px; height:45px; margin-bottom:15px;" alt="logo">
+                        <address class="p-l-10">
+                            <span class="font-weight-semibold text-dark mt-3">Adeleke University Medical Department.</span><br>
+                            <span>P.M.B 250, Loogun-Ogberin Road</span><br>
+                            <span>Ede, Osun State. Nigeria</span><br>
+                            <abbr class="text-dark" title="Phone">Phone:</abbr>
+                            <span>(234) 905-742-5646</span>
+                        </address>
+                    </div>
+                    <div class="float-right">
+                        <h2>LAB REPORT</h2>
+                    </div>
+                </div>
+                <div class="row m-t-20 lh-2">
+                    <div class="col-sm-9">
+                        <h3 class="p-l-10 m-t-10 text-center">{{ test_obj.name|upper }}</h3>
+                        <address class="p-l-10 m-t-10">
+                            {#                            <span class="font-weight-semibold text-dark">Genting Holdings.</span><br>#}
+                            <span>Ordering Doctor: {{ test_obj.doctor.full_name }}</span><br>
+                            <span>Laboratory Technician: {{ test_obj.technician.full_name }}</span>
+                        </address>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="m-t-80">
+                            <div class="text-dark text-uppercase d-inline-block">
+                                <span class="font-weight-semibold text-dark">ID :</span></div>
+                            <div class="float-right">{{ test_obj.short_slug }}</div>
+                        </div>
+                        <div class="text-dark text-uppercase d-inline-block">
+                            <span class="font-weight-semibold text-dark">Date :</span>
+                        </div>
+                        <div class="float-right">{{ test_obj.updated_at }}</div>
+                    </div>
+                </div>
+                <div class="m-t-20">
 
-                            <tr>
-                                <td>Patient:</td>
-                                <td class="text-dark font-weight-semibold">{{ test_obj.patient.full_name }}</td>
-                            </tr>
+                    <div class="row m-t-20 lh-2">
+                        <div class="card col-sm-6">
+                            <div class="card-body">
+                                <h4 class="card-title">Basic Info</h4>
+                                <div class="table-responsive">
+                                    <table class="product-info-table m-t-20">
+                                        <tbody>
+                                        <tr>
+                                            <td>Laboratory:</td>
+                                            <td class="text-dark font-weight-semibold">{{ test_obj.lab }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Category:</td>
+                                            <td>
+                                                <span class="badge badge-pill badge-primary">{{ test_obj.category|title }}</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Status:</td>
+                                            <td>
+                                                <span class="badge badge-pill badge-cyan">{{ test_obj.status }}</span>
+                                            </td>
+                                        </tr>
 
-                            <tr>
-                                <td>Code:</td>
-                                <td>
-                                    <span class="badge badge-pill badge-secondary">{{ test_obj.code|upper }}</span>
-                                </td>
-                            </tr>
+                                        <tr>
+                                            <td>Code:</td>
+                                            <td>
+                                                <span class="badge badge-pill badge-secondary">{{ test_obj.code|upper }}</span>
+                                            </td>
+                                        </tr>
 
-                            <tr>
-                                <td>Date Initiated:</td>
-                                <td>{{ test_obj.date_initiated }}</td>
-                            </tr>
-                            <tr>
-                                <td>Date Completed:</td>
-                                <td>{{ test_obj.date_completed }}</td>
-                            </tr>
-                            <tr>
-                                <td>Last Updated:</td>
-                                <td>{{ test_obj.updated_at }}</td>
-                            </tr>
+                                        <tr>
+                                            <td>Date Initiated:</td>
+                                            <td>{{ test_obj.date_initiated }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Date Completed:</td>
+                                            <td>{{ test_obj.date_completed }}</td>
+                                        </tr>
 
-                            </tbody>
-                        </table>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card col-sm-6">
+                            <div class="card-body">
+                                <h4 class="card-title">Sample</h4>
+                                <div class="table-responsive">
+                                    <table class="product-info-table m-t-20">
+                                        <tbody>
+                                        <tr>
+                                            <td>Name:</td>
+                                            <td class="text-dark font-weight-semibold">{{ test_obj.sample.name }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>ID:</td>
+                                            <td>{{ test_obj.sample.short_slug }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Type:</td>
+                                            <td>
+                                                <span class="badge badge-pill badge-purple"> {{ test_obj.sample.type }}</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Quantity:</td>
+                                            <td>{{ test_obj.sample.measurement }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Date Collected:</td>
+                                            <td>{{ test_obj.sample.collected_on }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Note:</td>
+                                            <td>{{ test_obj.sample.note|default_if_none:'---'|default:'---' }}</td>
+                                        </tr>
+
+                                        {% if test_obj.sample.image1 or test_obj.sample.image2 %}
+                                            <tr>
+                                                <td>Pictures:</td>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        {% if test_obj.sample.image1.src %}
+                                                            <div class="avatar avatar-image rounded mr-3"
+                                                                 style="height: 70px; width: 70px">
+                                                                <img src="#" alt="">
+                                                            </div>
+                                                        {% endif %}
+                                                        {% if test_obj.sample.image1.src %}
+
+                                                            <div class="avatar avatar-image rounded"
+                                                                 style="height: 70px; width: 70px">
+                                                                <img src="#" alt="">
+                                                            </div>
+
+                                                        {% endif %}
+
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                        {% endif %}
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card col-sm-12">
+                            <div class="card-header">
+                                <h4 class="card-title">Queries</h4>
+                            </div>
+                            <div class="card-body">
+                                <p>{{ test_obj.queries }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card" style="border:none;">
+                        <h4 class="card-title text-center">Patient Details</h4>
+
+                        <div class="row">
+                            <div class="card card col-sm-6">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="product-info-table m-t-20">
+                                            <tbody>
+                                            <tr>
+                                                <td>First Name:</td>
+                                                <td>{{ test_obj.patient.first_name }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Last Name:</td>
+                                                <td>{{ test_obj.patient.last_name }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Other Name:</td>
+                                                <td>{{ test_obj.patient.other_name|default_if_none:'---' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>ID:</td>
+                                                <td>{{ test_obj.patient.short_slug }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>DOB:</td>
+                                                <td>{{ test_obj.patient.dob }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Age:</td>
+                                                <td>{{ test_obj.patient.age }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Gender:</td>
+                                                <td>{{ test_obj.patient.gender|default_if_none:'---' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Genotype:</td>
+                                                <td>{{ test_obj.patient.genotype|default_if_none:'---' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Blood Group:</td>
+                                                <td>{{ test_obj.patient.blood_group|default_if_none:'---' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Mother's Maiden Name:</td>
+                                                <td>{{ test_obj.patient.mothers_maiden_name|default_if_none:'---' }}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card card col-sm-6">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="product-info-table m-t-20">
+                                            <tbody>
+                                            <tr>
+                                                <td>Occupation:</td>
+                                                <td>{{ test_obj.patient.occupation|default_if_none:'---' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Home Address:</td>
+                                                <td>{{ test_obj.patient.home_address|default_if_none:'---' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Phone Number:</td>
+                                                <td>{{ test_obj.patient.phone_number|default_if_none:'---' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Occupation:</td>
+                                                <td>{{ test_obj.patient.occupation|default_if_none:'---' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Weight (lb):</td>
+                                                <td>{{ test_obj.patient.weight|default_if_none:'---' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Height (in):</td>
+                                                <td>{{ test_obj.patient.height|default_if_none:'---' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Allergies:</td>
+                                                <td>{{ test_obj.patient.allergies|default_if_none:'---' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Disablility:</td>
+                                                <td>{{ test_obj.patient.disable|default_if_none:'---' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Notes:</td>
+                                                <td>{{ test_obj.patient.notes|default:'---'|default_if_none:'---' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Date Created:</td>
+                                                <td>{{ test_obj.patient.created_at }}</td>
+                                            </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Metrics</h4>
+                            <div class="table-responsive">
+                                <table class="product-info-table m-t-20">
+                                    <tbody>
+                                    <tr>
+                                        <td>Rate:</td>
+                                        <td>{{ test_obj.rate }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Upper Bound:</td>
+                                        <td>{{ test_obj.upper_bound }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Lower Bound:</td>
+                                        <td>{{ test_obj.lower_bound }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Unit:</td>
+                                        <td>{{ test_obj.unit }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Charges ($):</td>
+                                        <td>{{ test_obj.charges }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Duration (mins):</td>
+                                        <td>{{ test_obj.duration }}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Lab Technician Report</h4>
+                        </div>
+                        <div class="card-body">
+                            {{ test_obj.description|safe }}
+                        </div>
+                    </div>
+
+                    <div class="row m-t-30 lh-1-8">
+                        <div class="col-sm-12">
+                            <div class="float-right text-right">
+                                <p>Final Diagnosis performed by {{ test_obj.technician.full_name }}</p>
+                                <p>Electronically signed on {% now "jS F Y H:i" %}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row m-t-30 lh-2">
+                        <div class="col-sm-12">
+                            <div class="border-bottom p-v-20">
+                                <p class="text-opacity"><small>The test(s) that are reported here were developed and the
+                                    performance characteristics determined by Adeleke University Medical Department.
+                                    They may not have
+                                    been cleared or approved by the Nigeria Food and Drug Administration (FDA). However,
+                                    the FDA has determined that such clearance or approval is not necessary. These
+                                    test(s) are used for clinical
+                                    purposes. They should not be regarded as investigational or for research. This
+                                    laboratory is certified under the Clinical Laboratory Improvement Amendments of 1988
+                                    (CLIA) as qualified to perform
+                                    high complexity clinical laboratory testing. The appropriate positive and negative
+                                    controls were used for each immunohistochemical and/or ISH stain.</small></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row m-v-20">
+                        <div class="col-sm-6">
+                            <img class="img-fluid text-opacity m-t-5" width="100"
+                                 src="{% static 'images/logo/logo.png' %}"
+                                 alt="">
+                            <img class="img-fluid text-opacity m-t-5 m-l-5" style="height: 55px;width: 55px;"
+                                 src="{% static 'images/others/Logo_of_Adeleke_University.png' %}"
+                                 alt="">
+                        </div>
+                        <div class="col-sm-6 text-right">
+                            <small><span class="font-weight-semibold text-dark">Phone:</span> (234) 905-742-5646</small>
+                            <br>
+                            <small>support@aumedical.com</small>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <div class="card" style="background-image: url('/static/images/logo/logo.png'); background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;">
-                <div class="card-header">
-                    <h4 class="card-title">Queries</h4>
-                </div>
-                <div class="card-body">
-                    <p>{{ test_obj.queries }}</p>
-                </div>
-            </div>
-
-
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title">Sample</h4>
-                    <div class="table-responsive">
-                        <table class="product-info-table m-t-20">
-                            <tbody>
-                            <tr>
-                                <td>Name:</td>
-                                <td class="text-dark font-weight-semibold">{{ test_obj.sample.name }}</td>
-                            </tr>
-                            <tr>
-                                <td>ID:</td>
-                                <td>{{ test_obj.sample.short_slug }}</td>
-                            </tr>
-                            <tr>
-                                <td>Type:</td>
-                                <td>
-                                    <span class="badge badge-pill badge-purple"> {{ test_obj.sample.type }}</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Quantity:</td>
-                                <td>{{ test_obj.sample.measurement }}</td>
-                            </tr>
-                            <tr>
-                                <td>Date Collected:</td>
-                                <td>{{ test_obj.sample.collected_on }}</td>
-                            </tr>
-                            <tr>
-                                <td>Note:</td>
-                                <td>{{ test_obj.sample.note|default_if_none:'---'|default:'---' }}</td>
-                            </tr>
-
-                            {% if test_obj.sample.image1 or test_obj.sample.image2 %}
-                                <tr>
-                                    <td>Pictures:</td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            {% if test_obj.sample.image1.src %}
-                                                <div class="avatar avatar-image rounded mr-3"
-                                                     style="height: 70px; width: 70px">
-                                                    <img src="#" alt="">
-                                                </div>
-                                            {% endif %}
-                                            {% if test_obj.sample.image1.src %}
-
-                                                <div class="avatar avatar-image rounded"
-                                                     style="height: 70px; width: 70px">
-                                                    <img src="#" alt="">
-                                                </div>
-
-                                            {% endif %}
-
-                                        </div>
-                                    </td>
-                                </tr>
-
-                            {% endif %}
-
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title">Patient Details</h4>
-                    <div class="table-responsive">
-                        <table class="product-info-table m-t-20">
-                            <tbody>
-                            <tr>
-                                <td>First Name:</td>
-                                <td>{{ test_obj.patient.first_name }}</td>
-                            </tr>
-                            <tr>
-                                <td>Last Name:</td>
-                                <td>{{ test_obj.patient.last_name }}</td>
-                            </tr>
-                            <tr>
-                                <td>Other Name:</td>
-                                <td>{{ test_obj.patient.other_name|default_if_none:'---' }}</td>
-                            </tr>
-                            <tr>
-                                <td>DOB:</td>
-                                <td>{{ test_obj.patient.dob }}</td>
-                            </tr>
-                            <tr>
-                                <td>Age:</td>
-                                <td>{{ test_obj.patient.age }}</td>
-                            </tr>
-                            <tr>
-                                <td>Gender:</td>
-                                <td>{{ test_obj.patient.gender|default_if_none:'---' }}</td>
-                            </tr>
-                            <tr>
-                                <td>Genotype:</td>
-                                <td>{{ test_obj.patient.genotype|default_if_none:'---' }}</td>
-                            </tr>
-                            <tr>
-                                <td>Blood Group:</td>
-                                <td>{{ test_obj.patient.blood_group|default_if_none:'---' }}</td>
-                            </tr>
-                            <tr>
-                                <td>Mother's Maiden Name:</td>
-                                <td>{{ test_obj.patient.mothers_maiden_name|default_if_none:'---' }}</td>
-                            </tr>
-                            <tr>
-                                <td>Occupation:</td>
-                                <td>{{ test_obj.patient.occupation|default_if_none:'---' }}</td>
-                            </tr>
-                            <tr>
-                                <td>Home Address:</td>
-                                <td>{{ test_obj.patient.home_address|default_if_none:'---' }}</td>
-                            </tr>
-                            <tr>
-                                <td>Phone Number:</td>
-                                <td>{{ test_obj.patient.phone_number|default_if_none:'---' }}</td>
-                            </tr>
-                            <tr>
-                                <td>Occupation:</td>
-                                <td>{{ test_obj.patient.occupation|default_if_none:'---' }}</td>
-                            </tr>
-                            <tr>
-                                <td>Weight:</td>
-                                <td>{{ test_obj.patient.weight|default_if_none:'---' }}</td>
-                            </tr>
-                            <tr>
-                                <td>Height:</td>
-                                <td>{{ test_obj.patient.height|default_if_none:'---' }}</td>
-                            </tr>
-                            <tr>
-                                <td>Allergies:</td>
-                                <td>{{ test_obj.patient.allergies|default_if_none:'---' }}</td>
-                            </tr>
-                            <tr>
-                                <td>Disablility:</td>
-                                <td>{{ test_obj.patient.disable|default_if_none:'---' }}</td>
-                            </tr>
-                            <tr>
-                                <td>Notes:</td>
-                                <td>{{ test_obj.patient.notes|default:'---'|default_if_none:'---' }}</td>
-                            </tr>
-                            <tr>
-                                <td>Date Created:</td>
-                                <td>{{ test_obj.patient.created_at }}</td>
-                            </tr>
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title">Metrics</h4>
-                    <div class="table-responsive">
-                        <table class="product-info-table m-t-20">
-                            <tbody>
-                            <tr>
-                                <td>Rate:</td>
-                                <td>{{ test_obj.rate }}</td>
-                            </tr>
-                            <tr>
-                                <td>Upper Bound:</td>
-                                <td>{{ test_obj.upper_bound }}</td>
-                            </tr>
-                            <tr>
-                                <td>Lower Bound:</td>
-                                <td>{{ test_obj.lower_bound }}</td>
-                            </tr>
-                            <tr>
-                                <td>Unit:</td>
-                                <td>{{ test_obj.unit }}</td>
-                            </tr>
-                            <tr>
-                                <td>Charges ($):</td>
-                                <td>{{ test_obj.charges }}</td>
-                            </tr>
-                            <tr>
-                                <td>Duration (mins):</td>
-                                <td>{{ test_obj.duration }}</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title">Lab Technician Report</h4>
-                </div>
-                <div class="card-body">
-                    {{ test_obj.description|safe }}
-                </div>
-            </div>
-
         </div>
-
-
     </div>
 </div>

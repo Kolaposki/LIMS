@@ -31,7 +31,7 @@
     <!-- Content Wrapper START -->
     <div class="main-content">
         <div id="printSection">
-            {% include 'partials/_invoice.html' %}
+            {% include 'partials/_report.html' %}
         </div>
 
         <button id="btnPrintReport" class="btn btn-secondary btn-tone" style="margin-left: 650px;">
@@ -72,7 +72,7 @@
         $(this).addClass("is-loading");
         setTimeout(function () {
             $("#btnPrintReport").removeClass("is-loading");
-        }, 4000);
+        }, 3500);
         generatePDFReport()
     })
 
