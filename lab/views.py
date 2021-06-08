@@ -48,29 +48,6 @@ def test_details(request, test_uuid):
     technician = get_object_or_404(LabTechnician, manager=request.user)  # check
     test_obj = get_object_or_404(Test, uuid=test_uuid)
 
-    instance = Test.objects.filter(pk=3).values_list(flat=True)
-    instance2 = Test.objects.filter(pk=3).values()
-
-    print("test_obj ", test_obj, test_obj.pk)
-    print("instance ", instance)
-    print("instance2 ", instance2)
-    print("instance2[0] ", instance2[0])
-    context = {"test_obj": test_obj}
-    return render(request, 'test-details.html', context=context)
-
-
-@login_required
-def new_report(request, test_uuid):
-    technician = get_object_or_404(LabTechnician, manager=request.user)  # check
-    test_obj = get_object_or_404(Test, uuid=test_uuid)
-
-    instance = Test.objects.filter(pk=3).values_list(flat=True)
-    instance2 = Test.objects.filter(pk=3).values()
-
-    print("test_obj ", test_obj, test_obj.pk)
-    print("instance ", instance)
-    print("instance2 ", instance2)
-    print("instance2[0] ", instance2[0])
     context = {"test_obj": test_obj}
     return render(request, 'test-details.html', context=context)
 
@@ -274,6 +251,15 @@ def all_reports(request):
 
 
 @login_required
+def print_report(request, test_uuid):
+    technician = get_object_or_404(LabTechnician, manager=request.user)  # check
+    test_obj = get_object_or_404(Test, uuid=test_uuid)
+    print("GENERATING REPORT !!")
+    context = {"test_obj": test_obj}
+    return render(request, 'print-report.html', context=context)
+
+
+@login_required
 def laboratories(request):
     all_test = None
     technician = get_object_or_404(LabTechnician, manager=request.user)  # check
@@ -325,10 +311,6 @@ def all_samples(request):
         type='Semen'), Sample.objects.filter(type='Sweat'), Sample.objects.filter(
         type='Stool')).count()
 
-    print("blood_samples ", blood_samples)
-    print("urine_samples ", urine_samples)
-    print("fluid_samples ", fluid_samples)
-    print("other_samples ", other_samples)
     context = {'all_sample': all_sample, 'blood_samples': blood_samples, 'urine_samples': urine_samples,
                'fluid_samples': fluid_samples,
                'other_samples': other_samples}

@@ -25,7 +25,7 @@ urlpatterns = [
     path('update-sample/<str:sample_uuid>', update_sample, name='update_sample'),
 
     path('reports/', all_tests, name='all_reports'),
-    # path('reports/', all_tests, name='reports'),
+    path('print-report/<str:test_uuid>', print_report, name='print_report'),
 
     path('settings/', user_settings, name='user_settings'),
     path('updateprofile/', update_profile, name='update_profile'),

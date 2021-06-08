@@ -77,3 +77,6 @@ class Patient(models.Model):
 
     def full_name(self):
         return f'{self.last_name} {self.first_name}'
+
+    def short_slug(self):
+        return f'{self.uuid[0:5]}'
