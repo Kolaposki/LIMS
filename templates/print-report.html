@@ -28,53 +28,33 @@
 
 <body>
 <div class="app">
-    <div class="layout">
-
-        <!-- Page Container START -->
-        <div class="page-container">
-
-            <!-- Content Wrapper START -->
-            <div class="main-content">
-                <div id="printSection">
-
-                    <div class="page-header no-gutters container-fluid">
-                        <div class="d-md-flex m-b-15 align-items-center justify-content-between">
-                            <div class="media align-items-center m-b-15">
-                                <div class="m-l-15">
-                                    <h4 class="m-b-0">{{ test_obj.name }}</h4>
-                                    <p class="text-muted m-b-0">ID: {{ test_obj.short_slug }} </p>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                  {% include 'partials/_invoice.html' %}
-                </div>
-
-                <button id="btnPrintReport" class="btn btn-secondary btn-tone" style="margin-left: 500px;">
-                    <i class="anticon anticon-loading m-r-5"></i>
-                    <i class="anticon anticon-printer m-r-5"></i>
-                    <span>Confirm and Print Report</span>
-                </button>
-
-
-            </div>
-            <!-- Content Wrapper END -->
-
-            <!-- Footer START -->
-            <footer class="footer">
-                <div class="footer-content">
-                    <p class="m-b-0">Copyright © 2021 AU LIMS. All rights reserved.</p>
-                </div>
-            </footer>
-            <!-- Footer END -->
-
+    <!-- Content Wrapper START -->
+    <div class="main-content">
+        <div id="printSection">
+            {% include 'partials/_invoice.html' %}
         </div>
-        <!-- Page Container END -->
+
+        <button id="btnPrintReport" class="btn btn-secondary btn-tone" style="margin-left: 650px;">
+            <i class="anticon anticon-loading m-r-5"></i>
+            <i class="anticon anticon-printer m-r-5"></i>
+            <span>Confirm and Print Report</span>
+        </button>
+
+        {#  TODO: genereate barcodes ===> https://python.plainenglish.io/generating-barcodes-with-django-52e450fd960b#}
 
     </div>
+    <!-- Content Wrapper END -->
+
+    <!-- Footer START -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="m-b-0">Copyright © 2021 AU LIMS. All rights reserved.</p>
+        </div>
+    </footer>
+    <!-- Footer END -->
+
 </div>
+<!-- Page Container END -->
 
 
 <!-- Core Vendors JS -->
@@ -103,11 +83,11 @@
         const element = document.getElementById("printSection");
 
         var opt = {
-            margin: 0.65,
+            margin: 0.2,
             filename: 'aulims-report.pdf',
-            image: {type: 'jpeg', quality: 0.98},
-            html2canvas: {scale: 2},
-            jsPDF: {unit: 'in', format: 'letter', orientation: 'portrait'},
+            image: {type: 'jpg', quality: 0.98},
+            html2canvas: {scale: 1},
+            jsPDF: {unit: 'px', format: 'a4', orientation: 'portrait','hotfixes':["px_scaling"],},
 
         };
 
