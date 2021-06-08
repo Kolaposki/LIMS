@@ -1,0 +1,121 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>
+        Print Test Report
+    </title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{% static 'images/logo/favicon.png' %}">
+
+    <!-- page css -->
+
+    <!-- Core css -->
+    <link href="{% static 'css/app.min.css' %}" rel="stylesheet"/>
+    <link href="{% static 'css/wfmi-style.css' %}" rel="stylesheet"/>
+
+
+    <style>
+
+    </style>
+    <script src="{% static 'js/html2pdf.bundle.js' %}"></script>
+
+</head>
+
+<body>
+<div class="app">
+    <div class="layout">
+
+        <!-- Page Container START -->
+        <div class="page-container">
+
+            <!-- Content Wrapper START -->
+            <div class="main-content">
+                <div id="printSection">
+
+                    <div class="page-header no-gutters container-fluid">
+                        <div class="d-md-flex m-b-15 align-items-center justify-content-between">
+                            <div class="media align-items-center m-b-15">
+                                <div class="m-l-15">
+                                    <h4 class="m-b-0">{{ test_obj.name }}</h4>
+                                    <p class="text-muted m-b-0">ID: {{ test_obj.short_slug }} </p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                  {% include 'partials/_invoice.html' %}
+                </div>
+
+                <button id="btnPrintReport" class="btn btn-secondary btn-tone" style="margin-left: 500px;">
+                    <i class="anticon anticon-loading m-r-5"></i>
+                    <i class="anticon anticon-printer m-r-5"></i>
+                    <span>Confirm and Print Report</span>
+                </button>
+
+
+            </div>
+            <!-- Content Wrapper END -->
+
+            <!-- Footer START -->
+            <footer class="footer">
+                <div class="footer-content">
+                    <p class="m-b-0">Copyright © 2021 AU LIMS. All rights reserved.</p>
+                </div>
+            </footer>
+            <!-- Footer END -->
+
+        </div>
+        <!-- Page Container END -->
+
+    </div>
+</div>
+
+
+<!-- Core Vendors JS -->
+<script src="{% static 'js/vendors.min.js' %}"></script>
+
+<!-- page js -->
+
+<!-- Core JS -->
+<script src="{% static 'js/app.min.js' %}"></script>
+
+<script>
+
+    $('#btnPrintReport').click(function (e) {
+        console.log("Initiate btnPrintReport: ", this)
+        $(this).addClass("is-loading");
+        setTimeout(function () {
+            $("#btnPrintReport").removeClass("is-loading");
+        }, 4000);
+        generatePDFReport()
+    })
+
+
+    function generatePDFReport() {
+        console.log("generatePDFReport")
+
+        const element = document.getElementById("printSection");
+
+        var opt = {
+            margin: 0.65,
+            filename: 'aulims-report.pdf',
+            image: {type: 'jpeg', quality: 0.98},
+            html2canvas: {scale: 2},
+            jsPDF: {unit: 'in', format: 'letter', orientation: 'portrait'},
+
+        };
+
+        html2pdf().set(opt).from(element).save();
+
+    }
+
+</script>
+</body>
+
+</html>
